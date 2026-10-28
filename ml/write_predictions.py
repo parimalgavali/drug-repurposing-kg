@@ -10,12 +10,15 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 import polars as pl
-from neo4j import Driver
 
-from ml.evaluate import ScoreFn
+if TYPE_CHECKING:  # keeps the Neo4j CI job free of the ml extra
+    from neo4j import Driver
+
+    from ml.evaluate import ScoreFn
 
 DELETE = """
 MATCH ()-[r:PREDICTED_INDICATION]->()
