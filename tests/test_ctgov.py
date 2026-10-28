@@ -3,7 +3,7 @@ from pathlib import Path
 
 import httpx
 
-from validation.ctgov import CTGov, summarise
+from validation.ctgov import CTGov, search_url, summarise
 
 FIXTURES = Path(__file__).parent / "fixtures" / "ctgov"
 RECORDED = {
@@ -47,3 +47,22 @@ def test_rejected_query_counts_as_no_study(tmp_path):
     ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0, client=client)
     s = ct.lookup("galactosemia", "N-[(2R,3S)-3-amino]-benzenesulfonamide")
     assert s.studies == 0 and s.max_phase is None and ct.rejected == 1
+
+
+def test_cached_and_search_url(tmp_path):
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0, client=_client([]))
+    assert ct.cached("Parkinson disease", "Cabergoline") is None
+    ct.lookup("Parkinson disease", "Cabergoline")
+    assert ct.cached("parkinson disease", "cabergoline").studies == 7
+    assert search_url("Parkinson disease", "L-Dopa") == (
+        "https://clinicaltrials.gov/search?cond=Parkinson+disease&intr=L-Dopa"
+    )
+
+
+def test_unwritable_cache_keeps_the_in_memory_result(tmp_path):
+    blocker = tmp_path / "file"
+    blocker.write_text("")
+    calls: list = []
+    ct = CTGov(cache=blocker / "ct.jsonl", min_interval=0, client=_client(calls))
+    assert ct.lookup("Parkinson disease", "Cabergoline").studies == 7
+    assert ct.lookup("Parkinson disease", "Cabergoline").studies == 7 and len(calls) == 1

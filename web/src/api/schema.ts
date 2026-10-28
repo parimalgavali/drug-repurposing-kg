@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/pairs/{drug_id}/{disease_id}/trials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Pair Trials */
+        get: operations["pair_trials_api_pairs__drug_id___disease_id__trials_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/ask": {
         parameters: {
             query?: never;
@@ -274,6 +291,24 @@ export interface components {
             /** Query */
             query: string;
         };
+        /**
+         * Trials
+         * @description ClinicalTrials.gov studies matching the disease and drug names (registered, not proof).
+         */
+        Trials: {
+            /** Studies */
+            studies: number;
+            /** Max Phase */
+            max_phase: number | null;
+            /** Statuses */
+            statuses: {
+                [key: string]: number;
+            };
+            /** Url */
+            url: string;
+            /** Cached */
+            cached: boolean;
+        };
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -401,6 +436,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Explanation"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    pair_trials_api_pairs__drug_id___disease_id__trials_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                drug_id: number;
+                disease_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Trials"];
                 };
             };
             /** @description Validation Error */

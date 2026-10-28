@@ -16,8 +16,9 @@ Settings come from the environment or `.env`: `NEO4J_URI`, `NEO4J_USER`, `NEO4J_
 | --- | --- | --- |
 | GET | `/api/health` | `{status, neo4j, llm}`; 503 if Neo4j is unreachable |
 | GET | `/api/search?q=&type=&limit=10` | full-text + rapidfuzz hits `{id, name, label, confidence}`; `type` is a node label |
-| GET | `/api/diseases/{id}/candidates?limit=20` | `{disease, candidates, known}`: `PREDICTED_INDICATION` by rank with score and trial counts, plus known indications/off-label uses |
+| GET | `/api/diseases/{id}/candidates?limit=20` | `{disease, candidates, known}`: `PREDICTED_INDICATION` by rank with score and trial counts (stored by `make validate`, else from the `/trials` cache), plus known indications/off-label uses |
 | GET | `/api/pairs/{drug_id}/{disease_id}/explain` | task 5 evidence: top metapaths by DWPC, example paths, Cytoscape JSON |
+| GET | `/api/pairs/{drug_id}/{disease_id}/trials` | ClinicalTrials.gov studies for the pair, `{studies, max_phase, statuses, url, cached}`. Looked up on demand (same query and ≈1 request/s limit as `make validate`) and cached in `CTGOV_CACHE`; 502 if CT.gov fails |
 | POST | `/api/ask` `{question}` | Server-Sent Events, see below |
 
 Unknown ids, or an id with the wrong type (a drug id where a disease id is expected), return 404.

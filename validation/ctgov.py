@@ -6,14 +6,19 @@ A registered study is evidence that someone tested the idea, not that the drug w
 from __future__ import annotations
 
 import json
+import logging
+import threading
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from urllib.parse import urlencode
 
 import httpx
 
 API = "https://clinicaltrials.gov/api/v2/studies"
+SEARCH = "https://clinicaltrials.gov/search"
 CACHE = Path("artifacts/ctgov_cache.jsonl")
+log = logging.getLogger(__name__)
 PHASES = {"EARLY_PHASE1": 0.5, "PHASE1": 1.0, "PHASE2": 2.0, "PHASE3": 3.0, "PHASE4": 4.0}
 
 
@@ -47,6 +52,11 @@ def summarise(condition: str, intervention: str, payload: dict) -> TrialSummary:
     )
 
 
+def search_url(condition: str, intervention: str) -> str:
+    """The ClinicalTrials.gov website search that matches `CTGov.lookup`."""
+    return f"{SEARCH}?{urlencode({'cond': condition, 'intr': intervention})}"
+
+
 def _key(condition: str, intervention: str) -> str:
     return f"{condition.strip().lower()}\t{intervention.strip().lower()}"
 
@@ -57,11 +67,14 @@ class CTGov:
         cache: Path = CACHE,
         min_interval: float = 1.3,
         client: httpx.Client | None = None,
+        retries: int = 4,
     ) -> None:
         self.cache_path = cache
         self.min_interval = min_interval
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": "RepurposeKG"})
+        self.retries = retries
         self._last = 0.0
+        self._lock = threading.Lock()  # one request at a time keeps the rate limit
         self.requests = 0
         self.rejected = 0
         self.cache: dict[str, TrialSummary] = {}
@@ -70,28 +83,34 @@ class CTGov:
                 row = json.loads(line)
                 self.cache[_key(row["condition"], row["intervention"])] = TrialSummary(**row)
 
+    def cached(self, condition: str, intervention: str) -> TrialSummary | None:
+        return self.cache.get(_key(condition, intervention))
+
     def lookup(self, condition: str, intervention: str) -> TrialSummary:
         key = _key(condition, intervention)
-        if key in self.cache:
-            return self.cache[key]
-        params = {
-            "query.cond": condition,
-            "countTotal": "true",
-            "pageSize": "100",
-            "fields": "NCTId,OverallStatus,Phase",
-        }
-        if intervention:
-            params["query.intr"] = intervention
-        payload = self._get(params)
-        summary = summarise(condition, intervention, payload)
-        self.cache[key] = summary
-        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        with self.cache_path.open("a") as f:
-            f.write(json.dumps(asdict(summary)) + "\n")
-        return summary
+        with self._lock:
+            if key in self.cache:
+                return self.cache[key]
+            params = {
+                "query.cond": condition,
+                "countTotal": "true",
+                "pageSize": "100",
+                "fields": "NCTId,OverallStatus,Phase",
+            }
+            if intervention:
+                params["query.intr"] = intervention
+            summary = summarise(condition, intervention, self._get(params))
+            self.cache[key] = summary
+            try:
+                self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+                with self.cache_path.open("a") as f:
+                    f.write(json.dumps(asdict(summary)) + "\n")
+            except OSError as e:  # e.g. a read-only container: keep the in-memory cache
+                log.warning("can't write CT.gov cache %s: %s", self.cache_path, e)
+            return summary
 
-    def _get(self, params: dict, retries: int = 4) -> dict:
-        for attempt in range(retries):
+    def _get(self, params: dict) -> dict:
+        for attempt in range(self.retries):
             wait = self._last + self.min_interval - time.monotonic()
             if wait > 0:
                 time.sleep(wait)

@@ -13,8 +13,12 @@ COPY ml ./ml
 COPY primekg ./primekg
 COPY scripts ./scripts
 COPY semweb ./semweb
+COPY validation ./validation
 COPY data/fixtures ./data/fixtures
 COPY data/labels ./data/labels
+# On-demand ClinicalTrials.gov lookups are cached here (a volume in docker-compose.yml).
+RUN mkdir /cache && chown nobody /cache
+ENV CTGOV_CACHE=/cache/ctgov.jsonl
 EXPOSE 8000
 USER nobody
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
