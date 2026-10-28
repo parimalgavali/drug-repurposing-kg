@@ -1,0 +1,50 @@
+{
+  "split": "disease",
+  "seed": 0,
+  "k": 20,
+  "diseases": 30,
+  "diseases_with_any_study": 29,
+  "rejected_queries": 84,
+  "methods": {
+    "gnn (text)": {
+      "pairs": 600,
+      "hits": 92,
+      "share": 0.15333333333333332,
+      "ci": [
+        0.1267154723585276,
+        0.18436213474903174
+      ],
+      "phase2_plus": 73
+    },
+    "similar_disease": {
+      "pairs": 600,
+      "hits": 89,
+      "share": 0.14833333333333334,
+      "ci": [
+        0.12213275125695007,
+        0.17900847518389143
+      ],
+      "phase2_plus": 78
+    },
+    "popularity": {
+      "pairs": 600,
+      "hits": 79,
+      "share": 0.13166666666666665,
+      "ci": [
+        0.10693869355588415,
+        0.16108126399589767
+      ],
+      "phase2_plus": 55
+    },
+    "random drugs": {
+      "pairs": 600,
+      "hits": 3,
+      "share": 0.005,
+      "ci": [
+        0.0017018468527197168,
+        0.014596467142208754
+      ],
+      "phase2_plus": 3
+    }
+  }
+}

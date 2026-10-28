@@ -44,7 +44,20 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 This is an independent check of novel predictions on the disease split (seed 0). For a seeded sample of held-out diseases, each method's top 20 drugs are compared against ClinicalTrials.gov. Drugs with any recorded `INDICATION`/`OFF_LABEL_USE` for that disease are excluded first, so only novel pairs are counted. The table shows the share of those pairs with at least one registered study (`query.cond` = disease name, `query.intr` = drug name). A registered study means someone tested the idea, **not** that the drug works. Name matching is literal, so misses also include naming mismatches. Produced by `validation/run.py` (cache: `artifacts/ctgov_cache.jsonl`).
 
 <!-- ctgov:start -->
+| Method | Pairs | With ≥ 1 study | Share (95% Wilson CI) | Max phase ≥ 2 |
+| --- | ---: | ---: | --- | ---: |
+| gnn (text) | 600 | 92 | 0.153 (0.127–0.184) | 73 |
+| similar_disease | 600 | 89 | 0.148 (0.122–0.179) | 78 |
+| popularity | 600 | 79 | 0.132 (0.107–0.161) | 55 |
+| random drugs | 600 | 3 | 0.005 (0.002–0.015) | 3 |
 <!-- ctgov:end -->
+
+The sample is 30 held-out diseases × top 20 novel drugs. 29 of the 30 disease names match studies on CT.gov by themselves; the exception is "obsolete vitamin D deficiency". CT.gov rejected 84 queries with HTTP 400, mostly long IUPAC-style compound names, and those count as "no study".
+
+- All three methods are well above random drugs (≈ 30×), so predictions carry real signal beyond chance.
+- GNN ≥ similar_disease > popularity on this check, but the confidence intervals overlap, so this does **not** show the GNN beats the similar-disease baseline on held-out diseases. That agrees with the MRR results above.
+- The gnn row is the disease-split, seed-0, text model, because the served random-split model has seen these diseases' indications.
+- Served predictions (`gnn_notext-random-seed0`) for the 30 sampled diseases, ranks 1–10, have `ct_studies` / `ct_max_phase` set on `PREDICTED_INDICATION` (300 relationships). Other predictions stay unannotated until `make validate` is run with a larger sample.
 
 ## Comparison with TxGNN (published, not reproduced)
 
