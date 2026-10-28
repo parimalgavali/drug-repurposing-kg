@@ -39,6 +39,13 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | random | gnn_notext | 0.512 ± 0.010 | 0.408 ± 0.009 | 0.717 ± 0.008 | 0.839 ± 0.005 | 0.976 ± 0.001 | 0.982 ± 0.001 | 481 | 3 |
 <!-- metrics:end -->
 
+## Clinical-trial check (ClinicalTrials.gov)
+
+This is an independent check of novel predictions on the disease split (seed 0). For a seeded sample of held-out diseases, each method's top 20 drugs are compared against ClinicalTrials.gov. Drugs with any recorded `INDICATION`/`OFF_LABEL_USE` for that disease are excluded first, so only novel pairs are counted. The table shows the share of those pairs with at least one registered study (`query.cond` = disease name, `query.intr` = drug name). A registered study means someone tested the idea, **not** that the drug works. Name matching is literal, so misses also include naming mismatches. Produced by `validation/run.py` (cache: `artifacts/ctgov_cache.jsonl`).
+
+<!-- ctgov:start -->
+<!-- ctgov:end -->
+
 ## Comparison with TxGNN (published, not reproduced)
 
 TxGNN (Huang et al., *Nature Medicine* 2024) trains on PrimeKG too. For indications it reports AUPRC 0.913 in the setting where test diseases already have some drugs (best baseline: HAN at 0.873). In the zero-shot setting, it reports a 19.0% AUPRC gain over the next-best method. Results are averaged over 5 splits. Its numbers aren't directly comparable with ours, because:
