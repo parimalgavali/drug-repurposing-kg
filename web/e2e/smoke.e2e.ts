@@ -22,3 +22,15 @@ test("search → candidate → graph → ask", async ({ page }) => {
   await page.getByTestId("cite").filter({ hasText: "4425" }).first().click();
   await expect(page.getByTestId("graph")).not.toHaveAttribute("data-nodes", "0");
 });
+
+test("DE toggle shows German UI text and Wikidata names", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "DE", exact: true }).click();
+  await expect(page.getByRole("note")).toContainText("keine medizinische Beratung");
+  await page.getByLabel("Krankheit suchen").fill("asthma");
+  await page.getByRole("option", { name: /^Asthma/ }).first().click();
+  await expect(page.getByRole("heading", { name: /Kandidaten-Medikamente für Asthma/ })).toBeVisible();
+  await expect(page.getByTestId("candidate").first()).toBeVisible();
+  await page.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(page.getByRole("heading", { name: /Candidate drugs for asthma/ })).toBeVisible();
+});

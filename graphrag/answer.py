@@ -12,8 +12,14 @@ DISCLAIMER = (
     "Research demo, not medical advice: graph links and model predictions are hypotheses, "
     "not evidence that a drug is safe or effective."
 )
+DISCLAIMER_DE = (
+    "Forschungsdemo, keine medizinische Beratung: Graph-Verknüpfungen und Modellvorhersagen sind "
+    "Hypothesen, kein Beleg dafür, dass ein Medikament sicher oder wirksam ist."
+)
 TREATMENT = re.compile(
-    r"\b(treat|therap|drug|medication|cure|repurpos|indicat|candidate|prescri)", re.I
+    r"\b(treat|therap|drug|medication|cure|repurpos|indicat|candidate|prescri"
+    r"|behandl|medikament|arznei|wirkstoff|kandidat|heil)",
+    re.I,
 )
 MAX_ROWS = 50
 
@@ -30,9 +36,18 @@ def needs_disclaimer(question: str, intent: str) -> bool:
     return intent in ("repurpose", "explain_pair") or bool(TREATMENT.search(question))
 
 
-def prompt(question: str, results: dict) -> str:
+def prompt(
+    question: str, results: dict, lang: str = "en", names_de: dict[int, str] | None = None
+) -> str:
     payload = json.dumps(results, ensure_ascii=False, default=str)
-    return f"Question: {question}\n\nQuery results (JSON):\n{payload}"
+    text = f"Question: {question}\n\nQuery results (JSON):\n{payload}"
+    if lang == "de":
+        text += (
+            "\n\nAnswer in German. Use these German names for the ids where given "
+            "and keep every [id] citation unchanged; translate other names only if you are sure, "
+            f"otherwise keep them in English:\n{json.dumps(names_de or {}, ensure_ascii=False)}"
+        )
+    return text
 
 
 def answer(provider: Provider, question: str, intent: str, results: dict) -> str:
@@ -42,10 +57,17 @@ def answer(provider: Provider, question: str, intent: str, results: dict) -> str
     return text
 
 
-def stream_answer(provider: Provider, question: str, intent: str, results: dict) -> Iterator[str]:
-    yield from provider.stream(SYSTEM, prompt(question, results), max_tokens=700)
+def stream_answer(
+    provider: Provider,
+    question: str,
+    intent: str,
+    results: dict,
+    lang: str = "en",
+    names_de: dict[int, str] | None = None,
+) -> Iterator[str]:
+    yield from provider.stream(SYSTEM, prompt(question, results, lang, names_de), max_tokens=700)
     if needs_disclaimer(question, intent):
-        yield f"\n\n_{DISCLAIMER}_"
+        yield f"\n\n_{DISCLAIMER_DE if lang == 'de' else DISCLAIMER}_"
 
 
 def cited_ids(text: str) -> set[int]:

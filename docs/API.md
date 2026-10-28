@@ -53,6 +53,13 @@ curl -N -X POST "$B/ask" -H 'content-type: application/json' \
 # event: subgraph … event: done
 ```
 
+## German names
+
+`Node`, `SearchHit` and `PathNode` carry `name_de`, and `Candidate` and `KnownDrug` carry `drug_de`. Each is the Wikidata German name, or `null` when there is none. Cytoscape nodes get `data.label_de` when available.
+- **Search:** still matches the PrimeKG (English) names.
+- **`POST /api/ask {"question": …, "lang": "de"}`:** the prompt asks for a German answer and passes the German names of the subgraph nodes. Every `[id]` citation is kept, and the disclaimer is German.
+- **`lang` omitted or `"en"`:** the prompt is unchanged, so the recorded LLM responses stay valid.
+
 ## Semantic web
 
 | Endpoint | Returns |

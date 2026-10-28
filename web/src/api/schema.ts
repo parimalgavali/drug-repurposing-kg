@@ -138,6 +138,12 @@ export interface components {
         AskRequest: {
             /** Question */
             question: string;
+            /**
+             * Lang
+             * @default en
+             * @enum {string}
+             */
+            lang: "en" | "de";
         };
         /** Candidate */
         Candidate: {
@@ -145,6 +151,8 @@ export interface components {
             drug_id: number;
             /** Drug */
             drug: string;
+            /** Drug De */
+            drug_de?: string | null;
             /** Rank */
             rank: number;
             /** Score */
@@ -210,6 +218,8 @@ export interface components {
             drug_id: number;
             /** Drug */
             drug: string;
+            /** Drug De */
+            drug_de?: string | null;
             /** Relation */
             relation: string;
         };
@@ -230,6 +240,8 @@ export interface components {
             id: number;
             /** Name */
             name: string;
+            /** Name De */
+            name_de?: string | null;
             /** Label */
             label: string;
         };
@@ -239,6 +251,8 @@ export interface components {
             id: number;
             /** Name */
             name: string;
+            /** Name De */
+            name_de?: string | null;
             /** Label */
             label: string;
         };
@@ -248,6 +262,8 @@ export interface components {
             id: number;
             /** Name */
             name: string;
+            /** Name De */
+            name_de?: string | null;
             /** Label */
             label: string;
             /** Confidence */

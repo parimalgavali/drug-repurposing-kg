@@ -1,8 +1,9 @@
 """Demo graph without the PrimeKG download: the mini fixture plus popularity predictions.
 
 Loads data/fixtures/primekg_mini into an *empty* Neo4j, applies the schema and writes
-PREDICTED_INDICATION from a popularity baseline (model_version "fixture-popularity"), so the API
-and the UI have candidates to show. Used by the e2e test and `docker compose` demos.
+PREDICTED_INDICATION from a popularity baseline (model_version "fixture-popularity") plus the
+Wikidata German names, so the API and the UI have candidates to show. Used by the e2e test and
+`docker compose` demos.
 
     PYTHONPATH=. uv run --extra data --extra graph python scripts/demo_fixture.py
 """
@@ -13,6 +14,8 @@ import numpy as np
 import polars as pl
 
 from kg.client import connect
+from kg.labels_de import apply as apply_german
+from kg.labels_de import read_labels
 from kg.load import load_frames, node_count
 from kg.schema import apply_schema
 from ml.write_predictions import top_predictions, write_predictions
@@ -45,7 +48,11 @@ def main() -> None:
             raise SystemExit(f"database has {n} nodes, not the fixture; refusing to overwrite it")
         apply_schema(driver)
         written = write_predictions(driver, popularity_predictions(nodes, edges), VERSION)
-        print(f"fixture graph ready: {nodes.height} nodes, {written} PREDICTED_INDICATION")
+        german = apply_german(driver, read_labels())
+        print(
+            f"fixture graph ready: {nodes.height} nodes, {written} PREDICTED_INDICATION, "
+            f"{german} German names"
+        )
     finally:
         driver.close()
 

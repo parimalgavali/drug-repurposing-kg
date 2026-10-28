@@ -3,6 +3,7 @@ import cytoscape, { type Core, type ElementDefinition } from "cytoscape";
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import type { Cytoscape } from "../api/client";
 import { color } from "../colors";
+import { lang, t } from "../i18n";
 
 const props = defineProps<{ graph: Cytoscape | null; focus: string | null; title: string }>();
 const emit = defineEmits<{ focus: [id: string] }>();
@@ -16,7 +17,11 @@ function render() {
   cy = null;
   if (!el.value || !props.graph?.nodes.length) return;
   const nodes: ElementDefinition[] = props.graph.nodes.map((n) => ({
-    data: { ...n.data, color: color(n.data.type ?? "") },
+    data: {
+      ...n.data,
+      label: lang.value === "de" && n.data.label_de ? n.data.label_de : n.data.label,
+      color: color(n.data.type ?? ""),
+    },
   }));
   const edges: ElementDefinition[] = props.graph.edges.map((e) => ({ data: { ...e.data } }));
   cy = cytoscape({
@@ -67,6 +72,7 @@ function applyFocus() {
 }
 
 watch(() => props.graph, render);
+watch(lang, render);
 watch(() => props.focus, applyFocus);
 onMounted(render);
 onBeforeUnmount(() => cy?.destroy());
@@ -75,7 +81,7 @@ onBeforeUnmount(() => cy?.destroy());
 <template>
   <section class="panel graph">
     <h2>{{ title }}</h2>
-    <p v-if="!graph?.nodes.length" class="muted">Pick a candidate or ask a question to see its subgraph.</p>
+    <p v-if="!graph?.nodes.length" class="muted">{{ t("pickHint") }}</p>
     <div ref="el" class="cy" data-testid="graph" :data-nodes="graph?.nodes.length ?? 0" />
     <ul class="legend">
       <li v-for="t in types" :key="t"><span class="dot" :style="{ background: color(t) }" />{{ t }}</li>

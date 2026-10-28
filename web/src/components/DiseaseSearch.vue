@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { type SearchHit, search } from "../api/client";
+import { nm, t } from "../i18n";
 
 const emit = defineEmits<{ pick: [hit: SearchHit] }>();
 const q = ref("");
@@ -26,7 +27,7 @@ watch(q, (value) => {
 });
 
 function pick(hit: SearchHit) {
-  q.value = hit.name;
+  q.value = nm(hit.name, hit.name_de);
   open.value = false;
   emit("pick", hit);
 }
@@ -37,14 +38,14 @@ function pick(hit: SearchHit) {
     <input
       v-model="q"
       type="search"
-      placeholder="Search a disease, e.g. asthma"
-      aria-label="Search a disease"
+      :placeholder="t('searchPlaceholder')"
+      :aria-label="t('searchLabel')"
       @focus="open = hits.length > 0"
       @keydown.enter="hits[0] && pick(hits[0])"
     />
     <ul v-if="open && hits.length" class="suggestions" role="listbox">
       <li v-for="h in hits" :key="h.id" role="option" @mousedown.prevent="pick(h)">
-        {{ h.name }} <small>[{{ h.id }}]</small>
+        {{ nm(h.name, h.name_de) }} <small>[{{ h.id }}]</small>
       </li>
     </ul>
   </div>

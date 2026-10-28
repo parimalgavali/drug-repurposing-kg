@@ -14,6 +14,7 @@ COPY primekg ./primekg
 COPY scripts ./scripts
 COPY semweb ./semweb
 COPY data/fixtures ./data/fixtures
+COPY data/labels ./data/labels
 EXPOSE 8000
 USER nobody
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -10,7 +10,7 @@ import logging
 from collections.abc import Iterator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,12 +30,25 @@ from semweb.export import export as export_rdf
 from semweb.store import RdfStore, SparqlError
 
 log = logging.getLogger(__name__)
-NODE = "MATCH (n:{label} {{id: $id}}) RETURN n.id AS id, n.name AS name, labels(n)[0] AS label"
+NODE = (
+    "MATCH (n:{label} {{id: $id}}) "
+    "RETURN n.id AS id, n.name AS name, n.name_de AS name_de, labels(n)[0] AS label"
+)
+GERMAN = """
+UNWIND $ids AS id
+OPTIONAL MATCH (d:Drug {id: id})
+OPTIONAL MATCH (s:Disease {id: id})
+WITH id, coalesce(d.name_de, s.name_de) AS name_de
+WHERE name_de IS NOT NULL
+RETURN id, name_de
+"""
+Lang = Literal["en", "de"]
 
 
 class Node(BaseModel):
     id: int
     name: str
+    name_de: str | None = None
     label: str
 
 
@@ -46,6 +59,7 @@ class SearchHit(Node):
 class Candidate(BaseModel):
     drug_id: int
     drug: str
+    drug_de: str | None = None
     rank: int
     score: float
     ct_studies: int | None = None
@@ -55,6 +69,7 @@ class Candidate(BaseModel):
 class KnownDrug(BaseModel):
     drug_id: int
     drug: str
+    drug_de: str | None = None
     relation: str
 
 
@@ -67,6 +82,7 @@ class Candidates(BaseModel):
 class PathNode(BaseModel):
     id: int
     name: str
+    name_de: str | None = None
     label: str
 
 
@@ -104,6 +120,7 @@ class Explanation(BaseModel):
 
 class AskRequest(BaseModel):
     question: str = Field(min_length=3, max_length=500)
+    lang: Lang = "en"
 
 
 def get_kg(request: Request) -> KGClient:
@@ -117,6 +134,23 @@ def get_llm(request: Request) -> Provider | None:
 KG = Annotated[KGClient, Depends(get_kg)]
 LLM = Annotated[Provider | None, Depends(get_llm)]
 router = APIRouter(prefix="/api")
+
+
+def german_names(kg: KGClient, ids) -> dict[int, str]:
+    """German Wikidata names (`name_de`) for the drug/disease ids that have one."""
+    ids = sorted({int(i) for i in ids if str(i).lstrip("-").isdigit()})
+    if not ids:
+        return {}
+    return {r["id"]: r["name_de"] for r in kg.read(GERMAN, {"ids": ids})}
+
+
+def with_german_labels(cy: dict, names: dict[int, str]) -> dict:
+    """Adds `label_de` to Cytoscape nodes that have a German name."""
+    for n in cy["nodes"]:
+        name = names.get(int(n["data"]["id"])) if n["data"]["id"].isdigit() else None
+        if name:
+            n["data"]["label_de"] = name
+    return cy
 
 
 def node_or_404(kg: KGClient, label: str, node_id: int) -> Node:
@@ -145,8 +179,11 @@ def search(
     limit: Annotated[int, Query(ge=1, le=25)] = 10,
 ) -> list[SearchHit]:
     found = link(kg, q, (type,) if type else (), top=limit)
+    de = german_names(kg, [c.id for c in found.candidates])
     return [
-        SearchHit(id=c.id, name=c.name, label=c.label, confidence=c.confidence)
+        SearchHit(
+            id=c.id, name=c.name, name_de=de.get(c.id), label=c.label, confidence=c.confidence
+        )
         for c in found.candidates
     ]
 
@@ -157,10 +194,12 @@ def candidates(
 ) -> Candidates:
     disease = node_or_404(kg, "Disease", disease_id)
     params = {"disease": disease_id, "k": limit}
+    preds, known = kg.read(REPURPOSE, params), kg.read(KNOWN, params)
+    de = german_names(kg, [r["drug_id"] for r in preds + known])
     return Candidates(
         disease=disease,
-        candidates=kg.read(REPURPOSE, params),
-        known=kg.read(KNOWN, params),
+        candidates=[{**r, "drug_de": de.get(r["drug_id"])} for r in preds],
+        known=[{**r, "drug_de": de.get(r["drug_id"])} for r in known],
     )
 
 
@@ -168,7 +207,13 @@ def candidates(
 def explain_pair(kg: KG, drug_id: int, disease_id: int) -> Explanation:
     drug = node_or_404(kg, "Drug", drug_id)
     disease = node_or_404(kg, "Disease", disease_id)
-    return Explanation(**{**explain(kg, drug_id, disease_id), "drug": drug, "disease": disease})
+    found = explain(kg, drug_id, disease_id)
+    de = german_names(kg, [n["data"]["id"] for n in found["cytoscape"]["nodes"]])
+    for m in found["metapaths"]:
+        for path in m["paths"]:
+            path["nodes"] = [{**n, "name_de": de.get(n["id"])} for n in path["nodes"]]
+    found["cytoscape"] = with_german_labels(found["cytoscape"], de)
+    return Explanation(**{**found, "drug": drug, "disease": disease})
 
 
 def sse(event: str, data: object) -> str:
@@ -206,7 +251,9 @@ def subgraph(p: Plan) -> dict:
     return {"nodes": list(nodes.values()), "edges": list(edges.values())}
 
 
-def ask_events(question: str, provider: Provider | None, kg: KGClient) -> Iterator[str]:
+def ask_events(
+    question: str, provider: Provider | None, kg: KGClient, lang: Lang = "en"
+) -> Iterator[str]:
     """SSE: entities → cypher → rows → token… → subgraph → done; `error` ends the stream early."""
     if provider is None:
         yield sse("error", {"message": "No LLM provider is configured."})
@@ -226,9 +273,11 @@ def ask_events(question: str, provider: Provider | None, kg: KGClient) -> Iterat
             )
             return
         yield sse("rows", {"rows": p.rows[:MAX_ROWS], "total": len(p.rows)})
-        for token in stream_answer(provider, question, p.intent, p.results):
+        graph = subgraph(p)
+        de = german_names(kg, [n["data"]["id"] for n in graph["nodes"]]) if lang == "de" else {}
+        for token in stream_answer(provider, question, p.intent, p.results, lang, de):
             yield sse("token", {"text": token})
-        yield sse("subgraph", subgraph(p))
+        yield sse("subgraph", with_german_labels(graph, de))
         yield sse("done", {"intent": p.intent, "clarification": False})
     except Exception as e:
         log.exception("ask failed")
@@ -244,7 +293,7 @@ def ask_events(question: str, provider: Provider | None, kg: KGClient) -> Iterat
 )
 def ask(body: AskRequest, kg: KG, provider: LLM) -> StreamingResponse:
     return StreamingResponse(
-        ask_events(body.question, provider, kg),
+        ask_events(body.question, provider, kg, body.lang),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
