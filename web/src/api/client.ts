@@ -8,6 +8,9 @@ export type Candidates = Schemas["Candidates"];
 export type Candidate = Schemas["Candidate"];
 export type Explanation = Schemas["Explanation"];
 export type Cytoscape = Schemas["Cytoscape"];
+export type Trials = Schemas["Trials"];
+/** A candidate's on-demand ClinicalTrials.gov lookup. */
+export type TrialState = "loading" | "error" | Trials;
 
 export interface Entity {
   slot: string;
@@ -42,6 +45,9 @@ export const candidates = (disease: number, limit = 20) =>
 
 export const explain = (drug: number, disease: number) =>
   get<Explanation>(`/api/pairs/${drug}/${disease}/explain`);
+
+export const trials = (drug: number, disease: number) =>
+  get<Trials>(`/api/pairs/${drug}/${disease}/trials`);
 
 export async function ask(
   question: string,

@@ -5,7 +5,10 @@ Re-record with RECORD_LLM=1 (needs ANTHROPIC_API_KEY).
 
 import json
 import os
+import tempfile
+from pathlib import Path
 
+import httpx
 import pytest
 
 pytest.importorskip("fastapi")
@@ -20,15 +23,20 @@ from api.settings import Settings  # noqa: E402
 from graphrag.answer import DISCLAIMER, DISCLAIMER_DE  # noqa: E402
 from graphrag.router import Route  # noqa: E402
 from llm import AnthropicProvider, RecordedProvider  # noqa: E402
+from validation.ctgov import CTGov  # noqa: E402
 
 
 class APIScriptedKG(ScriptedKG):
+    extra_predictions: list[dict] = []
+
     def read(self, query, params=None, timeout=10.0):
         params = params or {}
         if query.startswith("MATCH (n:") and "{id: $id}) RETURN n.id AS id" in query:
             self.queries.append(query)
             label = query.split(":", 1)[1].split(" ", 1)[0]
             return [n for n in NODES if n["id"] == params["id"] and n["label"] == label]
+        if "PREDICTED_INDICATION" in query and "$k" in query:
+            return super().read(query, params, timeout) + self.extra_predictions
         if "INDICATION|OFF_LABEL_USE]->" in query:
             self.queries.append(query)
             return []
@@ -41,6 +49,22 @@ class APIScriptedKG(ScriptedKG):
 
 
 GERMAN = {14287: "Ibuprofen (de)", 33675: "Asthma"}
+CABERGOLINE = json.loads(
+    (Path(__file__).parent / "fixtures" / "ctgov" / "cabergoline_parkinson.json").read_text()
+)
+
+
+def mock_ctgov(cache: Path, calls: list, response: dict | None = None) -> CTGov:
+    """CT.gov answering `response` to every query, or unreachable if None."""
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(dict(request.url.params))
+        if response is None:
+            raise httpx.ConnectError("CT.gov unreachable")
+        return httpx.Response(200, json=response)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    return CTGov(cache=cache, min_interval=0, client=client, retries=1)
 
 
 class GermanSpy:
@@ -90,11 +114,13 @@ def kg():
     return APIScriptedKG()
 
 
-def client(kg, provider=None):
+def client(kg, provider=None, ctgov=None):
     if provider is None:
         inner = AnthropicProvider() if os.environ.get("RECORD_LLM") else None
         provider = RecordedProvider(FIXTURES, inner=inner)
-    return TestClient(create_app(kg=kg, provider=provider, settings=Settings(neo4j_password="")))
+    ctgov = ctgov or mock_ctgov(Path(tempfile.mkdtemp()) / "ct.jsonl", [])
+    settings = Settings(neo4j_password="")
+    return TestClient(create_app(kg=kg, provider=provider, settings=settings, ctgov=ctgov))
 
 
 def test_health(kg):
@@ -123,6 +149,44 @@ def test_candidates_and_404(kg):
         assert body["candidates"][0]["drug_de"] == "Ibuprofen (de)"
         assert c.get("/api/diseases/424242/candidates").status_code == 404
         assert c.get("/api/diseases/14287/candidates").status_code == 404  # a drug, not a disease
+
+
+def test_trials_fetches_once_then_serves_the_cache(kg, tmp_path):
+    calls: list = []
+    with client(kg, ctgov=mock_ctgov(tmp_path / "ct.jsonl", calls, CABERGOLINE)) as c:
+        first = c.get("/api/pairs/14287/33675/trials").json()
+        assert first == {
+            "studies": 7,
+            "max_phase": 4.0,
+            "statuses": {"COMPLETED": 6, "TERMINATED": 1},
+            "url": "https://clinicaltrials.gov/search?cond=asthma&intr=Ibuprofen",
+            "cached": False,
+        }
+        assert c.get("/api/pairs/14287/33675/trials").json()["cached"] is True
+        assert c.get("/api/pairs/1/33675/trials").status_code == 404
+    assert len(calls) == 1
+    assert calls[0]["query.cond"] == "asthma" and calls[0]["query.intr"] == "Ibuprofen"
+
+
+def test_trials_502_when_ctgov_is_down_and_the_rest_still_works(kg, tmp_path):
+    with client(kg, ctgov=mock_ctgov(tmp_path / "ct.jsonl", [])) as c:
+        r = c.get("/api/pairs/14287/33675/trials")
+        assert r.status_code == 502 and "ClinicalTrials.gov" in r.json()["detail"]
+        assert c.get("/api/diseases/33675/candidates").status_code == 200
+
+
+def test_candidates_take_trial_counts_from_the_lookup_cache(kg, tmp_path):
+    kg.extra_predictions = [
+        {"drug_id": 15479, "drug": "Salbutamol", "rank": 2, "score": 0.7}
+        | {"ct_studies": None, "ct_max_phase": None}
+    ]
+    ct = mock_ctgov(tmp_path / "ct.jsonl", [], CABERGOLINE)
+    with client(kg, ctgov=ct) as c:
+        before = c.get("/api/diseases/33675/candidates").json()["candidates"]
+        assert [r["ct_studies"] for r in before] == [3, None]
+        ct.lookup("asthma", "Salbutamol")
+        after = c.get("/api/diseases/33675/candidates").json()["candidates"]
+    assert [(r["ct_studies"], r["ct_max_phase"]) for r in after] == [(3, 2.0), (7, 4.0)]
 
 
 def test_explain_404_for_unknown_ids(kg):

@@ -206,6 +206,54 @@
         }
       }
     },
+    "/api/pairs/{drug_id}/{disease_id}/trials": {
+      "get": {
+        "summary": "Pair Trials",
+        "operationId": "pair_trials_api_pairs__drug_id___disease_id__trials_get",
+        "parameters": [
+          {
+            "name": "drug_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Drug Id"
+            }
+          },
+          {
+            "name": "disease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Disease Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trials"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ask": {
       "post": {
         "summary": "Ask",
@@ -794,6 +842,50 @@
           "query"
         ],
         "title": "SparqlQuery"
+      },
+      "Trials": {
+        "properties": {
+          "studies": {
+            "type": "integer",
+            "title": "Studies"
+          },
+          "max_phase": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Phase"
+          },
+          "statuses": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Statuses"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached"
+          }
+        },
+        "type": "object",
+        "required": [
+          "studies",
+          "max_phase",
+          "statuses",
+          "url",
+          "cached"
+        ],
+        "title": "Trials",
+        "description": "ClinicalTrials.gov studies matching the disease and drug names (registered, not proof)."
       },
       "ValidationError": {
         "properties": {

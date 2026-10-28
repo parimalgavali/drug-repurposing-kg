@@ -14,4 +14,5 @@ class Settings(BaseSettings):
     neo4j_database: str = "neo4j"
     llm_provider: str = "recorded"
     rdf_path: str = "data/rdf/export.ttl"
+    ctgov_cache: str = "artifacts/ctgov_cache.jsonl"
     cors_origins: list[str] = ["http://localhost:5173"]

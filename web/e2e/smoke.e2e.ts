@@ -2,6 +2,19 @@ import { expect, test } from "@playwright/test";
 
 // Runs against the fixture graph (scripts/demo_fixture.py) with LLM_PROVIDER=recorded and
 // LLM_RECORDINGS=web/e2e/recordings. Re-record with LLM_PROVIDER=anthropic LLM_RECORD=1.
+// ClinicalTrials.gov lookups are stubbed, so CI never calls CT.gov.
+const TRIALS = {
+  studies: 12,
+  max_phase: 3,
+  statuses: { COMPLETED: 12 },
+  url: "https://clinicaltrials.gov/search?cond=asthma&intr=x",
+  cached: false,
+};
+
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/pairs/*/*/trials", (route) => route.fulfill({ json: TRIALS }));
+});
+
 test("search → candidate → graph → ask", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("note")).toContainText("not medical advice");
@@ -33,4 +46,16 @@ test("DE toggle shows German UI text and Wikidata names", async ({ page }) => {
   await expect(page.getByTestId("candidate").first()).toBeVisible();
   await page.getByRole("button", { name: "EN", exact: true }).click();
   await expect(page.getByRole("heading", { name: /Candidate drugs for asthma/ })).toBeVisible();
+});
+
+test("clicking a candidate shows its ClinicalTrials.gov badge", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Search a disease").fill("asthma");
+  await page.getByRole("option", { name: /^asthma/ }).click();
+  const first = page.getByTestId("candidate").first();
+  await first.click();
+  const badge = first.getByTestId("trials");
+  await expect(badge).toHaveText("in 12 trials");
+  await expect(badge).toHaveAttribute("href", /^https:\/\/clinicaltrials\.gov\/search\?/);
+  await expect(badge).toHaveAttribute("title", /highest phase 3/);
 });

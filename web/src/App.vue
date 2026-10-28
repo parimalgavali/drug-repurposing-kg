@@ -6,8 +6,10 @@ import {
   type Cytoscape,
   type Explanation,
   type SearchHit,
+  type TrialState,
   candidates,
   explain,
+  trials,
 } from "./api/client";
 import AskPanel from "./components/AskPanel.vue";
 import CandidateList from "./components/CandidateList.vue";
@@ -24,12 +26,25 @@ const pair = ref<{ drug: string; drugDe?: string | null; disease: string; diseas
 const answerGraph = ref(false);
 const focus = ref<string | null>(null);
 const error = ref<string | null>(null);
+const trialState = ref<Record<number, TrialState>>({});
+
+async function lookupTrials(c: Candidate, disease: number) {
+  const states = trialState.value; // a new disease replaces the map, so late answers go nowhere
+  if (states[c.drug_id] === "loading" || typeof states[c.drug_id] === "object") return;
+  states[c.drug_id] = "loading";
+  try {
+    states[c.drug_id] = await trials(c.drug_id, disease);
+  } catch {
+    states[c.drug_id] = "error";
+  }
+}
 
 async function pickDisease(hit: SearchHit) {
   loading.value = true;
   selected.value = null;
   evidence.value = null;
   error.value = null;
+  trialState.value = {};
   try {
     list.value = await candidates(hit.id);
   } catch (e) {
@@ -43,6 +58,7 @@ async function pickCandidate(c: Candidate) {
   if (!list.value) return;
   selected.value = c.drug_id;
   error.value = null;
+  void lookupTrials(c, list.value.disease.id);
   try {
     evidence.value = await explain(c.drug_id, list.value.disease.id);
     graph.value = evidence.value.cytoscape;
@@ -89,7 +105,7 @@ function showAnswerGraph(g: Cytoscape) {
       <p v-if="error" class="error" role="alert">{{ error }}</p>
     </div>
     <div class="grid">
-      <CandidateList :data="list" :selected="selected" :loading="loading" @select="pickCandidate" />
+      <CandidateList :data="list" :selected="selected" :loading="loading" :trials="trialState" @select="pickCandidate" />
       <div>
         <GraphView :graph="graph" :focus="focus" :title="title" @focus="focus = $event" />
         <section v-if="evidence" class="panel" data-testid="evidence">

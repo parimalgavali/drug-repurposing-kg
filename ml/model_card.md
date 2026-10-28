@@ -57,7 +57,7 @@ The sample is 30 held-out diseases × top 20 novel drugs. 29 of the 30 disease n
 - All three methods are well above random drugs (≈ 30×), so predictions carry real signal beyond chance.
 - GNN ≥ similar_disease > popularity on this check, but the confidence intervals overlap, so this does **not** show the GNN beats the similar-disease baseline on held-out diseases. That agrees with the MRR results above.
 - The gnn row is the disease-split, seed-0, text model, because the served random-split model has seen these diseases' indications.
-- Served predictions (`gnn_notext-random-seed0`) for the 30 sampled diseases, ranks 1–10, have `ct_studies` / `ct_max_phase` set on `PREDICTED_INDICATION` (300 relationships). Other predictions stay unannotated until `make validate` is run with a larger sample.
+- Served predictions (`gnn_notext-random-seed0`) for the 30 sampled diseases, ranks 1–10, have `ct_studies` / `ct_max_phase` set on `PREDICTED_INDICATION` (300 relationships). The UI looks up any other candidate on demand when it is clicked (`/api/pairs/{drug}/{disease}/trials`, cached on disk).
 
 ## Comparison with TxGNN (published, not reproduced)
 

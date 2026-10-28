@@ -12,6 +12,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated, Literal
 
+import httpx
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response, StreamingResponse
@@ -28,6 +29,7 @@ from kg.client import KGClient, connect
 from llm import Provider, get_provider
 from semweb.export import export as export_rdf
 from semweb.store import RdfStore, SparqlError
+from validation.ctgov import CTGov, search_url
 
 log = logging.getLogger(__name__)
 NODE = (
@@ -77,6 +79,16 @@ class Candidates(BaseModel):
     disease: Node
     candidates: list[Candidate]
     known: list[KnownDrug]
+
+
+class Trials(BaseModel):
+    """ClinicalTrials.gov studies matching the disease and drug names (registered, not proof)."""
+
+    studies: int
+    max_phase: float | None
+    statuses: dict[str, int]
+    url: str
+    cached: bool
 
 
 class PathNode(BaseModel):
@@ -131,7 +143,12 @@ def get_llm(request: Request) -> Provider | None:
     return request.app.state.provider
 
 
+def get_ctgov(request: Request) -> CTGov:
+    return request.app.state.ctgov
+
+
 KG = Annotated[KGClient, Depends(get_kg)]
+CT = Annotated[CTGov, Depends(get_ctgov)]
 LLM = Annotated[Provider | None, Depends(get_llm)]
 router = APIRouter(prefix="/api")
 
@@ -190,15 +207,19 @@ def search(
 
 @router.get("/diseases/{disease_id}/candidates")
 def candidates(
-    kg: KG, disease_id: int, limit: Annotated[int, Query(ge=1, le=50)] = 20
+    kg: KG, ct: CT, disease_id: int, limit: Annotated[int, Query(ge=1, le=50)] = 20
 ) -> Candidates:
     disease = node_or_404(kg, "Disease", disease_id)
     params = {"disease": disease_id, "k": limit}
     preds, known = kg.read(REPURPOSE, params), kg.read(KNOWN, params)
     de = german_names(kg, [r["drug_id"] for r in preds + known])
+    preds = [{**r, "drug_de": de.get(r["drug_id"])} for r in preds]
+    for r in preds:  # counts stored by `make validate` win; else what /trials already looked up
+        if r.get("ct_studies") is None and (s := ct.cached(disease.name, r["drug"])):
+            r["ct_studies"], r["ct_max_phase"] = s.studies, s.max_phase
     return Candidates(
         disease=disease,
-        candidates=[{**r, "drug_de": de.get(r["drug_id"])} for r in preds],
+        candidates=preds,
         known=[{**r, "drug_de": de.get(r["drug_id"])} for r in known],
     )
 
@@ -214,6 +235,22 @@ def explain_pair(kg: KG, drug_id: int, disease_id: int) -> Explanation:
             path["nodes"] = [{**n, "name_de": de.get(n["id"])} for n in path["nodes"]]
     found["cytoscape"] = with_german_labels(found["cytoscape"], de)
     return Explanation(**{**found, "drug": drug, "disease": disease})
+
+
+@router.get("/pairs/{drug_id}/{disease_id}/trials")
+def pair_trials(kg: KG, ct: CT, drug_id: int, disease_id: int) -> Trials:
+    drug = node_or_404(kg, "Drug", drug_id)
+    disease = node_or_404(kg, "Disease", disease_id)
+    cached = ct.cached(disease.name, drug.name) is not None
+    try:
+        s = ct.lookup(disease.name, drug.name)
+    except (httpx.HTTPError, RuntimeError) as e:
+        log.warning("CT.gov lookup failed for %s / %s: %s", disease.name, drug.name, e)
+        raise HTTPException(502, "ClinicalTrials.gov lookup failed") from e
+    url = search_url(disease.name, drug.name)
+    return Trials(
+        studies=s.studies, max_phase=s.max_phase, statuses=s.statuses, url=url, cached=cached
+    )
 
 
 def sse(event: str, data: object) -> str:
@@ -343,6 +380,7 @@ def create_app(
     provider: Provider | None = None,
     settings: Settings | None = None,
     rdf: RdfStore | None = None,
+    ctgov: CTGov | None = None,
 ) -> FastAPI:
     settings = settings or Settings()
 
@@ -353,6 +391,7 @@ def create_app(
             settings.neo4j_database,
         )
         app.state.provider = provider
+        app.state.ctgov = ctgov or CTGov(cache=Path(settings.ctgov_cache), retries=2)
         rdf_path = Path(settings.rdf_path)
         app.state.rdf = rdf or (RdfStore.from_path(rdf_path) if rdf_path.exists() else None)
         if provider is None:
