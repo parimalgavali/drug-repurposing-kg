@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which genes does Ibuprofen target?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 14287, \"name\": \"Ibuprofen\", \"label\": \"Drug\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 2429, \"name\": \"BCL2\"}, {\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 6977, \"name\": \"GP1BA\"}, {\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 1122, \"name\": \"PPARA\"}, {\"relation\": \"TARGET\", \"l",
+ "response": "According to the query results, Ibuprofen [14287] targets these genes:\n\n- BCL2 [2429]\n- GP1BA [6977]\n- PPARA [1122]\n- PPARG [989]\n- PTGS1 [9031]\n- PTGS2 [4425]\n- S100A7 [2934]"
+}

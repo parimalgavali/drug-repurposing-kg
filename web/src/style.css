@@ -1,0 +1,40 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #0f172a;
+  background: #f8fafc;
+  line-height: 1.45;
+}
+body { margin: 0; }
+main { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+h1 { margin: 0.2rem 0; }
+h2 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+.banner { background: #fef3c7; border-bottom: 1px solid #f59e0b; padding: 0.5rem 1rem; text-align: center; font-size: 0.9rem; }
+.muted { color: #64748b; }
+.error { color: #b91c1c; }
+.panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem; }
+.grid { display: grid; grid-template-columns: minmax(320px, 2fr) 3fr; gap: 1rem; }
+@media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+.search { position: relative; max-width: 480px; margin: 0.6rem 0 1rem; }
+input { width: 100%; box-sizing: border-box; padding: 0.55rem 0.7rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
+.suggestions { position: absolute; z-index: 10; left: 0; right: 0; margin: 2px 0 0; padding: 0; list-style: none; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 12px #0001; }
+.suggestions li { padding: 0.4rem 0.7rem; cursor: pointer; }
+.suggestions li:hover { background: #eff6ff; }
+.candidates { list-style: none; padding: 0; margin: 0; }
+.candidates li { display: grid; grid-template-columns: 2rem 1fr 90px auto; align-items: center; gap: 0.5rem; padding: 0.35rem 0.4rem; border-radius: 6px; cursor: pointer; }
+.candidates li:hover, .candidates li.selected { background: #eff6ff; }
+.rank { color: #64748b; text-align: right; }
+.bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #2563eb; }
+.badge { font-size: 0.75rem; background: #dcfce7; color: #166534; border-radius: 999px; padding: 0.1rem 0.5rem; white-space: nowrap; }
+.badge.none { background: #f1f5f9; color: #64748b; }
+.known { margin-top: 0.8rem; color: #94a3b8; font-size: 0.9rem; }
+.cy { height: 420px; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.8rem; list-style: none; padding: 0; margin: 0.4rem 0 0; font-size: 0.8rem; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.3rem; }
+.ask form { display: flex; gap: 0.5rem; }
+button { padding: 0.5rem 1rem; border: 0; border-radius: 6px; background: #2563eb; color: #fff; cursor: pointer; font-size: 0.95rem; }
+button:disabled { background: #93c5fd; }
+button.link, button.cite { background: none; color: #2563eb; padding: 0 0.2rem; font-size: inherit; }
+.examples { font-size: 0.85rem; color: #64748b; }
+.answer { white-space: pre-wrap; margin: 0.8rem 0; }
+.cypher pre { background: #0f172a; color: #e2e8f0; padding: 0.7rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; }
