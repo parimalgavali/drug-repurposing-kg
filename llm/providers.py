@@ -177,9 +177,10 @@ class RecordedProvider:
 def get_provider(name: str | None = None) -> Provider:
     name = name or os.environ.get("LLM_PROVIDER", "recorded")
     live: dict[str, type] = {"anthropic": AnthropicProvider, "ollama": OllamaProvider}
+    recordings = Path(os.environ.get("LLM_RECORDINGS", FIXTURES))
     if name == "recorded":
-        return RecordedProvider()
+        return RecordedProvider(recordings)
     provider = live[name]()
     if os.environ.get("LLM_RECORD") == "1":
-        return RecordedProvider(inner=provider)
+        return RecordedProvider(recordings, inner=provider)
     return provider

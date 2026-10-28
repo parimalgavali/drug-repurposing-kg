@@ -1,6 +1,9 @@
 .git
 .venv
-data
+data/raw
+data/processed
+data/import
+web
 artifacts
 **/__pycache__
 .env

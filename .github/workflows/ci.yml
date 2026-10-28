@@ -41,3 +41,49 @@ jobs:
           python-version: "3.12"
       - run: uv sync --extra data --extra graph --extra llm --extra api
       - run: uv run pytest -v tests/integration
+
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      neo4j:
+        image: neo4j:5.26-community
+        env:
+          NEO4J_AUTH: neo4j/ci-password
+        ports:
+          - 7687:7687
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p ci-password 'RETURN 1'"
+          --health-interval 5s --health-timeout 10s --health-retries 30
+    env:
+      NEO4J_URI: bolt://localhost:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: ci-password
+      LLM_PROVIDER: recorded
+      LLM_RECORDINGS: web/e2e/recordings
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api
+      - run: PYTHONPATH=. uv run python scripts/demo_fixture.py
+      - run: uv run uvicorn api.main:app --port 8000 > api.log 2>&1 &
+      - working-directory: web
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+          npx playwright install --with-deps chromium
+          npm run e2e
+      - if: failure()
+        run: cat api.log
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: web/test-results
