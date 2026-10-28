@@ -6,7 +6,14 @@
 
 ## Status
 
-Planning done, implementation starting. See the [roadmap](docs/ROADMAP.md).
+Data layer and Neo4j graph in place (tasks 1–2); ML next. See the [roadmap](docs/ROADMAP.md).
+
+```bash
+uv sync --extra data --extra graph
+make data                 # PrimeKG → data/processed/*.parquet
+make kg NEO4J_ADMIN="sudo -u neo4j neo4j-admin"   # see docs/GRAPH.md
+make lint test
+```
 
 ## Docs
 
@@ -14,6 +21,7 @@ Planning done, implementation starting. See the [roadmap](docs/ROADMAP.md).
 - [Decisions](docs/DECISIONS.md): ADRs
 - [Data](docs/DATA.md): PrimeKG and ClinicalTrials.gov, licenses, counts, checksums
 - [Architecture](docs/ARCHITECTURE.md): components, graph model, GraphRAG flow, evaluation
+- [Graph](docs/GRAPH.md): Neo4j labels/relationship counts, build steps, example queries
 - [Roadmap](docs/ROADMAP.md) and [task specs](docs/specs/)
 
 ## Stack
