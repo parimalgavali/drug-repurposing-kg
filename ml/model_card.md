@@ -77,3 +77,24 @@ Our AUPRC column is closest in spirit. The ranking metrics (MRR, Hits@k) have no
 - **Served model.** Picked by validation MRR on random-split seed 0, the setting where every disease has training drugs: `gnn_notext` 0.44, `gnn` 0.41, `similar_disease` 0.29. So `ml/write_predictions.py --model gnn_notext` writes that checkpoint's top 50 non-indicated drugs per disease to Neo4j, as `model_version` `gnn_notext-random-seed0`. For a disease with no known drugs, the text model would be the better choice; the API (task 7) can flag that case.
 - **Missing ≠ negative.** Unlabelled drug–disease pairs are treated as negatives; some are real but unrecorded uses, which is the point of repurposing and depresses all metrics.
 - **KGE is undertrained here.** Validation MRR peaked at the first check (5 epochs, ~100 s) and early stopping ended both runs. RotatE reaches MRR 0.015/0.032 (disease/random), and ComplEx is near random (MRR 0.001). With ~1.17M triples and a few CPU minutes, the `INDICATION` relation (9k of 1.17M triples) is barely learned. These numbers are what that budget buys, not a ceiling; task 4's GNN trains on the indication objective directly.
+
+## Hetionet cross-check
+
+This is a second, independent check, against another curated graph. Hetionet's `CtD` (treats) edges come from a curated set of indications (PharmacotherapyDB). The check asks: of the drug–disease pairs Hetionet records but PrimeKG doesn't, how many does each method put in its top-k novel drugs for that disease?
+- **Mapping:** drugs map by DrugBank id. Diseases map DOID → MONDO through MONDO's exact-match set, then to every PrimeKG disease node that contains that MONDO id.
+- **Fairness:** all methods use the random split (seed 0), the one the served model was chosen on. Drugs with any recorded PrimeKG indication or off-label use for the disease are excluded and the rest re-ranked.
+- **No leakage:** Hetionet-only pairs are absent from PrimeKG, so no method saw them in training.
+- **Reproduce:** `make validate-hetionet`.
+
+**Result:** every method is far above random (57 vs 1 hit in the top 20), but the similar-disease baseline finds more Hetionet-only pairs than the served GNN (73 vs 57). The confidence intervals barely overlap. This agrees with the ClinicalTrials.gov check: the GNN's edge only shows up on PrimeKG's own held-out indications.
+
+<!-- hetionet:start -->
+Hetionet v1.0 has 755 `CtD` edges; 752 map to PrimeKG drug–disease pairs. Of those, 334 are already PrimeKG indications or off-label uses and 12 are PrimeKG *contraindications*. The remaining **418 Hetionet-only pairs** over 64 diseases are the truth set; every method ranks only drugs without a recorded use.
+
+| Method | Hits in top 20 | Precision@20 (95% CI) | Recall@20 | Hits in top 50 | Recall@50 |
+| --- | ---: | --- | ---: | ---: | ---: |
+| served GNN | 57 | 0.045 (0.035–0.057) | 0.136 | 101 | 0.242 |
+| similar_disease | 73 | 0.057 (0.046–0.071) | 0.175 | 119 | 0.285 |
+| popularity | 33 | 0.026 (0.018–0.036) | 0.079 | 90 | 0.215 |
+| random drugs | 1 | 0.001 (0.000–0.004) | 0.002 | 4 | 0.010 |
+<!-- hetionet:end -->
