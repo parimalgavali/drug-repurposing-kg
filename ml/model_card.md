@@ -30,6 +30,7 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | disease | complex | 0.001 ± 0.000 | 0.000 ± 0.000 | 0.001 ± 0.000 | 0.008 ± 0.000 | 0.577 ± 0.000 | 0.537 ± 0.000 | 74 | 1 |
 | disease | gnn | 0.146 ± 0.010 | 0.088 ± 0.010 | 0.265 ± 0.023 | 0.514 ± 0.026 | 0.956 ± 0.007 | 0.958 ± 0.007 | 300 | 3 |
 | disease | gnn_notext | 0.083 ± 0.015 | 0.052 ± 0.012 | 0.133 ± 0.026 | 0.252 ± 0.049 | 0.901 ± 0.028 | 0.897 ± 0.029 | 97 | 3 |
+| disease | gnn_blend | 0.374 ± 0.036 | 0.325 ± 0.040 | 0.452 ± 0.026 | 0.635 ± 0.008 | 0.940 ± 0.031 | 0.954 ± 0.018 | 4 | 3 |
 | random | popularity | 0.131 ± 0.006 | 0.109 ± 0.005 | 0.149 ± 0.009 | 0.291 ± 0.016 | 0.912 ± 0.004 | 0.901 ± 0.004 | 0 | 3 |
 | random | shared_neighbour | 0.011 ± 0.002 | 0.001 ± 0.002 | 0.020 ± 0.003 | 0.078 ± 0.007 | 0.618 ± 0.006 | 0.616 ± 0.002 | 0 | 3 |
 | random | similar_disease | 0.365 ± 0.007 | 0.313 ± 0.008 | 0.454 ± 0.009 | 0.628 ± 0.007 | 0.928 ± 0.004 | 0.925 ± 0.005 | 1 | 3 |
@@ -37,6 +38,7 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | random | complex | 0.001 ± 0.000 | 0.000 ± 0.000 | 0.001 ± 0.000 | 0.004 ± 0.000 | 0.576 ± 0.000 | 0.539 ± 0.000 | 87 | 1 |
 | random | gnn | 0.479 ± 0.036 | 0.371 ± 0.040 | 0.693 ± 0.012 | 0.868 ± 0.004 | 0.986 ± 0.002 | 0.989 ± 0.001 | 481 | 3 |
 | random | gnn_notext | 0.512 ± 0.010 | 0.408 ± 0.009 | 0.717 ± 0.008 | 0.839 ± 0.005 | 0.976 ± 0.001 | 0.982 ± 0.001 | 481 | 3 |
+| random | gnn_blend | 0.493 ± 0.023 | 0.395 ± 0.027 | 0.681 ± 0.023 | 0.865 ± 0.007 | 0.982 ± 0.002 | 0.986 ± 0.001 | 4 | 3 |
 <!-- metrics:end -->
 
 ## Clinical-trial check (ClinicalTrials.gov)
@@ -162,3 +164,20 @@ checks. Results per pair are in `ml/results/gnnexplainer.json`.
 **Takeaway:** the metapath paths shown in the UI are readable, plausible graph evidence, but not
 a faithful account of why the served GNN ranks a drug. They should be read as supporting evidence,
 not as the model's reasons.
+
+## GNN + similar-disease blend (unseen diseases)
+
+This was a time-boxed attempt to close the disease-split gap: GNN MRR 0.15 vs `similar_disease` 0.38. `gnn_blend` (`ml/blend.py`, `make ml-blend`) z-scores the text GNN's and `similar_disease`'s scores per disease and ranks by α·gnn + (1 − α)·similar_disease. α ∈ {0, 0.1, …, 1} is picked per seed on **validation** MRR. It reuses the task-4 checkpoints, so nothing is retrained.
+
+**Result: the blend does not close the gap.** On the disease split it ties `similar_disease` on MRR (0.374 ± 0.036 vs 0.384 ± 0.032). It adds about 3 points of Hits@50 (0.635 vs 0.607). Paired test results per seed, with α picked on validation:
+
+| Seed | α picked (validation) | `similar_disease` MRR / Hits@50 | `gnn_blend` MRR / Hits@50 | GNN alone MRR |
+| ---: | ---: | --- | --- | ---: |
+| 0 | 0.0 | 0.397 / 0.641 | 0.397 / 0.641 | 0.150 |
+| 1 | 0.9 | 0.339 / 0.579 | 0.323 / 0.639 | 0.156 |
+| 2 | 0.7 | 0.414 / 0.600 | 0.402 / 0.624 | 0.133 |
+
+- **The validation curve is flat.** For α from 0.1 to 0.9, validation MRR moves by at most 0.03, and it only collapses at α = 1 (the GNN alone). The picked α is therefore noise (0.0, 0.9, 0.7), and on seeds 1 and 2 it lands slightly below `similar_disease`.
+- **The GNN helps further down the list, not at the top.** Looked at after the fact on test, for information only, a fixed α = 0.7 gives MRR 0.385 (vs 0.383) and Hits@50 0.643 (vs 0.607). The GNN reorders the long tail, but it rarely moves the right drug to rank 1 for a disease it has never seen.
+- **Random split:** validation picks α 0.9–1.0, so the blend is essentially the text GNN (MRR 0.493 vs 0.479). `gnn_notext` (0.512) is still the best model when diseases have known drugs.
+- **Serving is unchanged.** The UI keeps serving `gnn_notext-random-seed0`. For a truly unseen disease, `similar_disease`, or the blend if recall at 50 matters, is the better ranking. Closing the gap at the top ranks likely needs a stricter disease split and a model change (e.g. TxGNN-style disease-similarity pooling), not score mixing.

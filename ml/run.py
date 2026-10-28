@@ -31,11 +31,16 @@ def models() -> dict[str, Model]:
         "similar_disease": similar_disease,
     }
     try:
+        from ml.blend import gnn_blend
         from ml.gnn import gnn, gnn_notext
         from ml.kge import complex_, rotate
     except ImportError:  # torch/pykeen/pyg not installed
         return registry
-    return registry | {"rotate": rotate, "complex": complex_, "gnn": gnn, "gnn_notext": gnn_notext}
+    return (
+        registry
+        | {"rotate": rotate, "complex": complex_, "gnn": gnn, "gnn_notext": gnn_notext}
+        | {"gnn_blend": gnn_blend}
+    )
 
 
 def get_split(name: str, seed: int, processed: Path, root: Path) -> Split:
@@ -58,6 +63,8 @@ def summarise(runs: list[dict]) -> dict:
     out["test_pairs"] = int(np.mean([r["test_pairs"] for r in runs]))
     out["test_diseases"] = int(np.mean([r["test_diseases"] for r in runs]))
     out["seeds"] = [r["seed"] for r in runs]
+    if "alpha" in runs[0]:
+        out["alpha"] = [r["alpha"] for r in runs]
     return out
 
 
@@ -66,7 +73,7 @@ def card_table(results_dir: Path = RESULTS) -> str:
         "| Split | Model | MRR | Hits@1 | Hits@10 | Hits@50 | AUROC | AUPRC | Fit+score s | Seeds |"
     )
     lines = [header, "|" + " --- |" * 10]
-    for path in sorted(results_dir.glob("*.json")):
+    for path in sorted(p for p in results_dir.glob("*.json") if p.stem in SPLITS):
         split = path.stem
         for model, r in json.loads(path.read_text()).items():
             cells = [f"{r[m]['mean']:.3f} ± {r[m]['std']:.3f}" for m in METRICS]
@@ -114,6 +121,7 @@ def main() -> None:
                 known = pl.concat([split.train, split.valid])
                 metrics = evaluate(score, drugs, split.test, known, seed=seed)
                 metrics |= {"seconds": time.perf_counter() - start, "seed": seed}
+                metrics |= getattr(score, "info", {})
                 print(
                     f"{split_name:8s} {name:18s} seed={seed} "
                     + " ".join(f"{m}={metrics[m]:.3f}" for m in METRICS),

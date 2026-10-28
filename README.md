@@ -54,6 +54,7 @@ Ranking the held-out true drug for a disease (filtered MRR, 3 seeds; full table 
 | RotatE (KGE, undertrained on CPU) | 0.015 | 0.032 |
 | hetero GNN + text features | 0.146 | 0.479 |
 | hetero GNN, no text | 0.083 | **0.512** |
+| GNN + similar-disease blend (α on validation) | 0.374 | 0.493 |
 
 Top-20 new candidates for 30 unseen diseases, checked against ClinicalTrials.gov: 15.3% of GNN pairs have ≥ 1 registered study vs 14.8% similar-disease, 13.2% popularity and 0.5% random. Real signal, but the GNN does not beat the simple baseline on unseen diseases.
 
