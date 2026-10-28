@@ -63,6 +63,7 @@ class CTGov:
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": "RepurposeKG"})
         self._last = 0.0
         self.requests = 0
+        self.rejected = 0
         self.cache: dict[str, TrialSummary] = {}
         if cache.exists():
             for line in cache.read_text().splitlines():
@@ -100,6 +101,10 @@ class CTGov:
             if response.status_code == 429 or response.status_code >= 500:
                 time.sleep(2**attempt * 5)
                 continue
+            if response.status_code == 400:
+                # CT.gov rejects some chemical names (brackets, commas); count them as no match.
+                self.rejected += 1
+                return {"totalCount": 0, "studies": []}
             response.raise_for_status()
             return response.json()
         response.raise_for_status()

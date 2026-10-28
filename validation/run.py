@@ -115,7 +115,7 @@ def main() -> None:
     methods = {}
     for method, top in tops.items():
         found = [
-            ct.lookup(name[d], name[s]) for d, s in zip(top["drug"], top["disease"], strict=True)
+            ct.lookup(name[s], name[d]) for d, s in zip(top["drug"], top["disease"], strict=True)
         ]
         hits = sum(f.studies > 0 for f in found)
         methods[method] = {
@@ -132,6 +132,7 @@ def main() -> None:
         "k": args.k,
         "diseases": len(sample),
         "diseases_with_any_study": len(matched),
+        "rejected_queries": ct.rejected,
         "methods": methods,
     }
     RESULTS.write_text(json.dumps(results, indent=2) + "\n")
@@ -147,7 +148,10 @@ def main() -> None:
         rows.append({**r, "studies": f.studies, "max_phase": f.max_phase})
     with connect() as driver, driver.session() as s:
         s.run(ANNOTATE, rows=rows).consume()
-    print(f"annotated {len(rows)} served predictions; {ct.requests} CT.gov requests")
+    print(
+        f"annotated {len(rows)} served predictions; {ct.requests} CT.gov requests, "
+        f"{ct.rejected} rejected queries"
+    )
 
 
 if __name__ == "__main__":

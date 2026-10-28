@@ -40,3 +40,10 @@ def test_query_parameters_and_cache_hit(tmp_path):
     reloaded = CTGov(cache=cache, min_interval=0, client=_client(calls))
     assert reloaded.lookup("Parkinson disease", "Cabergoline") == first
     assert len(calls) == 1 and reloaded.requests == 0
+
+
+def test_rejected_query_counts_as_no_study(tmp_path):
+    client = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(400)))
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0, client=client)
+    s = ct.lookup("galactosemia", "N-[(2R,3S)-3-amino]-benzenesulfonamide")
+    assert s.studies == 0 and s.max_phase is None and ct.rejected == 1
