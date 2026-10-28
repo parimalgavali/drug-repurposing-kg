@@ -1,0 +1,60 @@
+[project]
+name = "repurpose-kg"
+version = "0.1.0"
+description = "Drug-repurposing hypotheses from the PrimeKG biomedical knowledge graph"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+data = [
+    "httpx>=0.27",
+    "numpy>=2.0",
+    "polars>=1.20",
+    "pyarrow>=17",
+    "tqdm>=4.66",
+]
+graph = [
+    "neo4j>=5.26,<6",
+]
+llm = [
+    "anthropic>=0.40",
+    "pydantic>=2.7",
+    "rapidfuzz>=3.9",
+]
+ml = [
+    "pyg-lib>=0.9",
+    "pykeen>=1.11",
+    "pyyaml>=6",
+    "scikit-learn>=1.5",
+    "sentence-transformers>=3",
+    "torch>=2.14,<2.15",
+    "torch-geometric>=2.6",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.3", "ruff>=0.8"]
+
+[tool.uv]
+package = false
+# pyg-lib (fast neighbour sampling) is built per torch minor version; keep in sync with torch.
+find-links = ["https://data.pyg.org/whl/torch-2.14.0+cpu.html"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]

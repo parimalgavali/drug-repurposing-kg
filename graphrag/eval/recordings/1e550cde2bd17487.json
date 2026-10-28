@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which drugs are indicated for both asthma and chronic obstructive pulmonary disease?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (dr:Drug)-[:INDICATION]->(d1:Disease), (dr)-[:INDICATION]->(d2:Disease) WHERE toLower(d1.name) = 'asthma' AND toLower(d2.name) = 'chronic obstructive pulmonary disease' RETURN DISTINCT dr.name AS drug_name, dr.id AS drug_id LIMIT 50\", \"rows\": [{\"drug_name\": \"Vilan",
+ "response": "Only one drug in the results is indicated for both asthma and chronic obstructive pulmonary disease: Vilanterol [15614].\n\nThis comes from a query that required an INDICATION link to each disease, so the results list no other drugs with both indications."
+}

@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Top predicted drugs for von Willebrand disease?",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "von Willebrand disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

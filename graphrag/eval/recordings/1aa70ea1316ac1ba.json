@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which diseases is the gene CFTR associated with?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "CFTR",
+  "entity_label": "Gene",
+  "relation": "DISEASE_PROTEIN",
+  "target_label": "Disease"
+ }
+}

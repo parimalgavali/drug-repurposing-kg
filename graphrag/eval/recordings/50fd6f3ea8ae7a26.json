@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: How many genes are associated with Parkinson disease?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Disease)-[:DISEASE_PROTEIN]-(g:Gene) WHERE toLower(d.name) = 'parkinson disease' RETURN d.id AS disease_id, d.name AS disease_name, count(DISTINCT g) AS gene_count LIMIT 50\", \"rows\": [{\"disease_id\": 28547, \"disease_name\": \"Parkinson disease\", \"gene_count\": 104}], \"error\": null}",
+ "response": "According to the query results, 104 distinct genes are associated with Parkinson disease [28547] through DISEASE_PROTEIN links in the graph."
+}

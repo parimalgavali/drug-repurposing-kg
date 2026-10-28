@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: How many distinct diseases have an indicated drug that targets PTGS2?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (g:Gene {name: 'PTGS2'})<-[:TARGET]-(d:Drug)-[:INDICATION]->(dis:Disease) RETURN count(DISTINCT dis) AS distinct_disease_count\\nLIMIT 50\", \"rows\": [{\"distinct_disease_count\": 67}], \"error\": null}",
+ "response": "According to the query results, **67 distinct diseases** have at least one indicated drug that targets PTGS2. The query matched drugs with a TARGET relationship to the PTGS2 gene and an INDICATION relationship to a disease, then counted the distinct diseases.\n\nThe results give only the count. They don't list the specific diseases or drugs, and no node IDs were returned, so I can't name or cite individual entities."
+}

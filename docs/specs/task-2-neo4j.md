@@ -16,3 +16,5 @@
 **Done when:** `make kg` imports the full graph in < 15 min on the dev VM; node/relationship counts match `docs/DATA.md` minus the deduplicated reverse edges; all example queries return within 2 s.
 
 **Risks:** Docker Hub rate limits (use the Debian package locally, GHCR or a cached image in CI); memory (set `dbms.memory.*` explicitly).
+
+**Outcome:** bulk import of the full graph takes ~7 s (`neo4j-admin`, 129,375 nodes / 4,050,249 relationships); all 10 example queries run in < 20 ms warm. Local dev uses the Debian package (`stable 5` component) because Docker Hub rate-limited anonymous pulls. `kg-fixture` (UNWIND loader) added so CI and contributors can test without the 1 GB download. See `docs/GRAPH.md`.

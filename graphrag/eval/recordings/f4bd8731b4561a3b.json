@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: What drugs might be useful against preeclampsia according to the model?",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "preeclampsia",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

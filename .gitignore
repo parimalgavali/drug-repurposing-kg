@@ -11,3 +11,4 @@ data/raw/
 data/processed/
 artifacts/
 !data/fixtures/
+data/import/

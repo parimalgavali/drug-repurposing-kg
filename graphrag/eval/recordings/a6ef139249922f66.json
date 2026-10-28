@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: What are the approved indications of Metformin?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 16588, \"name\": \"Metformin\", \"label\": \"Drug\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"INDICATION\", \"label\": \"Disease\", \"id\": 33575, \"name\": \"diabetes mellitus (disease)\"}, {\"relation\": \"INDICATION\", \"label\": \"Disease\", \"id\": 28208, \"name\": \"type 2 diabetes mellitus\"}]}",
+ "response": "According to the query results, Metformin [16588] has two approved indications:\n\n- diabetes mellitus (disease) [33575]\n- type 2 diabetes mellitus [28208]\n\nNo other indications appear in the results."
+}

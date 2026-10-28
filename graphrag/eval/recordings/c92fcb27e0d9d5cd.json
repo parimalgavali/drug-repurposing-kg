@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which drugs are contraindicated in preeclampsia?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 33512, \"name\": \"preeclampsia\", \"label\": \"Disease\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"CONTRAINDICATION\", \"label\": \"Drug\", \"id\": 15493, \"name\": \"Bromocriptine\"}, {\"relation\": \"CONTRAINDICATION\", \"label\": \"Drug\", \"id\": 15424, \"name\": \"Cabergoline\"}, {\"relation\": \"CONTRAINDICATION\", \"labe",
+ "response": "According to the query results, these drugs have a CONTRAINDICATION relationship with preeclampsia [33512]:\n\n- Bromocriptine [15493]\n- Cabergoline [15424]\n- Chlorphentermine [20305]\n- Histamine [15412]\n- Hydroxyprogesterone caproate [15026]\n- Phendimetrazine [17309]\n- Phentermine [15417]\n- Progesterone [14685]\n- Ritodrine [15874]\n\nThe results list only the drugs and the relationship. They give no reasons for the contraindications."
+}

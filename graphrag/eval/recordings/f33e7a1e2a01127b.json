@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Find repurposing candidates for sarcoidosis.",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "sarcoidosis",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Why might Salbutamol help asthma?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Salbutamol",
+  "disease": "asthma",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

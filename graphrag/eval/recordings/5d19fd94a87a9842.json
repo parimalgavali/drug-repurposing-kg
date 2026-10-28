@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Which genes are targeted by both Ibuprofen and Diclofenac?",
+ "response": {
+  "cypher": "MATCH (d1:Drug)-[:TARGET]->(g:Gene)<-[:TARGET]-(d2:Drug) WHERE d1.name = 'Ibuprofen' AND d2.name = 'Diclofenac' RETURN DISTINCT g.name AS name, g.id AS id LIMIT 50"
+ }
+}

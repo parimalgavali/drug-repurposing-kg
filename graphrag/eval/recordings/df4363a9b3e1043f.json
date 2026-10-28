@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Predicted treatments for prostate adenocarcinoma",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "prostate adenocarcinoma",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

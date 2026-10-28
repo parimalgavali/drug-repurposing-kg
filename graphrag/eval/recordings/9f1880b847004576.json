@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: How many off-label uses does Methotrexate have?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Drug {name: 'Methotrexate'})-[:OFF_LABEL_USE]->(x:Disease) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT x) AS off_label_use_count LIMIT 50\", \"rows\": [{\"drug_name\": \"Methotrexate\", \"drug_id\": 14194, \"off_label_use_count\": 27}], \"error\": null}",
+ "response": "Methotrexate [14194] has 27 distinct diseases linked through OFF_LABEL_USE in the knowledge graph. The query returned only the count, not the names of those diseases."
+}

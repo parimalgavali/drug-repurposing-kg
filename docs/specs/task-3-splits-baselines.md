@@ -14,3 +14,5 @@
 **Done when:** `uv run python -m ml.run --models popularity,shared_neighbour,rotate,complex --split disease` writes metrics JSON and updates the model card; the shared-neighbour baseline beats popularity on the disease split (otherwise the harness is suspect and gets debugged before task 4).
 
 **Risks:** KGE training time on CPU (cap epochs, record time); disease groups that are too coarse (report test-set size).
+
+**Outcome:** the drug-side Adamic–Adar `shared_neighbour` loses to popularity on both splits (it favours never-indicated compounds with many targets). It is kept and reported. A disease-side variant, `similar_disease` (drugs of diseases sharing genes/phenotypes), clearly beats popularity and becomes the bar for task 4. The disease split leaks some signal through near-duplicate diseases that the BERT grouping leaves ungrouped. That is documented in `ml/model_card.md`, and a stricter grouping is a follow-up. KGE models run with 1 seed per split because of CPU time.

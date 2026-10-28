@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which genes are targeted by both Ibuprofen and Diclofenac?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d1:Drug)-[:TARGET]->(g:Gene)<-[:TARGET]-(d2:Drug) WHERE d1.name = 'Ibuprofen' AND d2.name = 'Diclofenac' RETURN DISTINCT g.name AS name, g.id AS id LIMIT 50\", \"rows\": [{\"name\": \"PTGS1\", \"id\": 9031}, {\"name\": \"PTGS2\", \"id\": 4425}], \"error\": null}",
+ "response": "Both Ibuprofen and Diclofenac target these two genes, according to the query results:\n\n- PTGS1 [9031]\n- PTGS2 [4425]\n\nThe results do not include node ids for Ibuprofen or Diclofenac, so I cannot cite them."
+}

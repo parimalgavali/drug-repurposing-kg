@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which genes does Cabergoline target?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 15424, \"name\": \"Cabergoline\", \"label\": \"Drug\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 1659, \"name\": \"ADRA1A\"}, {\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 6309, \"name\": \"ADRA1B\"}, {\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 1940, \"name\": \"ADRA1D\"}, {\"relation\": \"TAR",
+ "response": "Cabergoline [15424] has 20 gene targets in the results:\n\n- **Alpha-1 adrenergic receptors:** ADRA1A [1659], ADRA1B [6309], ADRA1D [1940]\n- **Alpha-2 adrenergic receptors:** ADRA2A [2472], ADRA2B [74], ADRA2C [5752]\n- **Beta adrenergic receptors:** ADRB1 [7188], ADRB2 [1494]\n- **Dopamine receptors:** DRD1 [3199], DRD2 [2401], DRD3 [8832], DRD4 [8999], DRD5 [10319]\n- **Serotonin receptors:** HTR1A [9679], HTR1B [4620], HTR1D [33913], HTR2A [3417], HTR2B [1044], HTR2C [864], HTR7 [12236]"
+}

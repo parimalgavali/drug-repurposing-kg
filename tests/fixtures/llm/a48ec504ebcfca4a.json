@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which genes does Ibuprofen target?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "Ibuprofen",
+  "entity_label": "Drug",
+  "relation": "TARGET",
+  "target_label": "Gene"
+ }
+}

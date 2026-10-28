@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which drugs are indicated for both asthma and chronic obstructive pulmonary disease?",
+ "response": {
+  "intent": "free_query",
+  "drug": null,
+  "disease": null,
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

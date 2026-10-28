@@ -13,3 +13,10 @@
 **Done when:** `uv run python -m explain.paths --drug <name> --disease <name>` prints paths for a known indication (e.g. a drug indicated for asthma); the model card has the trial-validation table.
 
 **Risks:** name mismatch with CT.gov (also try PrimeKG synonyms if present; report match rate); trials ≠ efficacy (wording in UI and card).
+
+## Outcome
+
+- `explain.paths`: Salbutamol → asthma returns 864 paths in about 1 s. The top metapaths go through `bronchial disease` and sibling bronchodilators. The integration test checks DWPC ordering and Cytoscape JSON on the fixture.
+- Trial check (30 held-out diseases, top 20, novel pairs): GNN 15.3 % [12.7–18.4], similar_disease 14.8 %, popularity 13.2 %, random 0.5 %. All methods beat random by a wide margin. The GNN vs. baseline intervals overlap. Full table in `ml/model_card.md`.
+- Deviation: only a sample is annotated with `ct_studies`/`ct_max_phase` (300 served relationships), because CT.gov allows about 0.7 queries/s. Annotating all 854k is infeasible, so the UI should look up on demand via `validation.ctgov` with its cache.
+- Synonyms: lookups use PrimeKG names only. CT.gov's own condition search expands synonyms, which is why disease names match well. Drug-name 400s are counted as misses.
