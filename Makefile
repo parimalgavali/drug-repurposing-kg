@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: ml-blend labels-de labels-de-fetch rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet gnnexplainer api openapi lint test
+.PHONY: pages-data ml-blend labels-de labels-de-fetch rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet gnnexplainer api openapi lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -72,3 +72,11 @@ labels-de:
 
 rdf:
 	uv run --extra graph --extra rdf python -m semweb.export --disease $${DISEASE:-33675}
+
+# Upload the static snapshot exported by scripts/export_static.py for .github/workflows/pages.yml.
+pages-data:
+	tar -czf site-data.tar.gz -C site-data .
+	gh release view static-snapshot >/dev/null 2>&1 || gh release create static-snapshot \
+		--title "Static snapshot data for GitHub Pages" \
+		--notes "API responses exported from the full PrimeKG graph by scripts/export_static.py. Derived from PrimeKG (DrugBank parts CC BY-NC): non-commercial use only."
+	gh release upload static-snapshot site-data.tar.gz --clobber

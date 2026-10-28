@@ -1,0 +1,54 @@
+name: Pages
+
+# Static snapshot of the full-graph app. The data (derived from PrimeKG, non-commercial) isn't
+# committed: `scripts/export_static.py` exports it and `make pages-data` uploads it as the
+# `static-snapshot` release asset, which this workflow downloads.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Build static site
+        working-directory: web
+        env:
+          VITE_STATIC: "1"
+        run: |
+          npm ci
+          npx vue-tsc -b
+          npx vite build --base /${{ github.event.repository.name }}/
+      - name: Add snapshot data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download static-snapshot --pattern site-data.tar.gz --dir /tmp
+          mkdir -p web/dist/data
+          tar -xzf /tmp/site-data.tar.gz -C web/dist/data
+          touch web/dist/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

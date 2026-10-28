@@ -9,6 +9,7 @@ import {
   type TrialState,
   candidates,
   explain,
+  STATIC,
   trials,
 } from "./api/client";
 import AskPanel from "./components/AskPanel.vue";
@@ -33,7 +34,7 @@ async function lookupTrials(c: Candidate, disease: number) {
   if (states[c.drug_id] === "loading" || typeof states[c.drug_id] === "object") return;
   states[c.drug_id] = "loading";
   try {
-    states[c.drug_id] = await trials(c.drug_id, disease);
+    states[c.drug_id] = await trials(c.drug_id, disease, { drug: c.drug, disease: list.value?.disease.name ?? "" });
   } catch {
     states[c.drug_id] = "error";
   }
@@ -93,6 +94,10 @@ function showAnswerGraph(g: Cytoscape) {
   <header class="banner" role="note">
     <strong>{{ t("bannerStrong") }}</strong> {{ t("bannerRest") }}
   </header>
+  <p v-if="STATIC" class="snapshot" role="note" data-testid="snapshot">
+    {{ t("snapshotNote") }}
+    <a href="https://github.com/parimalgavali/drug-repurposing-kg#run-it" target="_blank" rel="noopener">{{ t("snapshotLink") }}</a>
+  </p>
   <div class="lang" role="group" :aria-label="t('language')">
     <button type="button" :aria-pressed="lang === 'en'" @click="lang = 'en'">EN</button>
     <button type="button" :aria-pressed="lang === 'de'" @click="lang = 'de'">DE</button>
