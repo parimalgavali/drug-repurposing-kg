@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { type AskEvents, type Cytoscape, type Entity, ask } from "../api/client";
+import { lang, t } from "../i18n";
 
 const emit = defineEmits<{ subgraph: [g: Cytoscape]; focus: [id: string] }>();
 const EXAMPLES = [
@@ -36,7 +37,7 @@ async function submit(q = question.value) {
   error.value = null;
   busy.value = true;
   try {
-    await ask(q.trim(), ({ event, data }) => {
+    await ask(q.trim(), lang.value, ({ event, data }) => {
       if (event === "entities") entities.value = data as AskEvents["entities"];
       else if (event === "cypher") cypher.value = (data as AskEvents["cypher"]).queries;
       else if (event === "rows") rows.value = (data as AskEvents["rows"]).total;
@@ -54,19 +55,19 @@ async function submit(q = question.value) {
 
 <template>
   <section class="panel ask">
-    <h2>Ask the graph</h2>
+    <h2>{{ t("askTitle") }}</h2>
     <form @submit.prevent="submit()">
-      <input v-model="question" placeholder="Ask a question in English" aria-label="Question" />
-      <button type="submit" :disabled="busy">{{ busy ? "Thinking…" : "Ask" }}</button>
+      <input v-model="question" :placeholder="t('askPlaceholder')" aria-label="Question" />
+      <button type="submit" :disabled="busy">{{ busy ? t("thinking") : t("ask") }}</button>
     </form>
     <p class="examples">
-      Try:
+      {{ t("try") }}
       <button v-for="ex in EXAMPLES" :key="ex" type="button" class="link" @click="submit(ex)">{{ ex }}</button>
     </p>
     <p v-if="entities.length" class="muted">
-      Linked:
+      {{ t("linked") }}
       <span v-for="e in entities" :key="e.slot">{{ e.name ?? e.mention }}<small v-if="e.id"> [{{ e.id }}]</small> </span>
-      <span v-if="rows"> · {{ rows }} rows</span>
+      <span v-if="rows"> · {{ rows }} {{ t("rows") }}</span>
     </p>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
     <div v-if="text" class="answer" data-testid="answer">
@@ -78,7 +79,7 @@ async function submit(q = question.value) {
       </template>
     </div>
     <details v-if="cypher.length" class="cypher">
-      <summary>Show Cypher</summary>
+      <summary>{{ t("showCypher") }}</summary>
       <pre v-for="(c, i) in cypher" :key="i" data-testid="cypher">{{ c }}</pre>
     </details>
   </section>

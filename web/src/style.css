@@ -38,3 +38,6 @@ button.link, button.cite { background: none; color: #2563eb; padding: 0 0.2rem; 
 .examples { font-size: 0.85rem; color: #64748b; }
 .answer { white-space: pre-wrap; margin: 0.8rem 0; }
 .cypher pre { background: #0f172a; color: #e2e8f0; padding: 0.7rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; }
+.lang { display: flex; justify-content: flex-end; gap: 0.25rem; max-width: 1200px; margin: 0.5rem auto 0; padding: 0 1rem; }
+.lang button { border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; padding: 0.15rem 0.5rem; cursor: pointer; font-size: 0.8rem; }
+.lang button[aria-pressed="true"] { background: #1e293b; color: #fff; border-color: #1e293b; }

@@ -77,6 +77,7 @@ GraphRAG: 40/40 hand-written questions answered correctly (an easy benchmark, se
 - [Graph](docs/GRAPH.md): Neo4j labels/relationship counts, build steps, example queries
 - [API](docs/API.md): endpoints, `/ask` event stream, curl walkthrough
 - [Frontend](web/README.md): dev server, generated API types, tests
+- German UI and answers: a DE/EN toggle, with Wikidata German names for drugs and diseases ([DATA](docs/DATA.md), [API](docs/API.md))
 - [Semantic web](docs/SEMANTIC_WEB.md): RDF export, IRIs, SHACL shapes, `/api/sparql`, Cypher vs SPARQL
 - [Roadmap](docs/ROADMAP.md) and [task specs](docs/specs/)
 

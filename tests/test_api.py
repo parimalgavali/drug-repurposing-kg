@@ -17,7 +17,7 @@ from test_pipeline import FIXTURES, NODES, ScriptedKG  # noqa: E402
 from api.main import create_app  # noqa: E402
 from api.openapi import OUT, schema  # noqa: E402
 from api.settings import Settings  # noqa: E402
-from graphrag.answer import DISCLAIMER  # noqa: E402
+from graphrag.answer import DISCLAIMER, DISCLAIMER_DE  # noqa: E402
 from graphrag.router import Route  # noqa: E402
 from llm import AnthropicProvider, RecordedProvider  # noqa: E402
 
@@ -32,9 +32,33 @@ class APIScriptedKG(ScriptedKG):
         if "INDICATION|OFF_LABEL_USE]->" in query:
             self.queries.append(query)
             return []
+        if "AS name_de" in query and "UNWIND $ids" in query:
+            self.queries.append(query)
+            return [{"id": i, "name_de": GERMAN[i]} for i in params["ids"] if i in GERMAN]
         if query == "RETURN 1 AS ok":
             return [{"ok": 1}]
         return super().read(query, params, timeout)
+
+
+GERMAN = {14287: "Ibuprofen (de)", 33675: "Asthma"}
+
+
+class GermanSpy:
+    """Recorded routing/Cypher, but `stream` echoes the answer prompt so tests can inspect it."""
+
+    name = "german-spy"
+
+    def __init__(self):
+        self.inner = RecordedProvider(FIXTURES)
+
+    def structured(self, system, prompt, schema):
+        return self.inner.structured(system, prompt, schema)
+
+    def complete(self, system, prompt, max_tokens=1024):
+        return self.inner.complete(system, prompt, max_tokens)
+
+    def stream(self, system, prompt, max_tokens=1024):
+        yield prompt
 
 
 class WriteAttempt:
@@ -81,7 +105,13 @@ def test_health(kg):
 def test_search_filters_by_type(kg):
     with client(kg) as c:
         hits = c.get("/api/search", params={"q": "ibuprofen", "type": "Drug"}).json()
-        assert hits[0] == {"id": 14287, "name": "Ibuprofen", "label": "Drug", "confidence": 1.0}
+        assert hits[0] == {
+            "id": 14287,
+            "name": "Ibuprofen",
+            "name_de": "Ibuprofen (de)",
+            "label": "Drug",
+            "confidence": 1.0,
+        }
         assert c.get("/api/search", params={"q": "x", "type": "Spaceship"}).status_code == 422
 
 
@@ -90,6 +120,7 @@ def test_candidates_and_404(kg):
         body = c.get("/api/diseases/33675/candidates", params={"limit": 5}).json()
         assert body["disease"]["name"] == "asthma"
         assert body["candidates"][0]["drug_id"] == 14287
+        assert body["candidates"][0]["drug_de"] == "Ibuprofen (de)"
         assert c.get("/api/diseases/424242/candidates").status_code == 404
         assert c.get("/api/diseases/14287/candidates").status_code == 404  # a drug, not a disease
 
@@ -149,3 +180,25 @@ def test_ask_validates_body(kg):
 
 def test_committed_openapi_is_current():
     assert OUT.read_text() == schema(), "run `make openapi`"
+
+
+def test_ask_in_german_passes_names_and_german_disclaimer(kg):
+    with client(kg, GermanSpy()) as c:
+        resp = c.post(
+            "/api/ask",
+            json={"question": "Which drugs could be repurposed for asthma?", "lang": "de"},
+        )
+    evs = events(resp.text)
+    text = "".join(d["text"] for k, d in evs if k == "token")
+    assert "Answer in German" in text and '"14287": "Ibuprofen (de)"' in text
+    assert DISCLAIMER_DE in text and DISCLAIMER not in text
+    labels = {n["data"]["id"]: n["data"].get("label_de") for n in dict(evs)["subgraph"]["nodes"]}
+    assert labels["14287"] == "Ibuprofen (de)"
+
+
+def test_ask_english_prompt_has_no_german_instruction(kg):
+    with client(kg, GermanSpy()) as c:
+        resp = c.post("/api/ask", json={"question": "Which drugs could be repurposed for asthma?"})
+    text = "".join(d["text"] for k, d in events(resp.text) if k == "token")
+    assert "German" not in text and DISCLAIMER in text
+    assert c.post("/api/ask", json={"question": "abc", "lang": "fr"}).status_code == 422

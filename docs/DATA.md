@@ -43,6 +43,14 @@ Full checksums are in `primekg/fetch.py` and in the [data card](../data/README.m
 
 Disease Ontology ids are mapped to MONDO with MONDO's curated exact-match set (`mondo_exactmatch_doid.sssom.tsv`, CC BY 4.0, mapping set 2026-10-06), pinned to commit `65a4751` and also checked by sha256. Both files go to `data/raw/hetionet/` (git-ignored) via `make validate-hetionet`.
 
+## Wikidata German names (committed, task 9c)
+
+`data/labels/labels_de.csv` holds German `rdfs:label`s from Wikidata (CC0), fetched with `make labels-de-fetch` from the public SPARQL endpoint. Columns are `source, source_id, name_de, via`:
+- **Drugs:** matched on DrugBank id (`P715`).
+- **Diseases:** matched on MONDO id (`P5270`). Many disease items lack a MONDO id (asthma, for example), so a disease falls back to its Disease Ontology id (`P699`), mapped through MONDO's curated exact DOID matches (the same pinned SSSOM file as the Hetionet check). A direct MONDO match always wins.
+- **Duplicate ids:** when several Wikidata items share an id, the shortest label wins.
+- **Coverage:** `make labels-de` sets `name_de` on the full graph, reaching 2,788 drugs and 3,066 of 17,080 diseases. Grouped MONDO nodes (`MONDO_grouped`) get none, and the API falls back to the English name.
+
 ## Fixture subgraph (committed)
 
 `data/fixtures/primekg_mini/` (task 1): a deterministic 2,328-edge / 498-node sample around five diseases (asthma, psoriasis, Parkinson disease, type 2 diabetes mellitus, rheumatoid arthritis). It uses the processed-table columns (see the data card) and is used by every test and by CI.

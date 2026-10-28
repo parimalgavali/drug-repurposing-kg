@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet api openapi lint test
+.PHONY: labels-de labels-de-fetch rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet api openapi lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -56,6 +56,12 @@ api:
 
 openapi:
 	uv run --extra graph --extra llm --extra api --extra rdf python -m api.openapi
+
+labels-de-fetch:
+	uv run --extra data --extra graph python -m kg.labels_de fetch
+
+labels-de:
+	uv run --extra data --extra graph python -m kg.labels_de apply
 
 rdf:
 	uv run --extra graph --extra rdf python -m semweb.export --disease $${DISEASE:-33675}

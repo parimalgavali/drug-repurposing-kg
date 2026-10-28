@@ -377,6 +377,15 @@
             "maxLength": 500,
             "minLength": 3,
             "title": "Question"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de"
+            ],
+            "title": "Lang",
+            "default": "en"
           }
         },
         "type": "object",
@@ -394,6 +403,17 @@
           "drug": {
             "type": "string",
             "title": "Drug"
+          },
+          "drug_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Drug De"
           },
           "rank": {
             "type": "integer",
@@ -598,6 +618,17 @@
             "type": "string",
             "title": "Drug"
           },
+          "drug_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Drug De"
+          },
           "relation": {
             "type": "string",
             "title": "Relation"
@@ -652,6 +683,17 @@
             "type": "string",
             "title": "Name"
           },
+          "name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name De"
+          },
           "label": {
             "type": "string",
             "title": "Label"
@@ -675,6 +717,17 @@
             "type": "string",
             "title": "Name"
           },
+          "name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name De"
+          },
           "label": {
             "type": "string",
             "title": "Label"
@@ -697,6 +750,17 @@
           "name": {
             "type": "string",
             "title": "Name"
+          },
+          "name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name De"
           },
           "label": {
             "type": "string",

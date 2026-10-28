@@ -1,4 +1,5 @@
 import type { components } from "./schema";
+import type { Lang } from "../i18n";
 import { type SseEvent, SseParser } from "./sse";
 
 type Schemas = components["schemas"];
@@ -44,13 +45,14 @@ export const explain = (drug: number, disease: number) =>
 
 export async function ask(
   question: string,
+  lang: Lang,
   onEvent: (e: SseEvent) => void,
   signal?: AbortSignal,
 ): Promise<void> {
   const r = await fetch("/api/ask", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ question }),
+    body: JSON.stringify({ question, lang }),
     signal,
   });
   if (!r.ok || !r.body) throw new Error(`${r.status}: ${await r.text()}`);
