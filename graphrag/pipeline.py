@@ -59,7 +59,23 @@ def _links(kg: KGClient, r: Route) -> dict[str, Link]:
     return out
 
 
-def ask(question: str, provider: Provider, kg: KGClient) -> Answer:
+@dataclass
+class Plan:
+    """Everything up to (not including) answer synthesis, so callers can stream the answer."""
+
+    question: str
+    intent: str
+    links: list[dict]
+    cypher: list[str] = field(default_factory=list)
+    rows: list[dict] = field(default_factory=list)
+    results: dict = field(default_factory=dict)
+    evidence: dict | None = None
+    clarification: str | None = None
+    attempts: list[dict] = field(default_factory=list)
+    error: str | None = None
+
+
+def plan(question: str, provider: Provider, kg: KGClient) -> Plan:
     r = route(provider, question)
     links = _links(kg, r)
     chosen = {slot: _resolve(lk) for slot, lk in links.items()}
@@ -81,10 +97,11 @@ def ask(question: str, provider: Provider, kg: KGClient) -> Answer:
             unclear = [links[s] for s in needed[intent] if chosen[s] is None]
             if unclear:
                 text = " ".join(lk.clarification() for lk in unclear)
-                return Answer(question, intent, text, links=link_info, clarification=text)
+                return Plan(question, intent, link_info, clarification=text)
 
     evidence = None
     attempts: list[dict] = []
+    error = None
     if intent == "repurpose":
         res = templates.repurpose(kg, chosen["disease"].id)
         cypher, rows = res.cypher, res.rows
@@ -119,15 +136,20 @@ def ask(question: str, provider: Provider, kg: KGClient) -> Answer:
         )
         t2c = text2cypher(provider, kg, question, hints)
         attempts = t2c.attempts
+        error = None if t2c.ok else attempts[-1]["error"]
         cypher, rows = ([t2c.cypher] if t2c.cypher else []), t2c.rows
-        results = {
-            "cypher": t2c.cypher,
-            "rows": rows[:MAX_ROWS],
-            "error": None if t2c.ok else attempts[-1]["error"],
-        }
+        results = {"cypher": t2c.cypher, "rows": rows[:MAX_ROWS], "error": error}
+    return Plan(question, intent, link_info, cypher, rows, results, evidence, None, attempts, error)
 
-    text = answer(provider, question, intent, results)
-    return Answer(question, intent, text, cypher, rows, link_info, evidence, None, attempts)
+
+def ask(question: str, provider: Provider, kg: KGClient) -> Answer:
+    p = plan(question, provider, kg)
+    if p.clarification:
+        return Answer(
+            question, p.intent, p.clarification, links=p.links, clarification=p.clarification
+        )
+    text = answer(provider, question, p.intent, p.results)
+    return Answer(question, p.intent, text, p.cypher, p.rows, p.links, p.evidence, None, p.attempts)
 
 
 def main() -> None:

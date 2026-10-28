@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate lint test
+.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate api openapi lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -45,3 +45,10 @@ ml-gnn:
 # Task 5: ClinicalTrials.gov check of held-out-disease predictions (rate-limited, cached).
 validate:
 	uv run --extra ml --extra graph python -m validation.run
+
+# Task 7: the API (LLM_PROVIDER=anthropic for live answers; default replays recordings).
+api:
+	uv run --extra graph --extra llm --extra api uvicorn api.main:app --reload --port 8000
+
+openapi:
+	uv run --extra graph --extra llm --extra api python -m api.openapi

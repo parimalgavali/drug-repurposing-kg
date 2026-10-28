@@ -13,7 +13,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv sync --extra data --extra graph --extra ml --extra llm
+      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run pytest
@@ -39,5 +39,5 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv sync --extra data --extra graph --extra llm
+      - run: uv sync --extra data --extra graph --extra llm --extra api
       - run: uv run pytest -v tests/integration

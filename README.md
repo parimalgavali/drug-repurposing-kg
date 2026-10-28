@@ -6,15 +6,16 @@
 
 ## Status
 
-Done so far: the data layer and Neo4j graph (tasks 1–2), baselines and a heterogeneous GNN with predictions stored in Neo4j (tasks 3–4), and evidence paths plus a ClinicalTrials.gov check (task 5). GraphRAG is next. See the [roadmap](docs/ROADMAP.md) and the [model card](ml/model_card.md).
+Done so far: the data layer and Neo4j graph (tasks 1–2), baselines and a heterogeneous GNN with predictions stored in Neo4j (tasks 3–4), evidence paths plus a ClinicalTrials.gov check (task 5), GraphRAG question answering (task 6) and the API (task 7). The frontend is next. See the [roadmap](docs/ROADMAP.md) and the [model card](ml/model_card.md).
 
 ```bash
-uv sync --extra data --extra graph
+uv sync --extra data --extra graph --extra llm --extra api
 make data                 # PrimeKG → data/processed/*.parquet
 make kg NEO4J_ADMIN="sudo -u neo4j neo4j-admin"   # see docs/GRAPH.md
 make ml-baselines ml-gnn   # task 3–4: models, model card, PREDICTED_INDICATION
 make validate              # task 5: CT.gov trial check (~1 h, cached)
 uv run --extra graph python -m explain.paths --drug Salbutamol --disease asthma
+docker compose up --build    # task 7: API on :8000, see docs/API.md
 make lint test
 ```
 
@@ -25,6 +26,7 @@ make lint test
 - [Data](docs/DATA.md): PrimeKG and ClinicalTrials.gov, licenses, counts, checksums
 - [Architecture](docs/ARCHITECTURE.md): components, graph model, GraphRAG flow, evaluation
 - [Graph](docs/GRAPH.md): Neo4j labels/relationship counts, build steps, example queries
+- [API](docs/API.md): endpoints, `/ask` event stream, curl walkthrough
 - [Roadmap](docs/ROADMAP.md) and [task specs](docs/specs/)
 
 ## Stack
