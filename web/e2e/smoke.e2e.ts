@@ -59,3 +59,10 @@ test("clicking a candidate shows its ClinicalTrials.gov badge", async ({ page })
   await expect(badge).toHaveAttribute("href", /^https:\/\/clinicaltrials\.gov\/search\?/);
   await expect(badge).toHaveAttribute("title", /highest phase 3/);
 });
+
+test("search finds a disease by its German name", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Search a disease").fill("Skorbut");
+  await page.getByRole("option", { name: /^scurvy/ }).click();
+  await expect(page.getByTestId("candidate").first()).toBeVisible();
+});

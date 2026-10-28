@@ -12,6 +12,8 @@ if not os.environ.get("NEO4J_URI"):
 from graphrag.linker import link  # noqa: E402
 from graphrag.templates import neighbours  # noqa: E402
 from kg.client import KGClient, connect  # noqa: E402
+from kg.labels_de import apply as apply_german  # noqa: E402
+from kg.labels_de import read_labels  # noqa: E402
 from kg.load import load_frames, node_count  # noqa: E402
 from kg.schema import apply_schema  # noqa: E402
 from primekg.fixture import read_fixture  # noqa: E402
@@ -22,7 +24,9 @@ def kg():
     driver = connect()
     if node_count(driver) == 0:
         load_frames(driver, *read_fixture())
-    apply_schema(driver)  # the linker needs the entityNames full-text index
+    apply_schema(driver)  # the linker needs the entityNames(De) full-text indexes
+    apply_german(driver, read_labels())
+    driver.execute_query("CALL db.awaitIndexes(60)")
     client = KGClient(driver)
     yield client
     client.close()
@@ -36,6 +40,9 @@ def kg():
         ("ibuprofn", ("Drug",), "Ibuprofen", "Drug"),
         ("PTGS2", (), "PTGS2", "Gene"),
         ("asthma", ("Disease",), "asthma", "Disease"),
+        ("Skorbut", ("Disease",), "scurvy", "Disease"),
+        ("rheumatoide Arthritis", ("Disease",), "rheumatoid arthritis", "Disease"),
+        ("Prednison", ("Drug",), "Prednisone", "Drug"),
     ],
 )
 def test_links_to_expected_node(kg, mention, labels, name, label):

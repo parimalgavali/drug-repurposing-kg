@@ -27,3 +27,4 @@ def test_schema_statements():
     stmts = statements(SCHEMA.read_text())
     assert sum(s.startswith("CREATE CONSTRAINT") for s in stmts) == 10
     assert any("FULLTEXT INDEX entityNames" in s for s in stmts)
+    assert any("FULLTEXT INDEX entityNamesDe" in s and "n.name_de" in s for s in stmts)
