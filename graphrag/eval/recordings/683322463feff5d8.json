@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Show the graph paths between Ustekinumab and Crohn disease.",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Ustekinumab",
+  "disease": "Crohn disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

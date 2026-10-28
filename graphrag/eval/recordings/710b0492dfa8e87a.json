@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which drugs are contraindicated in preeclampsia?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "preeclampsia",
+  "entity_label": "Disease",
+  "relation": "CONTRAINDICATION",
+  "target_label": "Drug"
+ }
+}

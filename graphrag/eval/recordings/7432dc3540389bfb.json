@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: How many drugs are in the graph?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Drug) RETURN count(d) AS drug_count\\nLIMIT 50\", \"rows\": [{\"drug_count\": 7957}], \"error\": null}",
+ "response": "The graph contains **7,957 drugs**, based on the count of nodes labeled `Drug`."
+}

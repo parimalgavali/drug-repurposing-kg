@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many drugs are indicated for asthma?",
+ "response": {
+  "cypher": "MATCH (d:Drug)-[:INDICATION]->(dis:Disease) WHERE toLower(dis.name) = 'asthma' RETURN count(DISTINCT d) AS num_drugs"
+ }
+}

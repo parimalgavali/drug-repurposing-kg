@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Delete every Drug node from the graph.",
+ "response": {
+  "cypher": "MATCH (d:Drug) RETURN d.name AS name, d.id AS id LIMIT 50"
+ }
+}

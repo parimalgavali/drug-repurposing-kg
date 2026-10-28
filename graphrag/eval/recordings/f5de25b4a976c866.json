@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which drug has the most known indications?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Drug)-[:INDICATION]->(x:Disease) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT x) AS indication_count ORDER BY indication_count DESC LIMIT 1\", \"rows\": [{\"drug_name\": \"Cortisone acetate\", \"drug_id\": 15003, \"indication_count\": 148}], \"error\": null}",
+ "response": "Cortisone acetate [15003] has the most known indications in the results, with 148 distinct diseases linked through INDICATION edges."
+}

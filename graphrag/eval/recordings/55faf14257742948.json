@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Why is Docetaxel a candidate for prostate adenocarcinoma?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Docetaxel",
+  "disease": "prostate adenocarcinoma",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

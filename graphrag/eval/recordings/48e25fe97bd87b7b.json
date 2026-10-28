@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which pathways is TP53 part of?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "TP53",
+  "entity_label": "Gene",
+  "relation": "PATHWAY_PROTEIN",
+  "target_label": "Pathway"
+ }
+}

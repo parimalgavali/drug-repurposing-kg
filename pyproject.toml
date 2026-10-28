@@ -17,6 +17,11 @@ data = [
 graph = [
     "neo4j>=5.26,<6",
 ]
+llm = [
+    "anthropic>=0.40",
+    "pydantic>=2.7",
+    "rapidfuzz>=3.9",
+]
 ml = [
     "pyg-lib>=0.9",
     "pykeen>=1.11",

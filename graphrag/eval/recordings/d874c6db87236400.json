@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Why would Metformin be linked to type 2 diabetes mellitus?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Metformin",
+  "disease": "type 2 diabetes mellitus",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

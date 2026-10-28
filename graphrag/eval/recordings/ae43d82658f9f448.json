@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many drugs are in the graph?",
+ "response": {
+  "cypher": "MATCH (d:Drug) RETURN count(d) AS drug_count"
+ }
+}

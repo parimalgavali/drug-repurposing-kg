@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Which drug has the most known indications?",
+ "response": {
+  "cypher": "MATCH (d:Drug)-[:INDICATION]->(x:Disease) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT x) AS indication_count ORDER BY indication_count DESC LIMIT 1"
+ }
+}

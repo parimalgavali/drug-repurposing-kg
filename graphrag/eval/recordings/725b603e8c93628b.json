@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Explain the link between Cabergoline and Parkinson disease.",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Cabergoline",
+  "disease": "Parkinson disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

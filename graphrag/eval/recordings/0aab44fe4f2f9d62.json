@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Which drugs are indicated for both asthma and chronic obstructive pulmonary disease?",
+ "response": {
+  "cypher": "MATCH (dr:Drug)-[:INDICATION]->(d1:Disease), (dr)-[:INDICATION]->(d2:Disease) WHERE toLower(d1.name) = 'asthma' AND toLower(d2.name) = 'chronic obstructive pulmonary disease' RETURN DISTINCT dr.name AS drug_name, dr.id AS drug_id LIMIT 50"
+ }
+}

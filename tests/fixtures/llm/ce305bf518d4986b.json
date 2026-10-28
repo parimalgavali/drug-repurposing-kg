@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many genes does Ibuprofen target?",
+ "response": {
+  "cypher": "MATCH (d:Drug {name: 'Ibuprofen'})-[:TARGET]->(g:Gene) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT g) AS target_gene_count LIMIT 50"
+ }
+}

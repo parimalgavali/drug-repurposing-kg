@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: What are the approved indications of Metformin?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "Metformin",
+  "entity_label": "Drug",
+  "relation": "INDICATION",
+  "target_label": "Disease"
+ }
+}

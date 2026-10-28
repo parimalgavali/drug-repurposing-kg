@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which enzymes metabolise Ibuprofen?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 14287, \"name\": \"Ibuprofen\", \"label\": \"Drug\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"ENZYME\", \"label\": \"Gene\", \"id\": 12431, \"name\": \"CYP2C19\"}, {\"relation\": \"ENZYME\", \"label\": \"Gene\", \"id\": 697, \"name\": \"CYP2C8\"}, {\"relation\": \"ENZYME\", \"label\": \"Gene\", \"id\": 7880, \"name\": \"CYP2C9\"}, {\"relation\": \"ENZYM",
+ "response": "The knowledge graph lists eight enzymes linked to Ibuprofen [14287] through ENZYME relations:\n\n- **Cytochrome P450 enzymes:** CYP2C19 [12431], CYP2C8 [697], CYP2C9 [7880], CYP3A4 [8974]\n- **UDP-glucuronosyltransferases:** UGT1A3 [33794], UGT1A9 [9134], UGT2B4 [59642], UGT2B7 [3873]\n\nThe results give only the enzyme relation. They don't say which enzyme matters most or what reaction each one catalyses."
+}

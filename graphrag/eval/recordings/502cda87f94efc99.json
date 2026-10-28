@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which drugs could be repurposed for Parkinson disease?",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "Parkinson disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

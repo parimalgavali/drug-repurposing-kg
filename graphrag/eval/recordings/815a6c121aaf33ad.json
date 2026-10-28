@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many distinct diseases have an indicated drug that targets PTGS2?",
+ "response": {
+  "cypher": "MATCH (g:Gene {name: 'PTGS2'})<-[:TARGET]-(d:Drug)-[:INDICATION]->(dis:Disease) RETURN count(DISTINCT dis) AS distinct_disease_count"
+ }
+}
