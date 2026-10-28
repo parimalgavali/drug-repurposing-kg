@@ -72,3 +72,39 @@ def test_baselines_are_deterministic(fixture, model):
     b = model(split, drugs, diseases)(chunk)
     assert a.shape == (len(chunk), len(drugs))
     np.testing.assert_array_equal(a, b)
+
+
+def test_strict_split_has_no_ontology_neighbour_across_train_and_test(fixture):
+    from ml.splits import ontology_groups, ontology_leakage
+
+    nodes, edges, *_ = fixture
+    groups = ontology_groups(edges, disease_groups(nodes))
+    split = make_split("disease_strict", edges, disease_groups(nodes), seed=0)
+    assert split.name == "disease_strict" and split.test.height > 0
+    assert ontology_leakage(edges, split)["test_pairs_leaked"] == 0
+    group = dict(groups.iter_rows())
+    held = set(pl.concat([split.test, split.valid])["disease"])
+    train = set(split.train["disease"])
+    assert {group[d] for d in held}.isdisjoint({group[d] for d in train})
+    dd = edges.filter(pl.col("rel_type") == "DISEASE_DISEASE")
+    for a, b in dd.select("src_index", "dst_index").iter_rows():
+        assert not ((a in held and b in train) or (b in held and a in train))
+
+
+def test_ontology_leakage_counts_neighbour_drugs():
+    from ml.splits import Split, ontology_leakage
+
+    edges = pl.DataFrame(
+        {
+            "rel_type": ["DISEASE_DISEASE"],
+            "src_index": [1],
+            "src_type": ["disease"],
+            "dst_index": [2],
+            "dst_type": ["disease"],
+        }
+    )
+    train = pl.DataFrame({"drug": [10], "disease": [2]})
+    test = pl.DataFrame({"drug": [10, 11], "disease": [1, 1]})
+    split = Split("disease", 0, edges, train, test.head(0), test)
+    leak = ontology_leakage(edges, split)
+    assert leak == {"test_pairs_leaked": 0.5, "test_diseases_with_neighbour": 1.0}

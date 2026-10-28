@@ -4,6 +4,7 @@
 
 **Splits** (`ml/splits.py`, saved to `data/processed/splits/<split>/seed_<k>/`):
 - `disease`: 20% test / 10% validation of indicated disease groups (PrimeKG `group_id_bert`, else the disease itself; 1,363 indicated diseases fall into 1,363 groups). Held-out diseases lose all `INDICATION`, `CONTRAINDICATION` and `OFF_LABEL_USE` edges, so they look like diseases with no known drugs.
+- `disease_strict`: like `disease`, but indicated diseases that share a `group_id_bert` or a direct `DISEASE_DISEASE` (MONDO parent/child) edge are merged into one connected component, and whole components are held out until 20% / 10% of indicated diseases are reached (545 components; the largest has 223 diseases). No test disease has a direct ontology neighbour with training indications. On `disease`, 38–49% of test pairs had their drug already indicated for such a neighbour in training (`ontology_leakage` in `ml/splits.py`).
 - `random`: 80/10/10 over indication pairs; clinical edges of held-out pairs are removed.
 - Training graph: everything else minus `DRUG_DRUG` and `ANATOMY_PROTEIN_*` (ADR 6): ~1.17M edges.
 
@@ -14,6 +15,7 @@
 - `shared_neighbour`: Adamic–Adar over drug → gene/phenotype ← disease two-hop paths (`TARGET|ENZYME|TRANSPORTER|CARRIER|DRUG_EFFECT` × `DISEASE_PROTEIN|DISEASE_PHENOTYPE_POSITIVE`).
 - `similar_disease`: Adamic–Adar disease–disease similarity over shared genes/phenotypes × the similar diseases' training indications (collaborative filter).
 - `gnn` (`ml/gnn.py`, `ml/configs/gnn.yaml`): heterogeneous GNN with 2 relation-specific GraphSAGE layers (R-GCN-style `HeteroConv`) and a DistMult decoder for `(drug, INDICATION, disease)`. Inputs are learned ID embeddings for every node type except diseases, plus frozen `all-MiniLM-L6-v2` embeddings of drug descriptions/mechanisms and disease definitions (`ml/text_features.py`). The DrugBank `indication` text is excluded because it names the labels. Training is full-batch BCE with 4 corrupted drugs per pair. Each epoch, 30% of the training indications are hidden from message passing and used as targets. Early stopping is on validation MRR. `gnn_notext` is the ablation without text features.
+- `gnn_pool` (TxGNN-style): `gnn` plus disease-similarity pooling. After message passing, each disease embedding is mixed with the similarity-weighted mean of its 10 most similar training diseases (Adamic–Adar over shared genes/phenotypes), with gate sigmoid(a − |b|·log(1 + visible indications)), so diseases without known drugs rely on their neighbours. Training hides 30% of training *diseases* per epoch (`supervision: disease`) instead of 30% of pairs, so it practises the unseen-disease case. `gnn_dmask` is the ablation with disease-level hiding but no pooling.
 - `rotate`, `complex`: PyKEEN, dim 64, sLCWA with 4 negatives, Adam 1e-3, batch 8,192, up to 30 epochs with early stopping on validation MRR (checked every 5 epochs). One seed per split because of CPU time.
 
 ## Results
@@ -31,6 +33,15 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | disease | gnn | 0.146 ± 0.010 | 0.088 ± 0.010 | 0.265 ± 0.023 | 0.514 ± 0.026 | 0.956 ± 0.007 | 0.958 ± 0.007 | 300 | 3 |
 | disease | gnn_notext | 0.083 ± 0.015 | 0.052 ± 0.012 | 0.133 ± 0.026 | 0.252 ± 0.049 | 0.901 ± 0.028 | 0.897 ± 0.029 | 97 | 3 |
 | disease | gnn_blend | 0.374 ± 0.036 | 0.325 ± 0.040 | 0.452 ± 0.026 | 0.635 ± 0.008 | 0.940 ± 0.031 | 0.954 ± 0.018 | 4 | 3 |
+| disease | gnn_dmask | 0.200 ± 0.066 | 0.134 ± 0.047 | 0.326 ± 0.107 | 0.563 ± 0.115 | 0.961 ± 0.011 | 0.964 ± 0.013 | 428 | 3 |
+| disease | gnn_pool | 0.186 ± 0.048 | 0.119 ± 0.028 | 0.310 ± 0.085 | 0.523 ± 0.124 | 0.961 ± 0.008 | 0.962 ± 0.011 | 417 | 3 |
+| disease_strict | popularity | 0.109 ± 0.034 | 0.075 ± 0.042 | 0.148 ± 0.039 | 0.272 ± 0.048 | 0.837 ± 0.021 | 0.832 ± 0.023 | 0 | 3 |
+| disease_strict | shared_neighbour | 0.013 ± 0.001 | 0.002 ± 0.001 | 0.025 ± 0.002 | 0.078 ± 0.009 | 0.618 ± 0.012 | 0.612 ± 0.015 | 0 | 3 |
+| disease_strict | similar_disease | 0.223 ± 0.016 | 0.183 ± 0.010 | 0.287 ± 0.031 | 0.458 ± 0.073 | 0.843 ± 0.019 | 0.845 ± 0.021 | 1 | 3 |
+| disease_strict | gnn | 0.099 ± 0.023 | 0.050 ± 0.017 | 0.200 ± 0.045 | 0.410 ± 0.061 | 0.915 ± 0.017 | 0.923 ± 0.016 | 561 | 3 |
+| disease_strict | gnn_dmask | 0.158 ± 0.018 | 0.088 ± 0.012 | 0.286 ± 0.021 | 0.471 ± 0.047 | 0.915 ± 0.017 | 0.928 ± 0.015 | 744 | 3 |
+| disease_strict | gnn_pool | 0.139 ± 0.008 | 0.085 ± 0.014 | 0.239 ± 0.035 | 0.452 ± 0.038 | 0.916 ± 0.015 | 0.927 ± 0.012 | 434 | 3 |
+| disease_strict | gnn_blend | 0.201 ± 0.069 | 0.154 ± 0.069 | 0.287 ± 0.069 | 0.498 ± 0.078 | 0.914 ± 0.015 | 0.927 ± 0.015 | 5 | 3 |
 | random | popularity | 0.131 ± 0.006 | 0.109 ± 0.005 | 0.149 ± 0.009 | 0.291 ± 0.016 | 0.912 ± 0.004 | 0.901 ± 0.004 | 0 | 3 |
 | random | shared_neighbour | 0.011 ± 0.002 | 0.001 ± 0.002 | 0.020 ± 0.003 | 0.078 ± 0.007 | 0.618 ± 0.006 | 0.616 ± 0.002 | 0 | 3 |
 | random | similar_disease | 0.365 ± 0.007 | 0.313 ± 0.008 | 0.454 ± 0.009 | 0.628 ± 0.007 | 0.928 ± 0.004 | 0.925 ± 0.005 | 1 | 3 |
@@ -39,6 +50,8 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | random | gnn | 0.479 ± 0.036 | 0.371 ± 0.040 | 0.693 ± 0.012 | 0.868 ± 0.004 | 0.986 ± 0.002 | 0.989 ± 0.001 | 481 | 3 |
 | random | gnn_notext | 0.512 ± 0.010 | 0.408 ± 0.009 | 0.717 ± 0.008 | 0.839 ± 0.005 | 0.976 ± 0.001 | 0.982 ± 0.001 | 481 | 3 |
 | random | gnn_blend | 0.493 ± 0.023 | 0.395 ± 0.027 | 0.681 ± 0.023 | 0.865 ± 0.007 | 0.982 ± 0.002 | 0.986 ± 0.001 | 4 | 3 |
+| random | gnn_dmask | 0.428 ± 0.013 | 0.322 ± 0.008 | 0.655 ± 0.013 | 0.840 ± 0.008 | 0.986 ± 0.002 | 0.987 ± 0.002 | 1012 | 3 |
+| random | gnn_pool | 0.365 ± 0.018 | 0.254 ± 0.013 | 0.582 ± 0.028 | 0.827 ± 0.019 | 0.986 ± 0.002 | 0.986 ± 0.002 | 1207 | 3 |
 <!-- metrics:end -->
 
 ## Clinical-trial check (ClinicalTrials.gov)
@@ -181,3 +194,27 @@ This was a time-boxed attempt to close the disease-split gap: GNN MRR 0.15 vs `s
 - **The GNN helps further down the list, not at the top.** Looked at after the fact on test, for information only, a fixed α = 0.7 gives MRR 0.385 (vs 0.383) and Hits@50 0.643 (vs 0.607). The GNN reorders the long tail, but it rarely moves the right drug to rank 1 for a disease it has never seen.
 - **Random split:** validation picks α 0.9–1.0, so the blend is essentially the text GNN (MRR 0.493 vs 0.479). `gnn_notext` (0.512) is still the best model when diseases have known drugs.
 - **Serving is unchanged.** The UI keeps serving `gnn_notext-random-seed0`. For a truly unseen disease, `similar_disease`, or the blend if recall at 50 matters, is the better ranking. Closing the gap at the top ranks likely needs a stricter disease split and a model change (e.g. TxGNN-style disease-similarity pooling), not score mixing.
+
+## Stricter unseen-disease split and TxGNN-style pooling
+
+**Why a stricter split.** On `disease`, 38–49% of test pairs (per seed) have their drug already indicated in training for a direct MONDO parent or child of the test disease, and 53–55% of test diseases have such a neighbour. `disease_strict` holds out whole connected components of indicated diseases, linked by `DISEASE_DISEASE` edges or a shared `group_id_bert`, which brings both numbers to 0. Grouping by two-hop links instead is not usable: it puts 1,279 of the 1,363 indicated diseases into one component.
+
+**Result: the stricter split lowers every model, and the TxGNN-style model does not beat `similar_disease`.** Mean ± std over 3 seeds, 296 test diseases and 1,959 test pairs on average:
+
+| Model | `disease` MRR | `disease_strict` MRR | `disease_strict` Hits@50 |
+| --- | ---: | ---: | ---: |
+| popularity | 0.110 | 0.109 ± 0.034 | 0.272 |
+| similar_disease | 0.384 | 0.223 ± 0.016 | 0.458 |
+| gnn (text, pair-level hiding) | 0.146 | 0.099 ± 0.023 | 0.410 |
+| gnn_dmask (disease-level hiding) | 0.200 ± 0.066 | 0.158 ± 0.018 | 0.471 |
+| gnn_pool (disease-level hiding + pooling) | 0.186 ± 0.048 | 0.139 ± 0.008 | 0.452 |
+| gnn_blend (gnn + similar_disease) | 0.374 | 0.201 ± 0.069 | 0.498 |
+
+- **The old split overstated unseen-disease performance.** `similar_disease` loses 42% of its MRR (0.38 → 0.22), because it worked mostly by copying drugs from near-duplicate training diseases. Popularity doesn't depend on neighbours and stays put.
+- **Training like the test helps the GNN, but pooling doesn't add to it.** Hiding whole diseases during training (`gnn_dmask`) raises strict MRR from 0.099 to 0.158 and Hits@50 from 0.41 to 0.47. Adding the similarity pooling on top (`gnn_pool`) gives 0.139, which is within noise of or below `gnn_dmask`. The learned gate gives an unseen disease about 48% weight on its 10 neighbours (sigmoid(a) with a ≈ −0.07). The degree term gets no gradient, because target diseases always have zero visible indications under disease-level hiding.
+- **The same holds on the old split.** On `disease`, disease-level hiding raises GNN MRR from 0.146 to 0.200 (`gnn_dmask`), and pooling gives 0.186. Both have large seed variance (per-seed `gnn_dmask` 0.26 / 0.11 / 0.23), and both stay well below `similar_disease` (0.384).
+- **The gap to `similar_disease` shrinks but stays.** On strict MRR, the best GNN reaches 71% of `similar_disease` (0.158 vs 0.223), up from 38% on `disease` (0.146 vs 0.384). On Hits@50 `gnn_dmask` is slightly ahead (0.471 vs 0.458), the same pattern as before: the GNN helps further down the list, not at rank 1.
+- **The splits are uneven.** One component holds 223 indicated diseases and must go wholly to one side. On seed 2 it lands in validation (2,724 validation pairs, 4,568 training pairs). There, `similar_disease` scores only 0.079 validation MRR against the GNN's 0.125, so validation picks α = 1.0 for the blend and its test MRR falls to 0.104. That one seed explains the blend's large std; on seeds 0 and 1 the blend beats `similar_disease` (0.238 vs 0.220, 0.261 vs 0.244).
+- **Disease-level hiding costs accuracy when diseases already have drugs.** On `random`, MRR is 0.428 ± 0.013 for `gnn_dmask` and 0.365 ± 0.018 for `gnn_pool`, against 0.479 for `gnn` and 0.512 for `gnn_notext`. Training only on fully hidden diseases means the model never practises using a disease's own known drugs, and pooling pulls a known disease toward its neighbours.
+- **Not TxGNN.** This borrows TxGNN's idea of disease-similarity pooling and zero-shot training, but not its pretraining, its metric-learning module or its exact similarity. Published TxGNN numbers remain not comparable (see above).
+- **Serving is unchanged.** The UI keeps serving `gnn_notext-random-seed0`.
