@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines lint test
+.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -35,3 +35,9 @@ test:
 ml-baselines:
 	uv run --extra ml python -m ml.run --models popularity,shared_neighbour,similar_disease --split all
 	uv run --extra ml python -m ml.run --models rotate,complex --split all --seeds 0
+
+# Task 4: text features, GNN (+ ablation) on both splits, then predictions into Neo4j.
+ml-gnn:
+	uv run --extra ml python -m ml.text_features
+	uv run --extra ml python -m ml.run --models gnn,gnn_notext --split all
+	uv run --extra ml --extra graph python -m ml.write_predictions --model gnn --split random

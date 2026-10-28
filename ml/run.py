@@ -31,10 +31,11 @@ def models() -> dict[str, Model]:
         "similar_disease": similar_disease,
     }
     try:
+        from ml.gnn import gnn, gnn_notext
         from ml.kge import complex_, rotate
-    except ImportError:  # pykeen/torch not installed
+    except ImportError:  # torch/pykeen/pyg not installed
         return registry
-    return registry | {"rotate": rotate, "complex": complex_}
+    return registry | {"rotate": rotate, "complex": complex_, "gnn": gnn, "gnn_notext": gnn_notext}
 
 
 def get_split(name: str, seed: int, processed: Path, root: Path) -> Split:

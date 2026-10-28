@@ -13,6 +13,7 @@
 - `popularity`: number of training indications per drug.
 - `shared_neighbour`: Adamic–Adar over drug → gene/phenotype ← disease two-hop paths (`TARGET|ENZYME|TRANSPORTER|CARRIER|DRUG_EFFECT` × `DISEASE_PROTEIN|DISEASE_PHENOTYPE_POSITIVE`).
 - `similar_disease`: Adamic–Adar disease–disease similarity over shared genes/phenotypes × the similar diseases' training indications (collaborative filter).
+- `gnn` (`ml/gnn.py`, `ml/configs/gnn.yaml`): heterogeneous GNN with 2 relation-specific GraphSAGE layers (R-GCN-style `HeteroConv`) and a DistMult decoder for `(drug, INDICATION, disease)`. Inputs are learned ID embeddings for every node type except diseases, plus frozen `all-MiniLM-L6-v2` embeddings of drug descriptions/mechanisms and disease definitions (`ml/text_features.py`). The DrugBank `indication` text is excluded because it names the labels. Training is full-batch BCE with 4 corrupted drugs per pair. Each epoch, 30% of the training indications are hidden from message passing and used as targets. Early stopping is on validation MRR. `gnn_notext` is the ablation without text features.
 - `rotate`, `complex`: PyKEEN, dim 64, sLCWA with 4 negatives, Adam 1e-3, batch 8,192, up to 30 epochs with early stopping on validation MRR (checked every 5 epochs). One seed per split because of CPU time.
 
 ## Results
@@ -33,6 +34,14 @@ Hardware: 8-core CPU, 31 GB RAM, no GPU. "Fit+score s" = fit time + scoring the 
 | random | rotate | 0.032 ± 0.000 | 0.011 ± 0.000 | 0.066 ± 0.000 | 0.159 ± 0.000 | 0.854 ± 0.000 | 0.822 ± 0.000 | 121 | 1 |
 | random | complex | 0.001 ± 0.000 | 0.000 ± 0.000 | 0.001 ± 0.000 | 0.004 ± 0.000 | 0.576 ± 0.000 | 0.539 ± 0.000 | 87 | 1 |
 <!-- metrics:end -->
+
+## Comparison with TxGNN (published, not reproduced)
+
+TxGNN (Huang et al., *Nature Medicine* 2024) trains on PrimeKG too. For indications it reports AUPRC 0.913 in the setting where test diseases already have some drugs (best baseline: HAN at 0.873). In the zero-shot setting, it reports a 19.0% AUPRC gain over the next-best method. Results are averaged over 5 splits. Its numbers aren't directly comparable with ours, because:
+- its zero-shot split holds out whole disease areas, which is stricter than our `group_id_bert` grouping;
+- its negatives and AUPRC protocol differ from our 1:1 sampled negatives;
+- it trains on GPU with metric-learning disease pooling.
+Our AUPRC column is closest in spirit. The ranking metrics (MRR, Hits@k) have no TxGNN counterpart.
 
 ## Findings and caveats
 
