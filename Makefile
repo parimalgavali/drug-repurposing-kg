@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: labels-de labels-de-fetch rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet api openapi lint test
+.PHONY: labels-de labels-de-fetch rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate validate-hetionet gnnexplainer api openapi lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -45,6 +45,9 @@ ml-gnn:
 # Task 5: ClinicalTrials.gov check of held-out-disease predictions (rate-limited, cached).
 validate:
 	uv run --extra ml --extra graph python -m validation.run
+
+gnnexplainer:
+	uv run --extra ml --extra graph python -m explain.gnnexplainer
 
 validate-hetionet:
 	uv run --extra ml --extra graph python -m validation.hetionet fetch
