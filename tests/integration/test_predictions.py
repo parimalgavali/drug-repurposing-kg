@@ -20,8 +20,12 @@ from primekg.fixture import read_fixture  # noqa: E402
 def driver():
     driver = connect()
     nodes, edges = read_fixture()
-    if node_count(driver) == 0:
+    n = node_count(driver)
+    if n == 0:
         load_frames(driver, nodes, edges)
+    elif n != nodes.height:
+        driver.close()
+        pytest.skip("writer replaces every PREDICTED_INDICATION; only run on the fixture graph")
     yield driver
     with driver.session() as s:
         s.run("MATCH ()-[r:PREDICTED_INDICATION]->() DELETE r").consume()

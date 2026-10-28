@@ -40,4 +40,4 @@ ml-baselines:
 ml-gnn:
 	uv run --extra ml python -m ml.text_features
 	uv run --extra ml python -m ml.run --models gnn,gnn_notext --split all
-	uv run --extra ml --extra graph python -m ml.write_predictions --model gnn --split random
+	uv run --extra ml --extra graph python -m ml.write_predictions --model gnn_notext --split random
