@@ -1,5 +1,6 @@
-"""Entity linking: a free-text mention → typed graph nodes via the `entityNames` full-text index,
-re-ranked with rapidfuzz. Ambiguous mentions are returned with candidates so the caller can ask."""
+"""Entity linking: a free-text mention → typed graph nodes via the `entityNames` (English) and
+`entityNamesDe` (German Wikidata names) full-text indexes, re-ranked with rapidfuzz. Ambiguous
+mentions are returned with candidates so the caller can ask."""
 
 from __future__ import annotations
 
@@ -11,9 +12,15 @@ from rapidfuzz import fuzz, utils
 from kg.client import KGClient
 
 SEARCH = """
-CALL db.index.fulltext.queryNodes('entityNames', $q) YIELD node, score
+CALL () {
+  CALL db.index.fulltext.queryNodes('entityNames', $q) YIELD node, score RETURN node, score
+  UNION ALL
+  CALL db.index.fulltext.queryNodes('entityNamesDe', $q) YIELD node, score RETURN node, score
+}
+WITH node, max(score) AS score
 WHERE size($labels) = 0 OR labels(node)[0] IN $labels
-RETURN node.id AS id, node.name AS name, labels(node)[0] AS label, score
+RETURN node.id AS id, node.name AS name, node.name_de AS name_de, labels(node)[0] AS label, score
+ORDER BY score DESC
 LIMIT 50
 """
 CONFIDENT = 0.9
@@ -87,7 +94,10 @@ def link(kg: KGClient, mention: str, labels: tuple[str, ...] = (), top: int = 5)
     rows = kg.read(SEARCH, {"q": lucene_query(mention), "labels": list(labels)})
     scored = {
         (r["label"], r["id"]): Candidate(
-            r["id"], r["name"], r["label"], similarity(mention, r["name"])
+            r["id"],
+            r["name"],
+            r["label"],
+            max(similarity(mention, n) for n in (r["name"], r.get("name_de")) if n),
         )
         for r in rows
     }

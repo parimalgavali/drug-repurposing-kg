@@ -78,6 +78,7 @@ Debian package install (used on the dev VM because Docker Hub rate-limits anonym
 - Uniqueness constraint on `id` for each of the 10 labels.
 - Range indexes on `Drug.name`, `Disease.name`.
 - Full-text index `entityNames` over `name` on all labels: `CALL db.index.fulltext.queryNodes('entityNames', 'parkinson*')`.
+- Full-text index `entityNamesDe` over the Wikidata `name_de` on `Drug` and `Disease` (`make kg-schema` after upgrading creates it).
 
 ## Example queries (`kg/queries/`)
 

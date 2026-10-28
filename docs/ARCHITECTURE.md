@@ -43,7 +43,7 @@ Offline, not part of the API runtime:
 - One label per PrimeKG node type: `Drug, Disease, Gene, Phenotype, Anatomy, BiologicalProcess, MolecularFunction, CellularComponent, Pathway, Exposure`. Every node has `id` (PrimeKG `node_index`, unique), `source_id`, `source`, `name`.
 - Relationship type = PrimeKG `relation` in upper snake case, with `drug_protein` split into `TARGET`/`ENZYME`/`TRANSPORTER`/`CARRIER` (33 types, e.g. `INDICATION`, `CONTRAINDICATION`, `OFF_LABEL_USE`, `DISEASE_PROTEIN`, `PROTEIN_PROTEIN`, `DRUG_EFFECT`, `DISEASE_DISEASE`). One direction per undirected edge, with a fixed type order (see `data/README.md`).
 - `Drug` and `Disease` carry selected text features (description, mechanism, definition) for the UI and the LLM.
-- Full-text index `entityNames` on `name` for all labels → entity linking.
+- Full-text index `entityNames` on `name` for all labels, plus `entityNamesDe` on `name_de` for drugs and diseases → entity linking in English or German.
 - `PREDICTED_INDICATION` is written by `ml/write_predictions.py`, top-50 per disease.
 
 ## GraphRAG flow (`POST /api/ask`, SSE)

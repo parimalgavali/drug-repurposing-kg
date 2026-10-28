@@ -47,7 +47,7 @@ const STRINGS = {
     bannerRest:
       "Vorhersagen sind Hypothesen eines Graph-Modells, kein Beleg dafür, dass ein Medikament sicher oder wirksam ist.",
     tagline: "Hypothesen zur Arzneimittel-Umwidmung aus PrimeKG, erklärt mit Graph-Pfaden.",
-    searchPlaceholder: "Krankheit suchen (englischer Name), z. B. asthma",
+    searchPlaceholder: "Krankheit suchen, z. B. Asthma oder Skorbut",
     searchLabel: "Krankheit suchen",
     candidates: "Kandidaten-Medikamente",
     for: "für",

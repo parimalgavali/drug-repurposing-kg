@@ -14,3 +14,7 @@ CREATE INDEX disease_name IF NOT EXISTS FOR (n:Disease) ON (n.name);
 CREATE FULLTEXT INDEX entityNames IF NOT EXISTS
 FOR (n:Drug|Disease|Gene|Phenotype|Exposure|Pathway|BiologicalProcess|MolecularFunction|CellularComponent|Anatomy)
 ON EACH [n.name];
+// German Wikidata names (`make labels-de`), so search also finds e.g. "Kurzsichtigkeit".
+CREATE FULLTEXT INDEX entityNamesDe IF NOT EXISTS
+FOR (n:Drug|Disease)
+ON EACH [n.name_de];
