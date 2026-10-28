@@ -1,0 +1,4177 @@
+{
+  "model": "random_seed0_notext",
+  "epochs": 100,
+  "summary": {
+    "pairs": 20,
+    "top10": {
+      "precision": 0.06000000000000001,
+      "recall": 0.028587422065600436,
+      "random_precision": 0.002145708193045294,
+      "lift": 33.929023163458936,
+      "pairs_with_hit": 7
+    },
+    "top20": {
+      "precision": 0.04,
+      "recall": 0.041171455679045815,
+      "random_precision": 0.002145708193045294,
+      "lift": 21.40912975399837,
+      "pairs_with_hit": 7
+    },
+    "mean_logit_drop": {
+      "paths": 0.8181911379098892,
+      "gnnexplainer": 1.678248617053032,
+      "random": 0.005691403150558471
+    },
+    "top20_relations": {
+      "CONTRAINDICATION": 92,
+      "OFF_LABEL_USE": 78,
+      "DRUG_EFFECT": 41,
+      "ENZYME": 30,
+      "DISEASE_DISEASE": 28,
+      "TRANSPORTER": 24,
+      "PATHWAY_PROTEIN": 22,
+      "CARRIER": 13,
+      "DISEASE_PHENOTYPE_POSITIVE": 12,
+      "PHENOTYPE_PROTEIN": 9,
+      "DISEASE_PHENOTYPE_NEGATIVE": 9,
+      "EXPOSURE_PROTEIN": 9,
+      "TARGET": 8,
+      "CELLCOMP_PROTEIN": 8,
+      "MOLFUNC_PROTEIN": 6,
+      "DISEASE_PROTEIN": 6,
+      "INDICATION": 3,
+      "PROTEIN_PROTEIN": 2
+    },
+    "path_relations": {
+      "DISEASE_PHENOTYPE_POSITIVE": 159,
+      "INDICATION": 111,
+      "DISEASE_PROTEIN": 91,
+      "DRUG_EFFECT": 90,
+      "ENZYME": 28,
+      "PHENOTYPE_PROTEIN": 23,
+      "TRANSPORTER": 23,
+      "OFF_LABEL_USE": 22,
+      "DISEASE_DISEASE": 11,
+      "PHENOTYPE_PHENOTYPE": 11,
+      "CARRIER": 3,
+      "TARGET": 1,
+      "PROTEIN_PROTEIN": 1
+    }
+  },
+  "pairs": [
+    {
+      "candidate_edges": 21626,
+      "path_edges": 22,
+      "path_edges_in_field": 20,
+      "overlap": {
+        "top10": {
+          "hits": 2,
+          "precision": 0.2,
+          "recall": 0.1,
+          "random_precision": 0.0009248127254231018,
+          "lift": 216.26000000000002
+        },
+        "top20": {
+          "hits": 3,
+          "precision": 0.15,
+          "recall": 0.15,
+          "random_precision": 0.0009248127254231018,
+          "lift": 162.195
+        }
+      },
+      "logit": 1.9164345264434814,
+      "logit_after_removing": {
+        "paths": 1.0248470306396484,
+        "gnnexplainer": 1.5953187942504883,
+        "random": 1.9165538549423218
+      },
+      "top_edges": [
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 4152,
+          "b": 23157,
+          "weight": 0.7930739521980286,
+          "text": "ABCB1 -PHENOTYPE_PROTEIN- Vomiting"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 4152,
+          "b": 25343,
+          "weight": 0.7930389046669006,
+          "text": "ABCB1 -PHENOTYPE_PROTEIN- Focal sensory seizure"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 22258,
+          "b": 27452,
+          "weight": 0.7925857305526733,
+          "text": "Abnormal facial shape -DISEASE_PHENOTYPE_NEGATIVE- Diamond-Blackfan anemia"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 4152,
+          "b": 14042,
+          "weight": 0.7922757267951965,
+          "text": "ABCB1 -TRANSPORTER- Hydrocortisone acetate"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29734,
+          "b": 35432,
+          "weight": 0.791102409362793,
+          "text": "snijders blok-campeau syndrome -DISEASE_DISEASE- Mendelian disease"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 2319,
+          "b": 61803,
+          "weight": 0.7867449522018433,
+          "text": "ANXA1 -EXPOSURE_PROTEIN- Polycyclic Aromatic Hydrocarbons"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 697,
+          "b": 14042,
+          "weight": 0.7867304682731628,
+          "text": "CYP2C8 -ENZYME- Hydrocortisone acetate"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 38496,
+          "weight": 0.786095917224884,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- inherited aplastic anemia"
+        },
+        {
+          "rel": "TARGET",
+          "a": 509,
+          "b": 14042,
+          "weight": 0.7859992980957031,
+          "text": "NR3C1 -TARGET- Hydrocortisone acetate"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 8974,
+          "b": 14042,
+          "weight": 0.7855525612831116,
+          "text": "CYP3A4 -ENZYME- Hydrocortisone acetate"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 38021,
+          "weight": 0.7845948934555054,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- lichen disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 27452,
+          "weight": 0.7845687866210938,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- Diamond-Blackfan anemia"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 84028,
+          "weight": 0.7835195064544678,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- neurodermatitis"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 10901,
+          "b": 14042,
+          "weight": 0.7803250551223755,
+          "text": "CYP3A5 -ENZYME- Hydrocortisone acetate"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 14042,
+          "b": 34059,
+          "weight": 0.7802475094795227,
+          "text": "Hydrocortisone acetate -ENZYME- CYP11B2"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 14042,
+          "b": 35040,
+          "weight": 0.7773575782775879,
+          "text": "Hydrocortisone acetate -ENZYME- CYP11B1"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 5573,
+          "b": 14042,
+          "weight": 0.7769626975059509,
+          "text": "SLC22A8 -TRANSPORTER- Hydrocortisone acetate"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 3183,
+          "b": 14042,
+          "weight": 0.7769260406494141,
+          "text": "ABCG2 -TRANSPORTER- Hydrocortisone acetate"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 39872,
+          "weight": 0.7747071981430054,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- acute respiratory distress syndrome"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14042,
+          "b": 30892,
+          "weight": 0.7743318676948547,
+          "text": "Hydrocortisone acetate -OFF_LABEL_USE- newborn respiratory distress syndrome"
+        }
+      ],
+      "drug": 14042,
+      "drug_name": "Hydrocortisone acetate",
+      "disease": 29734,
+      "disease_name": "snijders blok-campeau syndrome",
+      "path_rels": [
+        "DISEASE_DISEASE",
+        "DISEASE_PROTEIN",
+        "OFF_LABEL_USE",
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "INDICATION"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease",
+      "top_path": "Hydrocortisone acetate -INDICATION- primary cutaneous T-cell lymphoma -DISEASE_PROTEIN- CHD3 -DISEASE_PROTEIN- snijders blok-campeau syndrome"
+    },
+    {
+      "candidate_edges": 79880,
+      "path_edges": 83,
+      "path_edges_in_field": 83,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0010390585878818227,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0010390585878818227,
+          "lift": 0.0
+        }
+      },
+      "logit": 4.273319244384766,
+      "logit_after_removing": {
+        "paths": 3.574939012527466,
+        "gnnexplainer": -4.175099849700928,
+        "random": 4.283441543579102
+      },
+      "top_edges": [
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14141,
+          "b": 38242,
+          "weight": 0.7775256633758545,
+          "text": "Phenytoin -OFF_LABEL_USE- bipolar disorder"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14141,
+          "b": 27626,
+          "weight": 0.7755723595619202,
+          "text": "Phenytoin -CONTRAINDICATION- thrombocytopenia"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14141,
+          "b": 39261,
+          "weight": 0.7754697203636169,
+          "text": "Phenytoin -OFF_LABEL_USE- neuralgia"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14141,
+          "b": 27664,
+          "weight": 0.7737651467323303,
+          "text": "Phenytoin -CONTRAINDICATION- idiopathic aplastic anemia"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14141,
+          "b": 33657,
+          "weight": 0.773159921169281,
+          "text": "Phenytoin -CONTRAINDICATION- goiter (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14141,
+          "b": 36344,
+          "weight": 0.7728500962257385,
+          "text": "Phenytoin -CONTRAINDICATION- aplastic anemia"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 35958,
+          "b": 83824,
+          "weight": 0.766834020614624,
+          "text": "hemoglobinopathy -DISEASE_DISEASE- myocardial infarction"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14635,
+          "b": 35958,
+          "weight": 0.7639573216438293,
+          "text": "Nitroglycerin -OFF_LABEL_USE- hemoglobinopathy"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 37180,
+          "b": 83824,
+          "weight": 0.7616799473762512,
+          "text": "myocardial infarction (disease) -DISEASE_DISEASE- myocardial infarction"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14141,
+          "b": 39444,
+          "weight": 0.7599937915802002,
+          "text": "Phenytoin -CONTRAINDICATION- osteomalacia (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14774,
+          "b": 35958,
+          "weight": 0.7536652088165283,
+          "text": "Enoxaparin -OFF_LABEL_USE- hemoglobinopathy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14635,
+          "b": 37180,
+          "weight": 0.7536202073097229,
+          "text": "Nitroglycerin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 20333,
+          "b": 37180,
+          "weight": 0.7514392733573914,
+          "text": "Parnaparin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14510,
+          "b": 37180,
+          "weight": 0.7513353228569031,
+          "text": "Heparin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14768,
+          "b": 35958,
+          "weight": 0.7445120811462402,
+          "text": "Dalteparin -OFF_LABEL_USE- hemoglobinopathy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 16825,
+          "b": 37180,
+          "weight": 0.7427877187728882,
+          "text": "Ardeparin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 20332,
+          "b": 37180,
+          "weight": 0.7425807118415833,
+          "text": "Adomiparin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 16825,
+          "b": 35958,
+          "weight": 0.7420362830162048,
+          "text": "Ardeparin -OFF_LABEL_USE- hemoglobinopathy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14774,
+          "b": 37180,
+          "weight": 0.7415918111801147,
+          "text": "Enoxaparin -OFF_LABEL_USE- myocardial infarction (disease)"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14143,
+          "weight": 0.7415681481361389,
+          "text": "ALB -CARRIER- Dicoumarol"
+        }
+      ],
+      "drug": 14141,
+      "drug_name": "Phenytoin",
+      "disease": 83824,
+      "disease_name": "myocardial infarction",
+      "path_rels": [
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "OFF_LABEL_USE",
+        "DISEASE_PROTEIN",
+        "CARRIER",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "CARRIER",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PROTEIN",
+        "DRUG_EFFECT"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-DRUG_EFFECT-Drug-OFF_LABEL_USE-Disease",
+      "top_path": "Phenytoin -DRUG_EFFECT- Subdural hemorrhage -DRUG_EFFECT- Dalteparin -OFF_LABEL_USE- myocardial infarction"
+    },
+    {
+      "candidate_edges": 31434,
+      "path_edges": 3,
+      "path_edges_in_field": 3,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 9.54380606986066e-05,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 9.54380606986066e-05,
+          "lift": 0.0
+        }
+      },
+      "logit": 1.6679749488830566,
+      "logit_after_removing": {
+        "paths": 1.7691574096679688,
+        "gnnexplainer": 1.52373206615448,
+        "random": 1.6679764986038208
+      },
+      "top_edges": [
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 4315,
+          "b": 61757,
+          "weight": 0.7930432558059692,
+          "text": "ALB -EXPOSURE_PROTEIN- Lead"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 56673,
+          "weight": 0.7923774123191833,
+          "text": "Benzylpenicillin -TRANSPORTER- SLC22A11"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 31803,
+          "b": 35432,
+          "weight": 0.7905004620552063,
+          "text": "microcornea, rod-cone dystrophy, cataract, and posterior staphyloma 1 -DISEASE_DISEASE- Mendelian disease"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 34107,
+          "weight": 0.7902652025222778,
+          "text": "Benzylpenicillin -TRANSPORTER- SLCO2B1"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 3484,
+          "b": 14288,
+          "weight": 0.7891204357147217,
+          "text": "SLC22A5 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14288,
+          "weight": 0.7888489365577698,
+          "text": "ALB -CARRIER- Benzylpenicillin"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83956,
+          "weight": 0.7880523204803467,
+          "text": "Benzylpenicillin -CONTRAINDICATION- infectious mononucleosis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32950,
+          "weight": 0.7879533171653748,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- Lyme disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83762,
+          "weight": 0.7879430651664734,
+          "text": "Benzylpenicillin -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32949,
+          "weight": 0.787335216999054,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- relapsing fever"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 35764,
+          "weight": 0.787094235420227,
+          "text": "Benzylpenicillin -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 35640,
+          "weight": 0.7869582176208496,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- omphalitis"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 5573,
+          "b": 14288,
+          "weight": 0.7862915992736816,
+          "text": "SLC22A8 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 84171,
+          "weight": 0.7862867712974548,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- ophthalmia neonatorum"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83827,
+          "weight": 0.7860277891159058,
+          "text": "Benzylpenicillin -CONTRAINDICATION- Clostridium difficile colitis"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 11771,
+          "b": 14288,
+          "weight": 0.7856463193893433,
+          "text": "SLCO3A1 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 36468,
+          "weight": 0.7850558161735535,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- anaerobic bacteria infectious disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 28082,
+          "weight": 0.7844473719596863,
+          "text": "Benzylpenicillin -CONTRAINDICATION- chronic Epstein-Barr virus infection syndrome"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83828,
+          "weight": 0.7828987836837769,
+          "text": "Benzylpenicillin -CONTRAINDICATION- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 56616,
+          "weight": 0.7789490222930908,
+          "text": "Benzylpenicillin -TRANSPORTER- SLCO4A1"
+        }
+      ],
+      "drug": 14288,
+      "drug_name": "Benzylpenicillin",
+      "disease": 31803,
+      "disease_name": "microcornea, rod-cone dystrophy, cataract, and posterior staphyloma 1",
+      "path_rels": [
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "PHENOTYPE_PHENOTYPE"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-PHENOTYPE_PHENOTYPE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Benzylpenicillin -DRUG_EFFECT- Blindness -PHENOTYPE_PHENOTYPE- Reduced visual acuity -DISEASE_PHENOTYPE_POSITIVE- microcornea, rod-cone dystrophy, cataract, and posterior staphyloma 1"
+    },
+    {
+      "candidate_edges": 23828,
+      "path_edges": 70,
+      "path_edges_in_field": 62,
+      "overlap": {
+        "top10": {
+          "hits": 3,
+          "precision": 0.3,
+          "recall": 0.04838709677419355,
+          "random_precision": 0.002601980862850428,
+          "lift": 115.29677419354839
+        },
+        "top20": {
+          "hits": 3,
+          "precision": 0.15,
+          "recall": 0.04838709677419355,
+          "random_precision": 0.002601980862850428,
+          "lift": 57.648387096774194
+        }
+      },
+      "logit": 1.228249430656433,
+      "logit_after_removing": {
+        "paths": 1.4774956703186035,
+        "gnnexplainer": 0.6376753449440002,
+        "random": 1.2496427297592163
+      },
+      "top_edges": [
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 23981,
+          "b": 27249,
+          "weight": 0.7949437499046326,
+          "text": "Abnormal T cell count -DISEASE_PHENOTYPE_NEGATIVE- isolated growth hormone deficiency"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29212,
+          "b": 38153,
+          "weight": 0.7890941500663757,
+          "text": "arthrogryposis, distal, with impaired proprioception and touch -DISEASE_DISEASE- distal arthrogryposis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 83888,
+          "weight": 0.788034975528717,
+          "text": "Cortisone acetate -OFF_LABEL_USE- nasal cavity polyp"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 27692,
+          "weight": 0.7876188158988953,
+          "text": "Cortisone acetate -OFF_LABEL_USE- temporal arteritis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 32099,
+          "weight": 0.7868918180465698,
+          "text": "Cortisone acetate -OFF_LABEL_USE- granulomatosis with polyangiitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 84041,
+          "weight": 0.7867729067802429,
+          "text": "Cortisone acetate -OFF_LABEL_USE- single-organ polyarteritis nodosa"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 32986,
+          "weight": 0.7858849167823792,
+          "text": "Cortisone acetate -OFF_LABEL_USE- polyarteritis nodosa"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 30511,
+          "weight": 0.7857980728149414,
+          "text": "Cortisone acetate -OFF_LABEL_USE- anti-glomerular basement membrane disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 33651,
+          "weight": 0.7851600050926208,
+          "text": "Cortisone acetate -OFF_LABEL_USE- seborrheic dermatitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 36924,
+          "weight": 0.7845941781997681,
+          "text": "Cortisone acetate -OFF_LABEL_USE- dermatitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 35955,
+          "weight": 0.7841811776161194,
+          "text": "Cortisone acetate -OFF_LABEL_USE- pericarditis (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 32123,
+          "weight": 0.7838683724403381,
+          "text": "Cortisone acetate -OFF_LABEL_USE- Takayasu arteritis"
+        },
+        {
+          "rel": "TARGET",
+          "a": 509,
+          "b": 15003,
+          "weight": 0.7830429673194885,
+          "text": "NR3C1 -TARGET- Cortisone acetate"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 36123,
+          "weight": 0.7829369902610779,
+          "text": "Cortisone acetate -OFF_LABEL_USE- vasculitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 39872,
+          "weight": 0.782852828502655,
+          "text": "Cortisone acetate -OFF_LABEL_USE- acute respiratory distress syndrome"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 30892,
+          "weight": 0.7816832065582275,
+          "text": "Cortisone acetate -OFF_LABEL_USE- newborn respiratory distress syndrome"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 35259,
+          "b": 54054,
+          "weight": 0.7795548439025879,
+          "text": "PIEZO2 -MOLFUNC_PROTEIN- cation channel activity"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 35259,
+          "b": 54539,
+          "weight": 0.7712302803993225,
+          "text": "PIEZO2 -MOLFUNC_PROTEIN- mechanosensitive ion channel activity"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 8974,
+          "b": 15003,
+          "weight": 0.7693506479263306,
+          "text": "CYP3A4 -ENZYME- Cortisone acetate"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15003,
+          "b": 36041,
+          "weight": 0.7691712975502014,
+          "text": "Cortisone acetate -OFF_LABEL_USE- myocarditis"
+        }
+      ],
+      "drug": 15003,
+      "drug_name": "Cortisone acetate",
+      "disease": 29212,
+      "disease_name": "arthrogryposis, distal, with impaired proprioception and touch",
+      "path_rels": [
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "OFF_LABEL_USE",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "OFF_LABEL_USE",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "OFF_LABEL_USE",
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "OFF_LABEL_USE",
+        "OFF_LABEL_USE"
+      ],
+      "top_metapath": "Drug-OFF_LABEL_USE-Disease-DISEASE_PHENOTYPE_POSITIVE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Cortisone acetate -OFF_LABEL_USE- polyarteritis nodosa -DISEASE_PHENOTYPE_POSITIVE- Sensory axonal neuropathy -DISEASE_PHENOTYPE_POSITIVE- arthrogryposis, distal, with impaired proprioception and touch"
+    },
+    {
+      "candidate_edges": 6723,
+      "path_edges": 70,
+      "path_edges_in_field": 66,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.009817045961624275,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.009817045961624275,
+          "lift": 0.0
+        }
+      },
+      "logit": 3.851306438446045,
+      "logit_after_removing": {
+        "paths": 0.25379306077957153,
+        "gnnexplainer": 0.10190558433532715,
+        "random": 3.677243947982788
+      },
+      "top_edges": [
+        {
+          "rel": "CARRIER",
+          "a": 4152,
+          "b": 14555,
+          "weight": 0.7935638427734375,
+          "text": "ABCB1 -CARRIER- Technetium Tc-99m tetrofosmin"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4152,
+          "b": 14040,
+          "weight": 0.7924326658248901,
+          "text": "ABCB1 -CARRIER- Fluticasone"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 10647,
+          "b": 14040,
+          "weight": 0.7907329201698303,
+          "text": "SLCO1B1 -CARRIER- Fluticasone"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4152,
+          "b": 14038,
+          "weight": 0.7902148365974426,
+          "text": "ABCB1 -CARRIER- Fluticasone furoate"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14254,
+          "b": 83799,
+          "weight": 0.7883539795875549,
+          "text": "Emtricitabine -CONTRAINDICATION- chronic hepatitis C virus infection"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14382,
+          "weight": 0.7877681255340576,
+          "text": "ALB -CARRIER- Simeprevir"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 10647,
+          "b": 14020,
+          "weight": 0.7875946760177612,
+          "text": "SLCO1B1 -CARRIER- Fluticasone propionate"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14484,
+          "weight": 0.7875604629516602,
+          "text": "ALB -CARRIER- Tenofovir"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 6926,
+          "b": 61709,
+          "weight": 0.7854900360107422,
+          "text": "IFNA2 -EXPOSURE_PROTEIN- Asbestos"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14966,
+          "b": 83799,
+          "weight": 0.7843834757804871,
+          "text": "Amprenavir -CONTRAINDICATION- chronic hepatitis C virus infection"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 35558,
+          "b": 37743,
+          "weight": 0.78428053855896,
+          "text": "Flaviviridae infectious disease -DISEASE_DISEASE- hepatitis C virus infection"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 35563,
+          "b": 37743,
+          "weight": 0.7828611135482788,
+          "text": "viral hepatitis -DISEASE_DISEASE- hepatitis C virus infection"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14314,
+          "b": 83799,
+          "weight": 0.7810555696487427,
+          "text": "Naloxone -CONTRAINDICATION- chronic hepatitis C virus infection"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 1520,
+          "b": 26609,
+          "weight": 0.7804379463195801,
+          "text": "LOX -PHENOTYPE_PROTEIN- Pulmonary arterial hypertension"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15324,
+          "b": 83799,
+          "weight": 0.7750853896141052,
+          "text": "Leflunomide -CONTRAINDICATION- chronic hepatitis C virus infection"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 3183,
+          "b": 128129,
+          "weight": 0.775038480758667,
+          "text": "ABCG2 -PATHWAY_PROTEIN- Abacavir transmembrane transport"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14326,
+          "b": 83799,
+          "weight": 0.7747172117233276,
+          "text": "Darunavir -CONTRAINDICATION- chronic hepatitis C virus infection"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 12434,
+          "b": 62589,
+          "weight": 0.7720730900764465,
+          "text": "CYP3A7 -PATHWAY_PROTEIN- Xenobiotics"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 13723,
+          "b": 128484,
+          "weight": 0.7717412114143372,
+          "text": "IFNL3 -PATHWAY_PROTEIN- Interleukin-20 family signaling"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 4152,
+          "b": 128129,
+          "weight": 0.7707227468490601,
+          "text": "ABCB1 -PATHWAY_PROTEIN- Abacavir transmembrane transport"
+        }
+      ],
+      "drug": 15034,
+      "drug_name": "Cobicistat",
+      "disease": 37743,
+      "disease_name": "hepatitis C virus infection",
+      "path_rels": [
+        "TRANSPORTER",
+        "OFF_LABEL_USE",
+        "ENZYME",
+        "ENZYME",
+        "TRANSPORTER",
+        "ENZYME",
+        "ENZYME",
+        "ENZYME",
+        "INDICATION",
+        "TRANSPORTER",
+        "ENZYME",
+        "INDICATION",
+        "ENZYME",
+        "INDICATION",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "ENZYME",
+        "INDICATION",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "INDICATION",
+        "INDICATION",
+        "ENZYME",
+        "ENZYME",
+        "ENZYME",
+        "INDICATION",
+        "INDICATION",
+        "TRANSPORTER",
+        "ENZYME",
+        "OFF_LABEL_USE",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "INDICATION",
+        "ENZYME",
+        "TRANSPORTER",
+        "INDICATION",
+        "TRANSPORTER",
+        "ENZYME",
+        "ENZYME",
+        "TRANSPORTER",
+        "ENZYME",
+        "INDICATION",
+        "ENZYME",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "TRANSPORTER",
+        "ENZYME",
+        "TRANSPORTER",
+        "INDICATION",
+        "ENZYME",
+        "ENZYME",
+        "TRANSPORTER",
+        "TRANSPORTER",
+        "ENZYME",
+        "ENZYME",
+        "ENZYME",
+        "OFF_LABEL_USE",
+        "ENZYME",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "TRANSPORTER",
+        "ENZYME",
+        "INDICATION",
+        "TRANSPORTER"
+      ],
+      "top_metapath": "Drug-TRANSPORTER-Gene-TRANSPORTER-Drug-INDICATION-Disease",
+      "top_path": "Cobicistat -TRANSPORTER- SLCO1B3 -TRANSPORTER- Grazoprevir -INDICATION- hepatitis C virus infection"
+    },
+    {
+      "candidate_edges": 31444,
+      "path_edges": 5,
+      "path_edges_in_field": 5,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00015901284823813765,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00015901284823813765,
+          "lift": 0.0
+        }
+      },
+      "logit": 3.875263214111328,
+      "logit_after_removing": {
+        "paths": 4.5766191482543945,
+        "gnnexplainer": 3.945065498352051,
+        "random": 3.8752732276916504
+      },
+      "top_edges": [
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 4315,
+          "b": 61757,
+          "weight": 0.7926074266433716,
+          "text": "ALB -EXPOSURE_PROTEIN- Lead"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83956,
+          "weight": 0.7922654747962952,
+          "text": "Benzylpenicillin -CONTRAINDICATION- infectious mononucleosis"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 5573,
+          "b": 14769,
+          "weight": 0.7920321226119995,
+          "text": "SLC22A8 -ENZYME- Ataluren"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 5573,
+          "b": 14288,
+          "weight": 0.791893720626831,
+          "text": "SLC22A8 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 35764,
+          "weight": 0.7917409539222717,
+          "text": "Benzylpenicillin -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32950,
+          "weight": 0.7913895845413208,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- Lyme disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 36468,
+          "weight": 0.7906719446182251,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- anaerobic bacteria infectious disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 35640,
+          "weight": 0.7906380295753479,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- omphalitis"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14288,
+          "weight": 0.7906036972999573,
+          "text": "ALB -CARRIER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32949,
+          "weight": 0.7901433110237122,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- relapsing fever"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83762,
+          "weight": 0.790012001991272,
+          "text": "Benzylpenicillin -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 56616,
+          "weight": 0.7899267077445984,
+          "text": "Benzylpenicillin -TRANSPORTER- SLCO4A1"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 11771,
+          "b": 14288,
+          "weight": 0.7898300290107727,
+          "text": "SLCO3A1 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 3484,
+          "b": 14288,
+          "weight": 0.7898102402687073,
+          "text": "SLC22A5 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 84171,
+          "weight": 0.7898040413856506,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- ophthalmia neonatorum"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83827,
+          "weight": 0.7895777821540833,
+          "text": "Benzylpenicillin -CONTRAINDICATION- Clostridium difficile colitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 28082,
+          "weight": 0.7895256876945496,
+          "text": "Benzylpenicillin -CONTRAINDICATION- chronic Epstein-Barr virus infection syndrome"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83828,
+          "weight": 0.7890733480453491,
+          "text": "Benzylpenicillin -CONTRAINDICATION- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 14217,
+          "b": 23157,
+          "weight": 0.28348737955093384,
+          "text": "Furosemide -DRUG_EFFECT- Vomiting"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 16672,
+          "b": 23139,
+          "weight": 0.2832748591899872,
+          "text": "Baclofen -DRUG_EFFECT- Sensory impairment"
+        }
+      ],
+      "drug": 14288,
+      "drug_name": "Benzylpenicillin",
+      "disease": 96003,
+      "disease_name": "cerebellar vermis medulloblastoma",
+      "path_rels": [
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease-DISEASE_DISEASE-Disease",
+      "top_path": "Benzylpenicillin -DRUG_EFFECT- Vertigo -DISEASE_PHENOTYPE_POSITIVE- medulloblastoma -DISEASE_DISEASE- cerebellar vermis medulloblastoma"
+    },
+    {
+      "candidate_edges": 18509,
+      "path_edges": 12,
+      "path_edges_in_field": 8,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00043222216219136636,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00043222216219136636,
+          "lift": 0.0
+        }
+      },
+      "logit": 2.1303904056549072,
+      "logit_after_removing": {
+        "paths": -3.4531240463256836,
+        "gnnexplainer": -0.6574190855026245,
+        "random": 2.12961745262146
+      },
+      "top_edges": [
+        {
+          "rel": "TARGET",
+          "a": 6628,
+          "b": 15893,
+          "weight": 0.7920781373977661,
+          "text": "LIG3 -TARGET- Bleomycin"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 1742,
+          "b": 61707,
+          "weight": 0.790907621383667,
+          "text": "ERCC2 -EXPOSURE_PROTEIN- Arsenic"
+        },
+        {
+          "rel": "TARGET",
+          "a": 5940,
+          "b": 15893,
+          "weight": 0.7903251051902771,
+          "text": "LIG1 -TARGET- Bleomycin"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 4577,
+          "b": 15893,
+          "weight": 0.7901080250740051,
+          "text": "BLMH -ENZYME- Bleomycin"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 4316,
+          "b": 55635,
+          "weight": 0.7892816066741943,
+          "text": "ERCC5 -CELLCOMP_PROTEIN- protein-containing complex"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 1742,
+          "b": 56436,
+          "weight": 0.7887431383132935,
+          "text": "ERCC2 -CELLCOMP_PROTEIN- cytosol"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23139,
+          "weight": 0.7856594920158386,
+          "text": "Bleomycin -DRUG_EFFECT- Sensory impairment"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 1742,
+          "b": 56073,
+          "weight": 0.7855209708213806,
+          "text": "ERCC2 -CELLCOMP_PROTEIN- nucleus"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14229,
+          "b": 83786,
+          "weight": 0.7851138114929199,
+          "text": "Tretinoin -CONTRAINDICATION- localized pagetoid reticulosis"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23864,
+          "weight": 0.7846719622612,
+          "text": "Bleomycin -DRUG_EFFECT- Respiratory distress"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 27007,
+          "weight": 0.7833012938499451,
+          "text": "Bleomycin -DRUG_EFFECT- Anaphylactic shock"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 26160,
+          "weight": 0.7825650572776794,
+          "text": "Bleomycin -DRUG_EFFECT- Cough"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 26309,
+          "weight": 0.782499372959137,
+          "text": "Bleomycin -DRUG_EFFECT- Wheezing"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 84416,
+          "weight": 0.781702995300293,
+          "text": "Bleomycin -DRUG_EFFECT- Hyperesthesia"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 4577,
+          "b": 54108,
+          "weight": 0.7812865376472473,
+          "text": "BLMH -MOLFUNC_PROTEIN- cysteine-type peptidase activity"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 666,
+          "b": 128788,
+          "weight": 0.7803235054016113,
+          "text": "ERCC1 -PATHWAY_PROTEIN- HDR through Single Strand Annealing (SSA)"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 4316,
+          "b": 128796,
+          "weight": 0.7801110744476318,
+          "text": "ERCC5 -PATHWAY_PROTEIN- Dual Incision in GG-NER"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23059,
+          "weight": 0.7797837853431702,
+          "text": "Bleomycin -DRUG_EFFECT- Abnormal pulmonary Interstitial morphology"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 5940,
+          "b": 55387,
+          "weight": 0.779256284236908,
+          "text": "LIG1 -MOLFUNC_PROTEIN- DNA ligase activity"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23060,
+          "weight": 0.7790015339851379,
+          "text": "Bleomycin -DRUG_EFFECT- Pulmonary infiltrates"
+        }
+      ],
+      "drug": 15893,
+      "drug_name": "Bleomycin",
+      "disease": 30404,
+      "disease_name": "obsolete cataract, microcephaly, failure to thrive, kyphoscoliosis syndrome",
+      "path_rels": [
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease",
+      "top_path": "Bleomycin -INDICATION- squamous cell carcinoma -DISEASE_PROTEIN- ERCC5 -DISEASE_PROTEIN- obsolete cataract, microcephaly, failure to thrive, kyphoscoliosis syndrome"
+    },
+    {
+      "candidate_edges": 25738,
+      "path_edges": 13,
+      "path_edges_in_field": 13,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0005050897505633693,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0005050897505633693,
+          "lift": 0.0
+        }
+      },
+      "logit": 2.961231231689453,
+      "logit_after_removing": {
+        "paths": 2.3229846954345703,
+        "gnnexplainer": 2.8323328495025635,
+        "random": 2.9604623317718506
+      },
+      "top_edges": [
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 33128,
+          "weight": 0.7918760776519775,
+          "text": "Fusidic acid -OFF_LABEL_USE- malaria"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 32729,
+          "weight": 0.7911778092384338,
+          "text": "Fusidic acid -OFF_LABEL_USE- botulism"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 84007,
+          "weight": 0.791061520576477,
+          "text": "Fusidic acid -OFF_LABEL_USE- lymphogranuloma venereum"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 33594,
+          "weight": 0.7907578945159912,
+          "text": "Fusidic acid -OFF_LABEL_USE- diarrheal disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 33306,
+          "weight": 0.7907150983810425,
+          "text": "Fusidic acid -OFF_LABEL_USE- necrotizing enterocolitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 39795,
+          "weight": 0.7903580069541931,
+          "text": "Fusidic acid -OFF_LABEL_USE- pasteurellosis"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 24337,
+          "weight": 0.7902677059173584,
+          "text": "Fusidic acid -DRUG_EFFECT- Abnormality of the gastrointestinal tract"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 23183,
+          "weight": 0.790123462677002,
+          "text": "Fusidic acid -DRUG_EFFECT- Thrombophlebitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 33704,
+          "weight": 0.7900716066360474,
+          "text": "Fusidic acid -OFF_LABEL_USE- recurrent pneumonia (disease)"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 83849,
+          "weight": 0.7900014519691467,
+          "text": "Fusidic acid -OFF_LABEL_USE- Plasmodium vivax malaria"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 38103,
+          "weight": 0.7899473905563354,
+          "text": "Fusidic acid -OFF_LABEL_USE- Yersinia infectious disease"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29154,
+          "b": 35652,
+          "weight": 0.7898572087287903,
+          "text": "tremor-nystagmus-duodenal ulcer syndrome -DISEASE_DISEASE- movement disorder"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 83847,
+          "weight": 0.789680540561676,
+          "text": "Fusidic acid -OFF_LABEL_USE- Campylobacter fetus infectious disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15180,
+          "b": 83828,
+          "weight": 0.78935307264328,
+          "text": "Fusidic acid -CONTRAINDICATION- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 33193,
+          "weight": 0.7893409729003906,
+          "text": "Fusidic acid -OFF_LABEL_USE- plague"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 83971,
+          "weight": 0.7893333435058594,
+          "text": "Fusidic acid -OFF_LABEL_USE- necrotizing ulcerative gingivitis"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 84409,
+          "weight": 0.7891945838928223,
+          "text": "Fusidic acid -DRUG_EFFECT- Nausea"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 33730,
+          "weight": 0.789186418056488,
+          "text": "Fusidic acid -DRUG_EFFECT- Leukopenia"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 84006,
+          "weight": 0.7891458868980408,
+          "text": "Fusidic acid -OFF_LABEL_USE- chancroid"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 36450,
+          "weight": 0.7886670827865601,
+          "text": "Fusidic acid -OFF_LABEL_USE- dysentery"
+        }
+      ],
+      "drug": 15180,
+      "drug_name": "Fusidic acid",
+      "disease": 29154,
+      "disease_name": "tremor-nystagmus-duodenal ulcer syndrome",
+      "path_rels": [
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "PHENOTYPE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "ENZYME",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE"
+      ],
+      "top_metapath": "Drug-ENZYME-Gene-PHENOTYPE_PROTEIN-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Fusidic acid -ENZYME- CYP2D6 -PHENOTYPE_PROTEIN- Kinetic tremor -DISEASE_PHENOTYPE_POSITIVE- tremor-nystagmus-duodenal ulcer syndrome"
+    },
+    {
+      "candidate_edges": 37869,
+      "path_edges": 13,
+      "path_edges_in_field": 13,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00034328870580157915,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00034328870580157915,
+          "lift": 0.0
+        }
+      },
+      "logit": 2.6888844966888428,
+      "logit_after_removing": {
+        "paths": 2.717280387878418,
+        "gnnexplainer": 2.7797000408172607,
+        "random": 2.688722610473633
+      },
+      "top_edges": [
+        {
+          "rel": "CARRIER",
+          "a": 4152,
+          "b": 14040,
+          "weight": 0.7928174734115601,
+          "text": "ABCB1 -CARRIER- Fluticasone"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 24197,
+          "b": 27476,
+          "weight": 0.7910093069076538,
+          "text": "Hepatic failure -DISEASE_PHENOTYPE_NEGATIVE- Gilbert syndrome"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 4152,
+          "b": 128129,
+          "weight": 0.7854588031768799,
+          "text": "ABCB1 -PATHWAY_PROTEIN- Abacavir transmembrane transport"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 7124,
+          "b": 62583,
+          "weight": 0.7839849591255188,
+          "text": "GCK -PATHWAY_PROTEIN- Regulation of gene expression in beta cells"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 7124,
+          "b": 129215,
+          "weight": 0.7838482856750488,
+          "text": "GCK -PATHWAY_PROTEIN- FOXO-mediated transcription of oxidative stress, metabolic and neuronal genes"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 33575,
+          "weight": 0.782826840877533,
+          "text": "Temsirolimus -CONTRAINDICATION- diabetes mellitus (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 36836,
+          "weight": 0.7825027108192444,
+          "text": "Temsirolimus -CONTRAINDICATION- interstitial lung disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 38040,
+          "weight": 0.7824662923812866,
+          "text": "Temsirolimus -CONTRAINDICATION- cerebral infarction"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 30382,
+          "weight": 0.7821024060249329,
+          "text": "Temsirolimus -CONTRAINDICATION- obsolete susceptibility to ischemic stroke"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 33658,
+          "weight": 0.7811940908432007,
+          "text": "Temsirolimus -CONTRAINDICATION- hyperlipidemia"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 37764,
+          "weight": 0.7811485528945923,
+          "text": "Temsirolimus -CONTRAINDICATION- familial hyperlipidemia"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 4152,
+          "b": 62672,
+          "weight": 0.7808740139007568,
+          "text": "ABCB1 -PATHWAY_PROTEIN- ABC-family proteins mediated transport"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 35909,
+          "weight": 0.7806116938591003,
+          "text": "Temsirolimus -CONTRAINDICATION- cerebrovascular disorder"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 35565,
+          "weight": 0.7801675200462341,
+          "text": "Temsirolimus -CONTRAINDICATION- liver disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 35961,
+          "weight": 0.7795308828353882,
+          "text": "Temsirolimus -CONTRAINDICATION- gallbladder disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 83762,
+          "weight": 0.7793039083480835,
+          "text": "Temsirolimus -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 27476,
+          "weight": 0.7790695428848267,
+          "text": "Temsirolimus -CONTRAINDICATION- Gilbert syndrome"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 33598,
+          "weight": 0.7788485884666443,
+          "text": "Temsirolimus -CONTRAINDICATION- stroke disorder"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 12434,
+          "b": 62589,
+          "weight": 0.7786694169044495,
+          "text": "CYP3A7 -PATHWAY_PROTEIN- Xenobiotics"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 15012,
+          "b": 35764,
+          "weight": 0.778062105178833,
+          "text": "Temsirolimus -CONTRAINDICATION- kidney disease"
+        }
+      ],
+      "drug": 15012,
+      "drug_name": "Temsirolimus",
+      "disease": 31796,
+      "disease_name": "hyperinsulinism due to glucokinase deficiency",
+      "path_rels": [
+        "PHENOTYPE_PHENOTYPE",
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "PHENOTYPE_PHENOTYPE",
+        "ENZYME",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PHENOTYPE",
+        "PHENOTYPE_PROTEIN"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-PHENOTYPE_PHENOTYPE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Temsirolimus -DRUG_EFFECT- Dysphagia -PHENOTYPE_PHENOTYPE- Abnormal nervous system physiology -DISEASE_PHENOTYPE_POSITIVE- hyperinsulinism due to glucokinase deficiency"
+    },
+    {
+      "candidate_edges": 25694,
+      "path_edges": 17,
+      "path_edges_in_field": 17,
+      "overlap": {
+        "top10": {
+          "hits": 1,
+          "precision": 0.1,
+          "recall": 0.058823529411764705,
+          "random_precision": 0.0006616330660854674,
+          "lift": 151.14117647058825
+        },
+        "top20": {
+          "hits": 1,
+          "precision": 0.05,
+          "recall": 0.058823529411764705,
+          "random_precision": 0.0006616330660854674,
+          "lift": 75.57058823529412
+        }
+      },
+      "logit": 2.8977670669555664,
+      "logit_after_removing": {
+        "paths": 2.5721373558044434,
+        "gnnexplainer": 2.877243995666504,
+        "random": 2.8972904682159424
+      },
+      "top_edges": [
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29759,
+          "b": 35498,
+          "weight": 0.7929331660270691,
+          "text": "blepharonasofacial malformation syndrome -DISEASE_DISEASE- genetic multiple congenital anomalies/dysmorphic syndrome"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 26671,
+          "b": 27700,
+          "weight": 0.792388379573822,
+          "text": "Histiocytosis -DISEASE_PHENOTYPE_NEGATIVE- sclerosing cholangitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 35538,
+          "weight": 0.7908339500427246,
+          "text": "Fusidic acid -OFF_LABEL_USE- gastroenteritis"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29759,
+          "b": 35449,
+          "weight": 0.7904798984527588,
+          "text": "blepharonasofacial malformation syndrome -DISEASE_DISEASE- nose and cavum anomaly"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 39795,
+          "weight": 0.7893827557563782,
+          "text": "Fusidic acid -OFF_LABEL_USE- pasteurellosis"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 25201,
+          "weight": 0.789175808429718,
+          "text": "Fusidic acid -DRUG_EFFECT- Vertigo"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 29759,
+          "b": 35464,
+          "weight": 0.7891004681587219,
+          "text": "blepharonasofacial malformation syndrome -DISEASE_DISEASE- genetic nervous system disorder"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 26262,
+          "weight": 0.7885183095932007,
+          "text": "Fusidic acid -DRUG_EFFECT- Epiphora"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 33730,
+          "weight": 0.7885012030601501,
+          "text": "Fusidic acid -DRUG_EFFECT- Leukopenia"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 25608,
+          "weight": 0.7883294820785522,
+          "text": "Fusidic acid -DRUG_EFFECT- Abnormality of the eye"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 25569,
+          "weight": 0.7883052229881287,
+          "text": "Fusidic acid -DRUG_EFFECT- Granulocytopenia"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 22581,
+          "weight": 0.788097083568573,
+          "text": "Fusidic acid -DRUG_EFFECT- Erythema"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 22585,
+          "weight": 0.7876346111297607,
+          "text": "Fusidic acid -DRUG_EFFECT- Jaundice"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 23002,
+          "weight": 0.7871630787849426,
+          "text": "Fusidic acid -DRUG_EFFECT- Headache"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 24461,
+          "weight": 0.7870268821716309,
+          "text": "Fusidic acid -DRUG_EFFECT- Abnormality of the skin"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 25520,
+          "weight": 0.7869542241096497,
+          "text": "Fusidic acid -DRUG_EFFECT- Lethargy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 15180,
+          "b": 83847,
+          "weight": 0.7866201996803284,
+          "text": "Fusidic acid -OFF_LABEL_USE- Campylobacter fetus infectious disease"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 22539,
+          "weight": 0.7864406108856201,
+          "text": "Fusidic acid -DRUG_EFFECT- Inflammatory abnormality of the skin"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 26939,
+          "weight": 0.7862263917922974,
+          "text": "Fusidic acid -DRUG_EFFECT- Periorbital edema"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15180,
+          "b": 22938,
+          "weight": 0.7862107753753662,
+          "text": "Fusidic acid -DRUG_EFFECT- Pancytopenia"
+        }
+      ],
+      "drug": 15180,
+      "drug_name": "Fusidic acid",
+      "disease": 29759,
+      "disease_name": "blepharonasofacial malformation syndrome",
+      "path_rels": [
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PHENOTYPE",
+        "OFF_LABEL_USE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "PHENOTYPE_PHENOTYPE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PHENOTYPE_POSITIVE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Fusidic acid -INDICATION- neurotrophic keratopathy -DISEASE_PHENOTYPE_POSITIVE- Lacrimation abnormality -DISEASE_PHENOTYPE_POSITIVE- blepharonasofacial malformation syndrome"
+    },
+    {
+      "candidate_edges": 31434,
+      "path_edges": 3,
+      "path_edges_in_field": 3,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 9.54380606986066e-05,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 9.54380606986066e-05,
+          "lift": 0.0
+        }
+      },
+      "logit": 3.7312889099121094,
+      "logit_after_removing": {
+        "paths": 4.429078102111816,
+        "gnnexplainer": 3.7051291465759277,
+        "random": 3.731297254562378
+      },
+      "top_edges": [
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 36572,
+          "b": 95864,
+          "weight": 0.7922811508178711,
+          "text": "vertebral artery insufficiency -DISEASE_DISEASE- basilar artery insufficiency"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32950,
+          "weight": 0.7916167378425598,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- Lyme disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 35764,
+          "weight": 0.7915580868721008,
+          "text": "Benzylpenicillin -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 4315,
+          "b": 61757,
+          "weight": 0.7914892435073853,
+          "text": "ALB -EXPOSURE_PROTEIN- Lead"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 3484,
+          "b": 14288,
+          "weight": 0.7910249829292297,
+          "text": "SLC22A5 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 5573,
+          "b": 14288,
+          "weight": 0.7908273935317993,
+          "text": "SLC22A8 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 36468,
+          "weight": 0.7908076643943787,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- anaerobic bacteria infectious disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83827,
+          "weight": 0.7904820442199707,
+          "text": "Benzylpenicillin -CONTRAINDICATION- Clostridium difficile colitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83956,
+          "weight": 0.7904520034790039,
+          "text": "Benzylpenicillin -CONTRAINDICATION- infectious mononucleosis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32949,
+          "weight": 0.7904310822486877,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- relapsing fever"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83828,
+          "weight": 0.7903556227684021,
+          "text": "Benzylpenicillin -CONTRAINDICATION- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83762,
+          "weight": 0.7895815372467041,
+          "text": "Benzylpenicillin -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 11771,
+          "b": 14288,
+          "weight": 0.789478600025177,
+          "text": "SLCO3A1 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 56616,
+          "weight": 0.7894002795219421,
+          "text": "Benzylpenicillin -TRANSPORTER- SLCO4A1"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 35640,
+          "weight": 0.7892096638679504,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- omphalitis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 84171,
+          "weight": 0.7890989780426025,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- ophthalmia neonatorum"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 28082,
+          "weight": 0.7881321907043457,
+          "text": "Benzylpenicillin -CONTRAINDICATION- chronic Epstein-Barr virus infection syndrome"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15093,
+          "b": 22828,
+          "weight": 0.28391510248184204,
+          "text": "Clozapine -DRUG_EFFECT- Cardiac arrest"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 18755,
+          "b": 89096,
+          "weight": 0.28389623761177063,
+          "text": "Cromoglicic acid -DRUG_EFFECT- Laryngeal edema"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15322,
+          "b": 22457,
+          "weight": 0.283830851316452,
+          "text": "Norfloxacin -DRUG_EFFECT- Peripheral neuropathy"
+        }
+      ],
+      "drug": 14288,
+      "drug_name": "Benzylpenicillin",
+      "disease": 36572,
+      "disease_name": "vertebral artery insufficiency",
+      "path_rels": [
+        "DISEASE_DISEASE",
+        "DISEASE_PROTEIN",
+        "CARRIER"
+      ],
+      "top_metapath": "Drug-CARRIER-Gene-DISEASE_PROTEIN-Disease-DISEASE_DISEASE-Disease",
+      "top_path": "Benzylpenicillin -CARRIER- ALB -DISEASE_PROTEIN- transient ischemic attack (disease) -DISEASE_DISEASE- vertebral artery insufficiency"
+    },
+    {
+      "candidate_edges": 21649,
+      "path_edges": 18,
+      "path_edges_in_field": 18,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0008314471800083145,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0008314471800083145,
+          "lift": 0.0
+        }
+      },
+      "logit": 3.4666616916656494,
+      "logit_after_removing": {
+        "paths": -2.9635815620422363,
+        "gnnexplainer": 1.005960464477539,
+        "random": 3.467312812805176
+      },
+      "top_edges": [
+        {
+          "rel": "ENZYME",
+          "a": 4577,
+          "b": 15893,
+          "weight": 0.790277361869812,
+          "text": "BLMH -ENZYME- Bleomycin"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 4577,
+          "b": 56436,
+          "weight": 0.7892112135887146,
+          "text": "BLMH -CELLCOMP_PROTEIN- cytosol"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 8044,
+          "b": 62918,
+          "weight": 0.7891198992729187,
+          "text": "CDC73 -PATHWAY_PROTEIN- RNA Polymerase II Transcription Elongation"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 84360,
+          "weight": 0.7886286377906799,
+          "text": "Bleomycin -DRUG_EFFECT- Hypomagnesemia"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30026,
+          "b": 36612,
+          "weight": 0.7883985638618469,
+          "text": "hyperparathyroidism 2 with jaw tumors -DISEASE_DISEASE- kidney neoplasm"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 25882,
+          "weight": 0.7881255149841309,
+          "text": "Bleomycin -DRUG_EFFECT- Scaling skin"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30026,
+          "b": 38262,
+          "weight": 0.7879345417022705,
+          "text": "hyperparathyroidism 2 with jaw tumors -DISEASE_DISEASE- inherited renal cancer-predisposing syndrome"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30026,
+          "b": 38266,
+          "weight": 0.7877147793769836,
+          "text": "hyperparathyroidism 2 with jaw tumors -DISEASE_DISEASE- familial primary hyperparathyroidism"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 8044,
+          "b": 62571,
+          "weight": 0.7875991463661194,
+          "text": "CDC73 -PATHWAY_PROTEIN- Formation of the beta-catenin:TCF transactivating complex"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 8044,
+          "b": 62777,
+          "weight": 0.7874416708946228,
+          "text": "CDC73 -PATHWAY_PROTEIN- Hedgehog 'on' state"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23799,
+          "weight": 0.7862681150436401,
+          "text": "Bleomycin -DRUG_EFFECT- Alopecia of scalp"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 27007,
+          "weight": 0.7862664461135864,
+          "text": "Bleomycin -DRUG_EFFECT- Anaphylactic shock"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 4577,
+          "b": 129365,
+          "weight": 0.7859101891517639,
+          "text": "BLMH -PATHWAY_PROTEIN- Antigen processing: Ubiquitination & Proteasome degradation"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 8044,
+          "b": 128984,
+          "weight": 0.7852184176445007,
+          "text": "CDC73 -PATHWAY_PROTEIN- Formation of RNA Pol II elongation complex "
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 23011,
+          "weight": 0.7850176095962524,
+          "text": "Bleomycin -DRUG_EFFECT- Dyspnea"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 8044,
+          "b": 55944,
+          "weight": 0.7847771048545837,
+          "text": "CDC73 -CELLCOMP_PROTEIN- chromosome, telomeric region"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 4577,
+          "b": 126196,
+          "weight": 0.7843987941741943,
+          "text": "BLMH -CELLCOMP_PROTEIN- extracellular exosome"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15893,
+          "b": 26309,
+          "weight": 0.7843778133392334,
+          "text": "Bleomycin -DRUG_EFFECT- Wheezing"
+        },
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 8044,
+          "b": 124249,
+          "weight": 0.7840889692306519,
+          "text": "CDC73 -CELLCOMP_PROTEIN- nucleoplasm"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 5940,
+          "b": 55387,
+          "weight": 0.7836150527000427,
+          "text": "LIG1 -MOLFUNC_PROTEIN- DNA ligase activity"
+        }
+      ],
+      "drug": 15893,
+      "drug_name": "Bleomycin",
+      "disease": 30026,
+      "disease_name": "hyperparathyroidism 2 with jaw tumors",
+      "path_rels": [
+        "PHENOTYPE_PHENOTYPE",
+        "DISEASE_PROTEIN",
+        "PHENOTYPE_PHENOTYPE",
+        "PHENOTYPE_PHENOTYPE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "PHENOTYPE_PHENOTYPE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "OFF_LABEL_USE",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease",
+      "top_path": "Bleomycin -INDICATION- head and neck cancer -DISEASE_PROTEIN- CDC73 -DISEASE_PROTEIN- hyperparathyroidism 2 with jaw tumors"
+    },
+    {
+      "candidate_edges": 27435,
+      "path_edges": 2,
+      "path_edges_in_field": 2,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 7.289958082741024e-05,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 7.289958082741024e-05,
+          "lift": 0.0
+        }
+      },
+      "logit": 3.0117363929748535,
+      "logit_after_removing": {
+        "paths": 3.036801815032959,
+        "gnnexplainer": 2.9828104972839355,
+        "random": 3.0117380619049072
+      },
+      "top_edges": [
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 7134,
+          "b": 84358,
+          "weight": 0.7946962714195251,
+          "text": "DHFR -PHENOTYPE_PROTEIN- Female infertility"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 1691,
+          "b": 129079,
+          "weight": 0.7924909591674805,
+          "text": "ATIC -PATHWAY_PROTEIN- Purine ribonucleoside monophosphate biosynthesis"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14527,
+          "b": 33632,
+          "weight": 0.7923233509063721,
+          "text": "Fluoxymesterone -OFF_LABEL_USE- anemia (disease)"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 3509,
+          "b": 24479,
+          "weight": 0.7920782566070557,
+          "text": "TYMS -PHENOTYPE_PROTEIN- Hyperammonemia"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 7134,
+          "b": 61746,
+          "weight": 0.7913129925727844,
+          "text": "DHFR -EXPOSURE_PROTEIN- Folic Acid"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 5573,
+          "b": 128551,
+          "weight": 0.7897251844406128,
+          "text": "SLC22A8 -PATHWAY_PROTEIN- Organic anion transport"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 24012,
+          "b": 27626,
+          "weight": 0.7890974879264832,
+          "text": "Abnormal megakaryocyte morphology -DISEASE_PHENOTYPE_NEGATIVE- thrombocytopenia"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 6964,
+          "b": 128436,
+          "weight": 0.7884560823440552,
+          "text": "SLC29A1 -PATHWAY_PROTEIN- Transport of nucleosides and free purine and pyrimidine bases across the plasma membrane"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14527,
+          "b": 33623,
+          "weight": 0.7876858115196228,
+          "text": "Fluoxymesterone -OFF_LABEL_USE- macrocytic anemia (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 36104,
+          "weight": 0.785171389579773,
+          "text": "Pemetrexed -CONTRAINDICATION- neutropenia"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 36253,
+          "weight": 0.785130500793457,
+          "text": "Pemetrexed -CONTRAINDICATION- impaired renal function disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 83762,
+          "weight": 0.7848360538482666,
+          "text": "Pemetrexed -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 35764,
+          "weight": 0.7848109006881714,
+          "text": "Pemetrexed -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 36229,
+          "weight": 0.7844639420509338,
+          "text": "Pemetrexed -CONTRAINDICATION- agranulocytosis"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 4101,
+          "b": 14802,
+          "weight": 0.784389853477478,
+          "text": "DCK -ENZYME- Pemetrexed"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 27626,
+          "weight": 0.7842252254486084,
+          "text": "Pemetrexed -CONTRAINDICATION- thrombocytopenia"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 33632,
+          "weight": 0.7839615941047668,
+          "text": "Pemetrexed -CONTRAINDICATION- anemia (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14802,
+          "b": 33623,
+          "weight": 0.7832290530204773,
+          "text": "Pemetrexed -CONTRAINDICATION- macrocytic anemia (disease)"
+        },
+        {
+          "rel": "PROTEIN_PROTEIN",
+          "a": 5573,
+          "b": 57517,
+          "weight": 0.7807032465934753,
+          "text": "SLC22A8 -PROTEIN_PROTEIN- HNRNPCL2"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 14802,
+          "b": 85002,
+          "weight": 0.780134916305542,
+          "text": "Pemetrexed -DRUG_EFFECT- Acute kidney injury"
+        }
+      ],
+      "drug": 14802,
+      "drug_name": "Pemetrexed",
+      "disease": 30766,
+      "disease_name": "gonadal dysgenesis, dysmorphic facies, retinal dystrophy, and myopathy",
+      "path_rels": [
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Pemetrexed -DRUG_EFFECT- Scaling skin -DISEASE_PHENOTYPE_POSITIVE- gonadal dysgenesis, dysmorphic facies, retinal dystrophy, and myopathy"
+    },
+    {
+      "candidate_edges": 35763,
+      "path_edges": 62,
+      "path_edges_in_field": 50,
+      "overlap": {
+        "top10": {
+          "hits": 1,
+          "precision": 0.1,
+          "recall": 0.02,
+          "random_precision": 0.0013980930011464362,
+          "lift": 71.52600000000001
+        },
+        "top20": {
+          "hits": 1,
+          "precision": 0.05,
+          "recall": 0.02,
+          "random_precision": 0.0013980930011464362,
+          "lift": 35.763000000000005
+        }
+      },
+      "logit": 3.3640739917755127,
+      "logit_after_removing": {
+        "paths": 0.38829898834228516,
+        "gnnexplainer": 3.181030511856079,
+        "random": 3.3596746921539307
+      },
+      "top_edges": [
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 26664,
+          "b": 27227,
+          "weight": 0.7922000288963318,
+          "text": "Abnormal natural killer cell morphology -DISEASE_PHENOTYPE_NEGATIVE- immunodeficiency"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 27227,
+          "b": 89161,
+          "weight": 0.7913856506347656,
+          "text": "immunodeficiency -DISEASE_PHENOTYPE_NEGATIVE- Hemophagocytosis"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 25306,
+          "b": 27227,
+          "weight": 0.7910341024398804,
+          "text": "Abnormal B cell morphology -DISEASE_PHENOTYPE_NEGATIVE- immunodeficiency"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 33575,
+          "weight": 0.7859553694725037,
+          "text": "Propranolol -CONTRAINDICATION- diabetes mellitus (disease)"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 27227,
+          "b": 39078,
+          "weight": 0.7855902910232544,
+          "text": "immunodeficiency -DISEASE_DISEASE- activated PI3K-delta syndrome"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 36266,
+          "weight": 0.7848095297813416,
+          "text": "Propranolol -CONTRAINDICATION- hepatic encephalopathy"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 33534,
+          "weight": 0.7837582230567932,
+          "text": "Propranolol -CONTRAINDICATION- pediatric systemic lupus erythematosus"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 36349,
+          "weight": 0.7836523652076721,
+          "text": "Propranolol -CONTRAINDICATION- muscular disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 29113,
+          "weight": 0.7835860848426819,
+          "text": "Propranolol -CONTRAINDICATION- diabetic ketoacidosis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 83762,
+          "weight": 0.7832829356193542,
+          "text": "Propranolol -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 83806,
+          "weight": 0.7830309867858887,
+          "text": "Propranolol -CONTRAINDICATION- anuria"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 83802,
+          "weight": 0.7829437255859375,
+          "text": "Propranolol -CONTRAINDICATION- obsolete hyperuricemia (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 35961,
+          "weight": 0.7829391956329346,
+          "text": "Propranolol -CONTRAINDICATION- gallbladder disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 83805,
+          "weight": 0.7829352021217346,
+          "text": "Propranolol -CONTRAINDICATION- hepatic coma"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 37703,
+          "weight": 0.7827010750770569,
+          "text": "Propranolol -CONTRAINDICATION- neurotic disorder"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 38020,
+          "weight": 0.7826067209243774,
+          "text": "Propranolol -CONTRAINDICATION- neonatal jaundice"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 83790,
+          "weight": 0.7825239300727844,
+          "text": "Propranolol -CONTRAINDICATION- gout"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 35565,
+          "weight": 0.7823746800422668,
+          "text": "Propranolol -CONTRAINDICATION- liver disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 31493,
+          "weight": 0.7823636531829834,
+          "text": "Propranolol -CONTRAINDICATION- pancreatitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14196,
+          "b": 35673,
+          "weight": 0.7823502421379089,
+          "text": "Propranolol -CONTRAINDICATION- skeletal muscle disease"
+        }
+      ],
+      "drug": 14196,
+      "drug_name": "Propranolol",
+      "disease": 39078,
+      "disease_name": "activated PI3K-delta syndrome",
+      "path_rels": [
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_DISEASE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease",
+      "top_path": "Propranolol -INDICATION- Kasabach-Merritt syndrome -DISEASE_PROTEIN- PTEN -DISEASE_PROTEIN- activated PI3K-delta syndrome"
+    },
+    {
+      "candidate_edges": 32369,
+      "path_edges": 74,
+      "path_edges_in_field": 62,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0019154128950539097,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0019154128950539097,
+          "lift": 0.0
+        }
+      },
+      "logit": 1.3286969661712646,
+      "logit_after_removing": {
+        "paths": 2.4032747745513916,
+        "gnnexplainer": -1.2530796527862549,
+        "random": 1.3505654335021973
+      },
+      "top_edges": [
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 33575,
+          "weight": 0.7786629796028137,
+          "text": "Tobramycin -CONTRAINDICATION- diabetes mellitus (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 83762,
+          "weight": 0.7773664593696594,
+          "text": "Tobramycin -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 28547,
+          "weight": 0.7769600749015808,
+          "text": "Tobramycin -CONTRAINDICATION- Parkinson disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 39145,
+          "weight": 0.7763619422912598,
+          "text": "Tobramycin -CONTRAINDICATION- herpes simplex virus keratitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 29113,
+          "weight": 0.7760862112045288,
+          "text": "Tobramycin -CONTRAINDICATION- diabetic ketoacidosis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 83830,
+          "weight": 0.7759910225868225,
+          "text": "Tobramycin -CONTRAINDICATION- ocular hypertension"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 36026,
+          "weight": 0.7755219340324402,
+          "text": "Tobramycin -CONTRAINDICATION- open-angle glaucoma"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 35583,
+          "weight": 0.7754956483840942,
+          "text": "Tobramycin -CONTRAINDICATION- phosphorus metabolism disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 36116,
+          "weight": 0.7752584218978882,
+          "text": "Tobramycin -CONTRAINDICATION- fungal infection of eye"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 35764,
+          "weight": 0.7750747203826904,
+          "text": "Tobramycin -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 84126,
+          "weight": 0.7747398614883423,
+          "text": "Tobramycin -CONTRAINDICATION- corneal pigmentation"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 84054,
+          "weight": 0.7746431231498718,
+          "text": "Tobramycin -CONTRAINDICATION- ocular tuberculosis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 29229,
+          "weight": 0.7746078372001648,
+          "text": "Tobramycin -CONTRAINDICATION- glaucoma"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14980,
+          "b": 83828,
+          "weight": 0.7745619416236877,
+          "text": "Metronidazole -OFF_LABEL_USE- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 38682,
+          "weight": 0.7744444608688354,
+          "text": "Tobramycin -CONTRAINDICATION- nephrocalcinosis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 35872,
+          "weight": 0.7744215130805969,
+          "text": "Tobramycin -CONTRAINDICATION- viral eye infection"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 37641,
+          "weight": 0.7742579579353333,
+          "text": "Tobramycin -CONTRAINDICATION- eye infectious disease"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 33581,
+          "weight": 0.7742270231246948,
+          "text": "Tobramycin -CONTRAINDICATION- conjunctivitis (disease)"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 37706,
+          "weight": 0.7732741832733154,
+          "text": "Tobramycin -CONTRAINDICATION- parkinsonian disorder"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 20418,
+          "b": 84055,
+          "weight": 0.7719929814338684,
+          "text": "Tobramycin -CONTRAINDICATION- ophthalmic herpes zoster"
+        }
+      ],
+      "drug": 20418,
+      "drug_name": "Tobramycin",
+      "disease": 83789,
+      "disease_name": "serum sickness",
+      "path_rels": [
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "DRUG_EFFECT",
+        "DRUG_EFFECT",
+        "INDICATION",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "INDICATION"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-INDICATION-Drug-INDICATION-Disease",
+      "top_path": "Tobramycin -INDICATION- dacryocystitis -INDICATION- Prednisolone -INDICATION- serum sickness"
+    },
+    {
+      "candidate_edges": 3751,
+      "path_edges": 11,
+      "path_edges_in_field": 8,
+      "overlap": {
+        "top10": {
+          "hits": 2,
+          "precision": 0.2,
+          "recall": 0.25,
+          "random_precision": 0.0021327645961077045,
+          "lift": 93.775
+        },
+        "top20": {
+          "hits": 3,
+          "precision": 0.15,
+          "recall": 0.375,
+          "random_precision": 0.0021327645961077045,
+          "lift": 70.33125
+        }
+      },
+      "logit": 1.5531481504440308,
+      "logit_after_removing": {
+        "paths": 1.1457326412200928,
+        "gnnexplainer": 1.3482158184051514,
+        "random": 1.5577127933502197
+      },
+      "top_edges": [
+        {
+          "rel": "DISEASE_PHENOTYPE_NEGATIVE",
+          "a": 22675,
+          "b": 27743,
+          "weight": 0.7926687598228455,
+          "text": "Intellectual disability -DISEASE_PHENOTYPE_NEGATIVE- dystonia"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 9487,
+          "b": 14336,
+          "weight": 0.7918763160705566,
+          "text": "SLC18A2 -TRANSPORTER- Ephedrine"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 13807,
+          "b": 15055,
+          "weight": 0.7908937931060791,
+          "text": "CYP2D6 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 238,
+          "b": 26305,
+          "weight": 0.7878340482711792,
+          "text": "ACTB -PHENOTYPE_PROTEIN- Limb dystonia"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30053,
+          "b": 36671,
+          "weight": 0.7856916189193726,
+          "text": "developmental malformations-deafness-dystonia syndrome -DISEASE_DISEASE- genetic multiple congenital anomalies/dysmorphic syndrome without intellectual disability"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 27743,
+          "b": 30053,
+          "weight": 0.7856371998786926,
+          "text": "dystonia -DISEASE_DISEASE- developmental malformations-deafness-dystonia syndrome"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 238,
+          "b": 26099,
+          "weight": 0.7847432494163513,
+          "text": "ACTB -PHENOTYPE_PROTEIN- Hypoxemia"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 5663,
+          "b": 15055,
+          "weight": 0.7842162847518921,
+          "text": "CBR3 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 3955,
+          "b": 15055,
+          "weight": 0.7828606367111206,
+          "text": "CYP1A2 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 238,
+          "b": 84341,
+          "weight": 0.7822476625442505,
+          "text": "ACTB -PHENOTYPE_PROTEIN- Paroxysmal dystonia"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 8974,
+          "b": 15055,
+          "weight": 0.7808502912521362,
+          "text": "CYP3A4 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30053,
+          "b": 36673,
+          "weight": 0.7808148860931396,
+          "text": "developmental malformations-deafness-dystonia syndrome -DISEASE_DISEASE- syndromic genetic deafness"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 10901,
+          "b": 15055,
+          "weight": 0.7734261751174927,
+          "text": "CYP3A5 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 8583,
+          "b": 15055,
+          "weight": 0.7707400321960449,
+          "text": "CBR1 -ENZYME- Deutetrabenazine"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 12325,
+          "b": 36673,
+          "weight": 0.7495461106300354,
+          "text": "OTOF -DISEASE_PROTEIN- syndromic genetic deafness"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 1440,
+          "b": 36673,
+          "weight": 0.7156063318252563,
+          "text": "MYO1C -DISEASE_PROTEIN- syndromic genetic deafness"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 238,
+          "b": 30053,
+          "weight": 0.7039168477058411,
+          "text": "ACTB -DISEASE_PROTEIN- developmental malformations-deafness-dystonia syndrome"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 23471,
+          "b": 30053,
+          "weight": 0.7010207772254944,
+          "text": "Kyphoscoliosis -DISEASE_PHENOTYPE_POSITIVE- developmental malformations-deafness-dystonia syndrome"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 22675,
+          "b": 30053,
+          "weight": 0.6958413124084473,
+          "text": "Intellectual disability -DISEASE_PHENOTYPE_POSITIVE- developmental malformations-deafness-dystonia syndrome"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 22759,
+          "b": 30053,
+          "weight": 0.6951069831848145,
+          "text": "Autosomal dominant inheritance -DISEASE_PHENOTYPE_POSITIVE- developmental malformations-deafness-dystonia syndrome"
+        }
+      ],
+      "drug": 15055,
+      "drug_name": "Deutetrabenazine",
+      "disease": 30053,
+      "disease_name": "developmental malformations-deafness-dystonia syndrome",
+      "path_rels": [
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "ENZYME",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PHENOTYPE_POSITIVE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Deutetrabenazine -INDICATION- Huntington disease -DISEASE_PHENOTYPE_POSITIVE- Mental deterioration -DISEASE_PHENOTYPE_POSITIVE- developmental malformations-deafness-dystonia syndrome"
+    },
+    {
+      "candidate_edges": 49109,
+      "path_edges": 17,
+      "path_edges_in_field": 12,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0002443543953246859,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.0002443543953246859,
+          "lift": 0.0
+        }
+      },
+      "logit": 1.8988523483276367,
+      "logit_after_removing": {
+        "paths": 5.967407703399658,
+        "gnnexplainer": 1.5437366962432861,
+        "random": 1.8985037803649902
+      },
+      "top_edges": [
+        {
+          "rel": "ENZYME",
+          "a": 12537,
+          "b": 14028,
+          "weight": 0.7912925481796265,
+          "text": "SRD5A2 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30215,
+          "b": 33313,
+          "weight": 0.7887166142463684,
+          "text": "polyposis syndrome, hereditary mixed -DISEASE_DISEASE- hereditary mixed polyposis syndrome"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 10464,
+          "b": 14028,
+          "weight": 0.7876203656196594,
+          "text": "AKR1D1 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 9181,
+          "b": 14028,
+          "weight": 0.7855475544929504,
+          "text": "HSD11B1 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "TARGET",
+          "a": 509,
+          "b": 14028,
+          "weight": 0.7770588397979736,
+          "text": "NR3C1 -TARGET- Hydrocortisone"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 697,
+          "b": 14028,
+          "weight": 0.7770160436630249,
+          "text": "CYP2C8 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 30664,
+          "weight": 0.7728902697563171,
+          "text": "Hydrocortisone -OFF_LABEL_USE- X-linked adrenoleukodystrophy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 35510,
+          "weight": 0.7728185057640076,
+          "text": "Hydrocortisone -OFF_LABEL_USE- adrenogenital syndrome"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 38513,
+          "weight": 0.772323727607727,
+          "text": "Hydrocortisone -OFF_LABEL_USE- congenital adrenal hyperplasia"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 12769,
+          "b": 14028,
+          "weight": 0.7717333436012268,
+          "text": "CYP1B1 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 12431,
+          "b": 14028,
+          "weight": 0.7708168029785156,
+          "text": "CYP2C19 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 36440,
+          "weight": 0.7703415155410767,
+          "text": "Hydrocortisone -OFF_LABEL_USE- purulent otitis media"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 32783,
+          "weight": 0.7697539925575256,
+          "text": "Hydrocortisone -OFF_LABEL_USE- adrenomyeloneuropathy"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14028,
+          "b": 83835,
+          "weight": 0.7688525915145874,
+          "text": "Hydrocortisone -OFF_LABEL_USE- pityriasis simplex"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 2387,
+          "b": 14028,
+          "weight": 0.7683013677597046,
+          "text": "SHBG -CARRIER- Hydrocortisone"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 13122,
+          "b": 14028,
+          "weight": 0.7673531770706177,
+          "text": "HSD11B2 -ENZYME- Hydrocortisone"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 14028,
+          "b": 27007,
+          "weight": 0.7668759822845459,
+          "text": "Hydrocortisone -DRUG_EFFECT- Anaphylactic shock"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 14028,
+          "b": 84771,
+          "weight": 0.7663930654525757,
+          "text": "Hydrocortisone -DRUG_EFFECT- Petechiae"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 14028,
+          "b": 26837,
+          "weight": 0.765536904335022,
+          "text": "Hydrocortisone -DRUG_EFFECT- Avascular necrosis"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 10412,
+          "b": 14028,
+          "weight": 0.7650313973426819,
+          "text": "CYP2A6 -ENZYME- Hydrocortisone"
+        }
+      ],
+      "drug": 14028,
+      "drug_name": "Hydrocortisone",
+      "disease": 33313,
+      "disease_name": "hereditary mixed polyposis syndrome",
+      "path_rels": [
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DRUG_EFFECT",
+        "PHENOTYPE_PHENOTYPE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "TARGET",
+        "PROTEIN_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PHENOTYPE_POSITIVE-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease",
+      "top_path": "Hydrocortisone -INDICATION- Diamond-Blackfan anemia -DISEASE_PHENOTYPE_POSITIVE- Adenocarcinoma of the colon -DISEASE_PHENOTYPE_POSITIVE- hereditary mixed polyposis syndrome"
+    },
+    {
+      "candidate_edges": 4376,
+      "path_edges": 56,
+      "path_edges_in_field": 56,
+      "overlap": {
+        "top10": {
+          "hits": 2,
+          "precision": 0.2,
+          "recall": 0.03571428571428571,
+          "random_precision": 0.012797074954296161,
+          "lift": 15.628571428571428
+        },
+        "top20": {
+          "hits": 3,
+          "precision": 0.15,
+          "recall": 0.05357142857142857,
+          "random_precision": 0.012797074954296161,
+          "lift": 11.72142857142857
+        }
+      },
+      "logit": 3.758178949356079,
+      "logit_after_removing": {
+        "paths": 1.7211226224899292,
+        "gnnexplainer": -5.545321941375732,
+        "random": 3.800201892852783
+      },
+      "top_edges": [
+        {
+          "rel": "ENZYME",
+          "a": 2000,
+          "b": 14659,
+          "weight": 0.7932722568511963,
+          "text": "FADS2 -ENZYME- Omega-6 fatty acids"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 5671,
+          "b": 14475,
+          "weight": 0.7932496070861816,
+          "text": "LPL -ENZYME- Semaglutide"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 2546,
+          "b": 14584,
+          "weight": 0.7931364178657532,
+          "text": "ASNS -ENZYME- L-Glutamine"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 13214,
+          "b": 15858,
+          "weight": 0.7913399934768677,
+          "text": "UGT1A1 -ENZYME- Migalastat"
+        },
+        {
+          "rel": "TARGET",
+          "a": 11860,
+          "b": 15858,
+          "weight": 0.79052734375,
+          "text": "GLA -TARGET- Migalastat"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30905,
+          "b": 38498,
+          "weight": 0.7901797294616699,
+          "text": "chylomicron retention disease -DISEASE_DISEASE- intestinal disease due to fat malabsorption"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30905,
+          "b": 38500,
+          "weight": 0.7896541953086853,
+          "text": "chylomicron retention disease -DISEASE_DISEASE- hypobetalipoproteinemia"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30905,
+          "b": 37635,
+          "weight": 0.7884037494659424,
+          "text": "chylomicron retention disease -DISEASE_DISEASE- metabolic disease with intestinal involvement"
+        },
+        {
+          "rel": "INDICATION",
+          "a": 15858,
+          "b": 30905,
+          "weight": 0.742952823638916,
+          "text": "Migalastat -INDICATION- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 26180,
+          "b": 30905,
+          "weight": 0.7410903573036194,
+          "text": "Autosomal recessive inheritance -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 30905,
+          "b": 33735,
+          "weight": 0.7401072382926941,
+          "text": "chylomicron retention disease -DISEASE_PHENOTYPE_POSITIVE- Fat malabsorption"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 23121,
+          "b": 30905,
+          "weight": 0.7394964098930359,
+          "text": "Impaired proprioception -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 24485,
+          "b": 30905,
+          "weight": 0.7280316948890686,
+          "text": "Decreased LDL cholesterol concentration -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 22681,
+          "b": 30905,
+          "weight": 0.7261022329330444,
+          "text": "Reduced tendon reflexes -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 30905,
+          "b": 85005,
+          "weight": 0.714476466178894,
+          "text": "chylomicron retention disease -DISEASE_PHENOTYPE_POSITIVE- Acanthocytosis"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 11860,
+          "b": 30905,
+          "weight": 0.7125299572944641,
+          "text": "GLA -DISEASE_PROTEIN- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 23488,
+          "b": 30905,
+          "weight": 0.710631787776947,
+          "text": "Myopathy -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 7487,
+          "b": 30905,
+          "weight": 0.707756519317627,
+          "text": "MCOLN1 -DISEASE_PROTEIN- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 23157,
+          "b": 30905,
+          "weight": 0.7075867652893066,
+          "text": "Vomiting -DISEASE_PHENOTYPE_POSITIVE- chylomicron retention disease"
+        },
+        {
+          "rel": "DISEASE_PHENOTYPE_POSITIVE",
+          "a": 30905,
+          "b": 85333,
+          "weight": 0.7056559324264526,
+          "text": "chylomicron retention disease -DISEASE_PHENOTYPE_POSITIVE- Hypoalbuminemia"
+        }
+      ],
+      "drug": 20651,
+      "drug_name": "Sebelipase alfa",
+      "disease": 30905,
+      "disease_name": "chylomicron retention disease",
+      "path_rels": [
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "DISEASE_PROTEIN",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "DISEASE_PROTEIN",
+        "DISEASE_PHENOTYPE_POSITIVE"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease",
+      "top_path": "Sebelipase alfa -INDICATION- Wolman disease -DISEASE_PROTEIN- FNDC4 -DISEASE_PROTEIN- chylomicron retention disease"
+    },
+    {
+      "candidate_edges": 31358,
+      "path_edges": 5,
+      "path_edges_in_field": 5,
+      "overlap": {
+        "top10": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00015944894444798775,
+          "lift": 0.0
+        },
+        "top20": {
+          "hits": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "random_precision": 0.00015944894444798775,
+          "lift": 0.0
+        }
+      },
+      "logit": 4.041467666625977,
+      "logit_after_removing": {
+        "paths": 4.574028015136719,
+        "gnnexplainer": 3.954792022705078,
+        "random": 4.041488170623779
+      },
+      "top_edges": [
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 4315,
+          "b": 61744,
+          "weight": 0.793962299823761,
+          "text": "ALB -EXPOSURE_PROTEIN- Fluorides"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 11771,
+          "b": 14288,
+          "weight": 0.7928457856178284,
+          "text": "SLCO3A1 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "EXPOSURE_PROTEIN",
+          "a": 4315,
+          "b": 61757,
+          "weight": 0.7927883267402649,
+          "text": "ALB -EXPOSURE_PROTEIN- Lead"
+        },
+        {
+          "rel": "CARRIER",
+          "a": 4315,
+          "b": 14288,
+          "weight": 0.7925058603286743,
+          "text": "ALB -CARRIER- Benzylpenicillin"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83762,
+          "weight": 0.7919445037841797,
+          "text": "Benzylpenicillin -CONTRAINDICATION- pyoureter"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32950,
+          "weight": 0.7917571067810059,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- Lyme disease"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 5573,
+          "b": 14288,
+          "weight": 0.7911409139633179,
+          "text": "SLC22A8 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 35640,
+          "weight": 0.791019856929779,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- omphalitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83956,
+          "weight": 0.7908245325088501,
+          "text": "Benzylpenicillin -CONTRAINDICATION- infectious mononucleosis"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 3484,
+          "b": 14288,
+          "weight": 0.7904214262962341,
+          "text": "SLC22A5 -TRANSPORTER- Benzylpenicillin"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 36468,
+          "weight": 0.7903809547424316,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- anaerobic bacteria infectious disease"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 32949,
+          "weight": 0.7902527451515198,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- relapsing fever"
+        },
+        {
+          "rel": "OFF_LABEL_USE",
+          "a": 14288,
+          "b": 84171,
+          "weight": 0.7900848388671875,
+          "text": "Benzylpenicillin -OFF_LABEL_USE- ophthalmia neonatorum"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 3070,
+          "b": 14769,
+          "weight": 0.7900737524032593,
+          "text": "SLC22A6 -ENZYME- Ataluren"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 28082,
+          "weight": 0.7899186015129089,
+          "text": "Benzylpenicillin -CONTRAINDICATION- chronic Epstein-Barr virus infection syndrome"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83827,
+          "weight": 0.7895454168319702,
+          "text": "Benzylpenicillin -CONTRAINDICATION- Clostridium difficile colitis"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 14288,
+          "b": 56616,
+          "weight": 0.789516806602478,
+          "text": "Benzylpenicillin -TRANSPORTER- SLCO4A1"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 83828,
+          "weight": 0.7885645627975464,
+          "text": "Benzylpenicillin -CONTRAINDICATION- perinatal necrotizing enterocolitis"
+        },
+        {
+          "rel": "CONTRAINDICATION",
+          "a": 14288,
+          "b": 35764,
+          "weight": 0.7843754291534424,
+          "text": "Benzylpenicillin -CONTRAINDICATION- kidney disease"
+        },
+        {
+          "rel": "DRUG_EFFECT",
+          "a": 15324,
+          "b": 23284,
+          "weight": 0.28404566645622253,
+          "text": "Leflunomide -DRUG_EFFECT- Hematuria"
+        }
+      ],
+      "drug": 14288,
+      "drug_name": "Benzylpenicillin",
+      "disease": 97606,
+      "disease_name": "granulomatous disease, chronic, autosomal dominant type",
+      "path_rels": [
+        "DRUG_EFFECT",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DRUG_EFFECT",
+        "DISEASE_DISEASE"
+      ],
+      "top_metapath": "Drug-DRUG_EFFECT-Phenotype-DISEASE_PHENOTYPE_POSITIVE-Disease-DISEASE_DISEASE-Disease",
+      "top_path": "Benzylpenicillin -DRUG_EFFECT- Skin ulcer -DISEASE_PHENOTYPE_POSITIVE- chronic granulomatous disease -DISEASE_DISEASE- granulomatous disease, chronic, autosomal dominant type"
+    },
+    {
+      "candidate_edges": 2542,
+      "path_edges": 18,
+      "path_edges_in_field": 17,
+      "overlap": {
+        "top10": {
+          "hits": 1,
+          "precision": 0.1,
+          "recall": 0.058823529411764705,
+          "random_precision": 0.006687647521636507,
+          "lift": 14.952941176470588
+        },
+        "top20": {
+          "hits": 2,
+          "precision": 0.1,
+          "recall": 0.11764705882352941,
+          "random_precision": 0.006687647521636507,
+          "lift": 14.952941176470588
+        }
+      },
+      "logit": 2.7699384689331055,
+      "logit_after_removing": {
+        "paths": 2.512748956680298,
+        "gnnexplainer": 0.46616339683532715,
+        "random": 2.7363169193267822
+      },
+      "top_edges": [
+        {
+          "rel": "CELLCOMP_PROTEIN",
+          "a": 11860,
+          "b": 55774,
+          "weight": 0.7932273149490356,
+          "text": "GLA -CELLCOMP_PROTEIN- lysosome"
+        },
+        {
+          "rel": "INDICATION",
+          "a": 15858,
+          "b": 30905,
+          "weight": 0.7929877042770386,
+          "text": "Migalastat -INDICATION- chylomicron retention disease"
+        },
+        {
+          "rel": "INDICATION",
+          "a": 17112,
+          "b": 38392,
+          "weight": 0.7929573059082031,
+          "text": "Filgrastim -INDICATION- constitutional neutropenia"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 13214,
+          "b": 15187,
+          "weight": 0.791907787322998,
+          "text": "UGT1A1 -TRANSPORTER- Nilotinib"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30347,
+          "b": 38392,
+          "weight": 0.7918798327445984,
+          "text": "Barth syndrome -DISEASE_DISEASE- constitutional neutropenia"
+        },
+        {
+          "rel": "PROTEIN_PROTEIN",
+          "a": 13214,
+          "b": 33794,
+          "weight": 0.7917333245277405,
+          "text": "UGT1A1 -PROTEIN_PROTEIN- UGT1A3"
+        },
+        {
+          "rel": "TRANSPORTER",
+          "a": 13214,
+          "b": 15205,
+          "weight": 0.79169762134552,
+          "text": "UGT1A1 -TRANSPORTER- Pazopanib"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 13214,
+          "b": 127981,
+          "weight": 0.7915984392166138,
+          "text": "UGT1A1 -PATHWAY_PROTEIN- Heme degradation"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30347,
+          "b": 38568,
+          "weight": 0.7915120124816895,
+          "text": "Barth syndrome -DISEASE_DISEASE- disorder of phospholipids, sphingolipids and fatty acids biosynthesis"
+        },
+        {
+          "rel": "TARGET",
+          "a": 13214,
+          "b": 15674,
+          "weight": 0.7908636331558228,
+          "text": "UGT1A1 -TARGET- Fostamatinib"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 11860,
+          "b": 128441,
+          "weight": 0.7907880544662476,
+          "text": "GLA -PATHWAY_PROTEIN- Glycosphingolipid metabolism"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30347,
+          "b": 38043,
+          "weight": 0.7907871007919312,
+          "text": "Barth syndrome -DISEASE_DISEASE- syndromic dyslipidemia"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 30347,
+          "b": 38828,
+          "weight": 0.7905998826026917,
+          "text": "Barth syndrome -DISEASE_DISEASE- mitochondrial disease with dilated cardiomyopathy"
+        },
+        {
+          "rel": "MOLFUNC_PROTEIN",
+          "a": 11860,
+          "b": 55501,
+          "weight": 0.7905646562576294,
+          "text": "GLA -MOLFUNC_PROTEIN- alpha-galactosidase activity"
+        },
+        {
+          "rel": "PATHWAY_PROTEIN",
+          "a": 13214,
+          "b": 128566,
+          "weight": 0.7905443906784058,
+          "text": "UGT1A1 -PATHWAY_PROTEIN- Defective UGT1A1 causes hyperbilirubinemia"
+        },
+        {
+          "rel": "PHENOTYPE_PROTEIN",
+          "a": 11860,
+          "b": 23885,
+          "weight": 0.7898522019386292,
+          "text": "GLA -PHENOTYPE_PROTEIN- Cerebral hemorrhage"
+        },
+        {
+          "rel": "TARGET",
+          "a": 11860,
+          "b": 15858,
+          "weight": 0.7885815501213074,
+          "text": "GLA -TARGET- Migalastat"
+        },
+        {
+          "rel": "DISEASE_DISEASE",
+          "a": 28809,
+          "b": 30347,
+          "weight": 0.7875581383705139,
+          "text": "3-methylglutaconic aciduria -DISEASE_DISEASE- Barth syndrome"
+        },
+        {
+          "rel": "DISEASE_PROTEIN",
+          "a": 8191,
+          "b": 28809,
+          "weight": 0.7646048069000244,
+          "text": "TIMM50 -DISEASE_PROTEIN- 3-methylglutaconic aciduria"
+        },
+        {
+          "rel": "ENZYME",
+          "a": 13214,
+          "b": 15858,
+          "weight": 0.7595890760421753,
+          "text": "UGT1A1 -ENZYME- Migalastat"
+        }
+      ],
+      "drug": 15858,
+      "drug_name": "Migalastat",
+      "disease": 30347,
+      "disease_name": "Barth syndrome",
+      "path_rels": [
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "INDICATION",
+        "INDICATION",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_DISEASE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE",
+        "DISEASE_PHENOTYPE_POSITIVE"
+      ],
+      "top_metapath": "Drug-INDICATION-Disease-DISEASE_DISEASE-Disease-DISEASE_DISEASE-Disease",
+      "top_path": "Migalastat -INDICATION- Fabry disease -DISEASE_DISEASE- syndromic dyslipidemia -DISEASE_DISEASE- Barth syndrome"
+    }
+  ]
+}

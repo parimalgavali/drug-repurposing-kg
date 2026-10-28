@@ -98,3 +98,67 @@ Hetionet v1.0 has 755 `CtD` edges; 752 map to PrimeKG drug–disease pairs. Of t
 | popularity | 33 | 0.026 (0.018–0.036) | 0.079 | 90 | 0.215 |
 | random drugs | 1 | 0.001 (0.000–0.004) | 0.002 | 4 | 0.010 |
 <!-- hetionet:end -->
+
+## GNNExplainer vs metapath explanations
+
+<!-- gnnexplainer:start -->
+20 served rank-1 predictions, 100 GNNExplainer epochs each.
+
+| Top-k GNNExplainer edges | Share on metapath paths | Random top-k | Lift | Path edges recovered | Pairs with ≥1 shared edge |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 10 | 0.060 | 0.0021 | 33.9× | 0.029 | 7/20 |
+| 20 | 0.040 | 0.0021 | 21.4× | 0.041 | 7/20 |
+
+Mean drop of the pair's logit when the edges are deleted from message passing (same number of edges each):
+
+| Deleted edges | Mean logit drop |
+| --- | ---: |
+| metapath path edges | 0.818 |
+| top GNNExplainer edges | 1.678 |
+| random receptive-field edges | 0.006 |
+
+Relations of the top-20 GNNExplainer edges (all pairs): CONTRAINDICATION 92, OFF_LABEL_USE 78, DRUG_EFFECT 41, ENZYME 30, DISEASE_DISEASE 28, TRANSPORTER 24, PATHWAY_PROTEIN 22, CARRIER 13
+
+Relations of the metapath path edges: DISEASE_PHENOTYPE_POSITIVE 159, INDICATION 111, DISEASE_PROTEIN 91, DRUG_EFFECT 90, ENZYME 28, PHENOTYPE_PROTEIN 23, TRANSPORTER 23, OFF_LABEL_USE 22
+<!-- gnnexplainer:end -->
+
+Run with `make gnnexplainer` (needs the full graph in Neo4j and the served checkpoint). Each pair's
+GNNExplainer run is restricted to the edges inside the model's 2-layer receptive field of the drug
+and the disease. The pair's logit on that subgraph is identical to the full graph's, which a test
+checks. Results per pair are in `ml/results/gnnexplainer.json`.
+
+**How faithful are the path explanations?** Only partly.
+- **Low overlap, but far above chance.** 4–6% of the top GNNExplainer edges lie on a top metapath
+  path, about 20–34× what a random top-k from the receptive field would hit. Only 7 of 20 pairs
+  share any edge. GNNExplainer's top 20 recovers about 4% of the path edges.
+- **Some of the gap is by design.** 31% of the top-20 GNNExplainer edges (124 of 400) use relations
+  the path explainer never walks, mostly `CONTRAINDICATION` (92). The GNN uses a drug's
+  contraindications and off-label uses as a profile of the drug; the path explainer only follows
+  mechanism-like relations.
+- **Deleting the edges.** Removing the path edges from message passing lowers the logit by 0.82 on
+  average, against 1.68 for the same number of top GNNExplainer edges and 0.006 for random edges.
+  So the path edges matter to the model far more than random edges do. But in 9 of 20 pairs,
+  removing them left the logit flat or raised it.
+- **Caveat: GNNExplainer's ranking is coarse.** With PyG's defaults (100 epochs, lr 0.01), many
+  masks end within 0.005 of the top weight. In 8 of 20 pairs, 12 or more of the top 20 are tied,
+  and ties are broken by edge id. The overlap numbers are only as precise as that ranking.
+
+**Examples.**
+- **Bleomycin → hyperparathyroidism 2 with jaw tumors.** The top metapath is
+  Drug-INDICATION-Disease-DISEASE_PROTEIN-Gene-DISEASE_PROTEIN-Disease, i.e. Bleomycin treats a
+  disease that shares genes with this one. GNNExplainer's top edge is BLMH -ENZYME- Bleomycin, and
+  no edge is shared. Deleting the path edges drops the logit by 6.4, more than GNNExplainer's edges
+  (2.5): here the paths are the more faithful explanation.
+- **Phenytoin → myocardial infarction.** The top metapath runs through drugs with the same side
+  effects and their off-label uses. GNNExplainer's top edge is Phenytoin -OFF_LABEL_USE- bipolar
+  disorder. No edge is shared, and deleting GNNExplainer's edges drops the logit by 8.5, against
+  0.7 for the path edges.
+- **Tobramycin → serum sickness.** GNNExplainer's top edge is Tobramycin -CONTRAINDICATION-
+  diabetes mellitus, which no path can contain. Deleting the path edges raises the logit by 1.1.
+- **Deutetrabenazine → developmental malformations-deafness-dystonia syndrome** is one of the
+  pairs where the two agree: 3 of GNNExplainer's top 20 edges lie on the paths, which run through
+  shared phenotypes.
+
+**Takeaway:** the metapath paths shown in the UI are readable, plausible graph evidence, but not
+a faithful account of why the served GNN ranks a drug. They should be read as supporting evidence,
+not as the model's reasons.
