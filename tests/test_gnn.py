@@ -63,3 +63,20 @@ def test_checkpoint_round_trip(setup, tmp_path):
         score_fn(loaded, graph2, drugs)(diseases),
         rtol=1e-5,
     )
+
+
+def test_disease_pooling_trains_and_gates_unseen_diseases(setup):
+    from ml.gnn import disease_neighbours
+
+    nodes, split, drugs = setup
+    graph = build_graph(nodes, split)
+    idx, w = disease_neighbours(graph, split, k=3)
+    pool = set(graph.local("disease", split.train["disease"].unique().to_numpy()).tolist())
+    assert idx.shape == w.shape == (len(graph.index["disease"]), min(3, len(pool)))
+    assert set(idx.ravel().tolist()) <= pool
+    np.testing.assert_allclose(w.sum(1)[w.sum(1) > 0], 1, rtol=1e-5)
+    cfg = load_config(epochs=4, eval_every=2, text=False, supervision="disease", pool_k=3)
+    model, graph, info = train(split, nodes, drugs, cfg, text_path=None, log=lambda _: None)
+    scores = score_fn(model, graph, drugs)(split.test["disease"].unique().sort().to_numpy())
+    assert np.isfinite(scores).all() and info["epochs_run"] == 4
+    assert model.gate.grad is not None

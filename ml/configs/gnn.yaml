@@ -11,3 +11,5 @@ negatives: 4           # corrupted drugs per supervision pair
 supervision_ratio: 0.3 # share of training indications hidden from message passing each epoch
 text: true             # frozen MiniLM description embeddings for drugs/diseases
 disease_id_embedding: false # false: diseases = text + neighbourhood only (inductive)
+supervision: pair      # pair: hide random pairs each epoch; disease: hide whole diseases
+pool_k: 0              # > 0: TxGNN-style pooling over the k most similar training diseases

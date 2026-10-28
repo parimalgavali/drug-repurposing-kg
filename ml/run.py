@@ -32,14 +32,14 @@ def models() -> dict[str, Model]:
     }
     try:
         from ml.blend import gnn_blend
-        from ml.gnn import gnn, gnn_notext
+        from ml.gnn import gnn, gnn_dmask, gnn_notext, gnn_pool
         from ml.kge import complex_, rotate
     except ImportError:  # torch/pykeen/pyg not installed
         return registry
     return (
         registry
         | {"rotate": rotate, "complex": complex_, "gnn": gnn, "gnn_notext": gnn_notext}
-        | {"gnn_blend": gnn_blend}
+        | {"gnn_blend": gnn_blend, "gnn_dmask": gnn_dmask, "gnn_pool": gnn_pool}
     )
 
 

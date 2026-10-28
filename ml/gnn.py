@@ -6,7 +6,12 @@ Decoder: DistMult over (drug, INDICATION, disease). Training is full-batch: the 
 (~1.2M edges) fits in memory, so the GNN sees exact neighbourhoods instead of sampled ones.
 
 Leakage guard: each epoch a random `supervision_ratio` of the training indications is removed
-from message passing and used as targets, so a pair's own edge never predicts itself.
+from message passing and used as targets, so a pair's own edge never predicts itself. With
+`supervision: disease` whole diseases are hidden instead, so training looks like the unseen case.
+
+Disease pooling (`pool_k` > 0, TxGNN-style): each disease embedding is mixed with the
+similarity-weighted mean of its top-k most similar training diseases (Adamic–Adar over shared
+genes/phenotypes); a learned gate, decreasing in the number of visible indications, sets the mix.
 """
 
 from __future__ import annotations
@@ -92,6 +97,30 @@ def text_features(graph: Graph, path: Path = TEXT) -> dict[str, torch.Tensor]:
     return out
 
 
+def disease_neighbours(graph: Graph, split: Split, k: int) -> tuple[np.ndarray, np.ndarray]:
+    """Per disease (local ids): the k most similar diseases with training indications, and
+    row-normalised similarity weights (all zero if the disease shares no gene/phenotype)."""
+    import scipy.sparse as sp
+
+    from ml.baselines import DISEASE_NEIGHBOURS
+
+    g = split.graph.filter(pl.col("rel_type").is_in(DISEASE_NEIGHBOURS))
+    g = g.select("src_index", "dst_index").unique()
+    n = len(graph.index["disease"])
+    rows = graph.local("disease", g["src_index"].to_numpy()).numpy()
+    zs, cols = np.unique(g["dst_index"].to_numpy(), return_inverse=True)
+    x = sp.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(n, len(zs)))
+    idf = sp.diags(1 / np.log(np.maximum(np.asarray(x.sum(0)).ravel(), 2)))
+    pool = np.unique(graph.local("disease", split.train["disease"].unique().to_numpy()).numpy())
+    sim = (x @ idf @ x[pool].T).toarray()
+    sim[pool, np.arange(len(pool))] = 0  # never pool a disease with itself
+    k = min(k, len(pool))
+    top = np.argpartition(-sim, k - 1, axis=1)[:, :k]
+    s = np.take_along_axis(sim, top, 1)
+    total = s.sum(1, keepdims=True)
+    return pool[top], (s / np.where(total > 0, total, 1)).astype(np.float32)
+
+
 class HeteroGNN(nn.Module):
     def __init__(self, graph: Graph, cfg: dict, text: dict[str, torch.Tensor] | None = None):
         super().__init__()
@@ -111,8 +140,24 @@ class HeteroGNN(nn.Module):
         )
         self.dropout = nn.Dropout(cfg["dropout"])
         self.rel = nn.Parameter(torch.ones(h))
+        self.pool_idx: torch.Tensor | None = None
+        if cfg.get("pool_k", 0):
+            self.gate = nn.Parameter(torch.tensor([0.0, 1.0]))  # sigmoid(a − |b|·log(1 + deg))
         for e in self.emb.values():
             nn.init.normal_(e.weight, std=0.1)
+
+    def set_pool(self, idx: np.ndarray, weights: np.ndarray) -> None:
+        self.pool_idx = torch.from_numpy(idx)
+        self.pool_w = torch.from_numpy(weights)
+        self.pool_has = (self.pool_w.sum(1) > 0).float()
+
+    def _pool(self, h: torch.Tensor, edge_index_dict) -> torch.Tensor:
+        ind = edge_index_dict.get(IND)
+        deg = torch.zeros(len(h)) if ind is None else torch.bincount(ind[1], minlength=len(h))
+        gate = torch.sigmoid(self.gate[0] - self.gate[1].abs() * torch.log1p(deg.float()))
+        gate = (gate * self.pool_has).unsqueeze(-1)
+        pooled = (self.pool_w.unsqueeze(-1) * h[self.pool_idx]).sum(1)
+        return (1 - gate) * h + gate * pooled
 
     def encode(self, edge_index_dict) -> dict[str, torch.Tensor]:
         x = {
@@ -126,6 +171,8 @@ class HeteroGNN(nn.Module):
             x = {t: out.get(t, x[t]) + x[t] for t in x}  # residual keeps isolated types
             if i < len(self.convs) - 1:
                 x = {t: self.dropout(torch.relu(v)) for t, v in x.items()}
+        if self.pool_idx is not None:
+            x["disease"] = self._pool(x["disease"], edge_index_dict)
         return x
 
     def decode(self, h_drug: torch.Tensor, h_disease: torch.Tensor) -> torch.Tensor:
@@ -157,15 +204,22 @@ def train(
     graph = build_graph(nodes, split)
     text = text_features(graph, text_path) if cfg["text"] and text_path else None
     model = HeteroGNN(graph, cfg, text)
+    if cfg.get("pool_k", 0):
+        model.set_pool(*disease_neighbours(graph, split, cfg["pool_k"]))
     with torch.no_grad():  # materialise lazy SAGEConv shapes before building the optimiser
         model.encode(graph.data.edge_index_dict)
     opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
     all_drugs = torch.arange(len(graph.index["drug"]))
+    train_diseases = split.train["disease"].unique().sort().to_numpy()
     best, best_mrr, bad, history = None, -1.0, 0, []
     start = time.perf_counter()
     for epoch in range(1, cfg["epochs"] + 1):
         model.train()
-        mask = rng.random(split.train.height) < cfg["supervision_ratio"]
+        if cfg.get("supervision", "pair") == "disease":
+            hidden = train_diseases[rng.random(len(train_diseases)) < cfg["supervision_ratio"]]
+            mask = split.train["disease"].is_in(hidden.tolist()).to_numpy()
+        else:
+            mask = rng.random(split.train.height) < cfg["supervision_ratio"]
         graph.set_indications(split.train.filter(~pl.Series(mask)))
         sup = split.train.filter(pl.Series(mask))
         drug = graph.local("drug", sup["drug"].to_numpy())
@@ -217,6 +271,8 @@ def load_checkpoint(
     graph = build_graph(nodes, split)
     text = text_features(graph, text_path) if cfg["text"] and text_path else None
     model = HeteroGNN(graph, cfg, text)
+    if cfg.get("pool_k", 0):
+        model.set_pool(*disease_neighbours(graph, split, cfg["pool_k"]))
     with torch.no_grad():
         model.encode(graph.data.edge_index_dict)
     model.load_state_dict(ckpt["state_dict"])
@@ -226,16 +282,18 @@ def load_checkpoint(
 NODES = Path("data/processed/nodes.parquet")
 
 
-def _model(text: bool):
+def _model(tag: str, **overrides):
     def fit(split: Split, drugs: np.ndarray, diseases: np.ndarray) -> ScoreFn:
-        cfg = load_config(text=text)
+        cfg = load_config(**overrides)
         model, graph, info = train(split, pl.read_parquet(NODES), drugs, cfg)
-        name = f"{split.name}_seed{split.seed}_{'text' if text else 'notext'}"
+        name = f"{split.name}_seed{split.seed}_{tag}"
         save_checkpoint(model, cfg, info, name)
         return score_fn(model, graph, drugs)
 
     return fit
 
 
-gnn = _model(text=True)
-gnn_notext = _model(text=False)
+gnn = _model("text", text=True)
+gnn_notext = _model("notext", text=False)
+gnn_dmask = _model("dmask", text=True, supervision="disease")
+gnn_pool = _model("pool", text=True, supervision="disease", pool_k=10)
