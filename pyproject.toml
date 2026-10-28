@@ -37,6 +37,11 @@ ml = [
     "torch>=2.14,<2.15",
     "torch-geometric>=2.6",
 ]
+rdf = [
+    "pyoxigraph>=0.4",
+    "pyshacl>=0.26",
+    "rdflib>=7",
+]
 
 [dependency-groups]
 dev = ["pytest>=8.3", "ruff>=0.8"]

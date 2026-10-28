@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate api openapi lint test
+.PHONY: rdf data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate api openapi lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -48,7 +48,10 @@ validate:
 
 # Task 7: the API (LLM_PROVIDER=anthropic for live answers; default replays recordings).
 api:
-	uv run --extra graph --extra llm --extra api uvicorn api.main:app --reload --port 8000
+	uv run --extra graph --extra llm --extra api --extra rdf uvicorn api.main:app --reload --port 8000
 
 openapi:
-	uv run --extra graph --extra llm --extra api python -m api.openapi
+	uv run --extra graph --extra llm --extra api --extra rdf python -m api.openapi
+
+rdf:
+	uv run --extra graph --extra rdf python -m semweb.export --disease $${DISEASE:-33675}

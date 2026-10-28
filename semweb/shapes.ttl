@@ -1,0 +1,46 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rkg:  <https://w3id.org/repurposekg/vocab#> .
+
+# Every exported entity: one English label, one served (Neo4j) id, its source ontology.
+rkg:EntityShape a sh:NodeShape ;
+    sh:targetClass rkg:Drug, rkg:Disease, rkg:Gene, rkg:Phenotype ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path rdfs:label ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:servedId ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:source ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+rkg:DrugShape a sh:NodeShape ;
+    sh:targetClass rkg:Drug ;
+    sh:pattern "^https://go\\.drugbank\\.com/drugs/DB[0-9]{5}$" ;
+    sh:property [ sh:path rkg:target ; sh:class rkg:Gene ] ;
+    sh:property [ sh:path rkg:indication ; sh:class rkg:Disease ] ;
+    sh:property [ sh:path rkg:offLabelUse ; sh:class rkg:Disease ] .
+
+rkg:DiseaseShape a sh:NodeShape ;
+    sh:targetClass rkg:Disease ;
+    sh:or (
+        [ sh:pattern "^http://purl\\.obolibrary\\.org/obo/MONDO_[0-9]{7}$" ]
+        [ sh:pattern "^https://w3id\\.org/repurposekg/node/[0-9]+$" ; sh:property [ sh:path rkg:groups ; sh:minCount 2 ] ]
+    ) ;
+    sh:property [ sh:path rkg:diseaseProtein ; sh:class rkg:Gene ] ;
+    sh:property [ sh:path rkg:phenotype ; sh:class rkg:Phenotype ] .
+
+rkg:GeneShape a sh:NodeShape ;
+    sh:targetClass rkg:Gene ;
+    sh:pattern "^https://identifiers\\.org/ncbigene:[0-9]+$" .
+
+rkg:PhenotypeShape a sh:NodeShape ;
+    sh:targetClass rkg:Phenotype ;
+    sh:pattern "^http://purl\\.obolibrary\\.org/obo/HP_[0-9]{7}$" .
+
+# A model prediction is an n-ary node so it can carry score, rank and model version.
+rkg:PredictionShape a sh:NodeShape ;
+    sh:targetClass rkg:Prediction ;
+    sh:property [ sh:path rkg:drug ; sh:class rkg:Drug ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:disease ; sh:class rkg:Disease ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:score ; sh:datatype xsd:double ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:rank ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:modelVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rkg:trialCount ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxCount 1 ] .

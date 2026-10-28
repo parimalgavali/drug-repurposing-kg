@@ -52,3 +52,12 @@ curl -N -X POST "$B/ask" -H 'content-type: application/json' \
 # "Ibuprofen [14287] targets these 10 genes: BCL2 [2429], … PTGS1 [9031], PTGS2 [4425] …"
 # event: subgraph … event: done
 ```
+
+## Semantic web
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /api/diseases/{id}/rdf?k=20` | Turtle export of the disease-centred subgraph |
+| `GET /api/sparql?query=…`, `POST /api/sparql {"query": …}` | `{vars, rows, truncated}` for `SELECT`, `{boolean}` for `ASK`; 400 for anything else, 503 if no export is loaded |
+
+`/api/sparql` serves `RDF_PATH` (default `data/rdf/export.ttl`, written by `make rdf`). See [SEMANTIC_WEB.md](SEMANTIC_WEB.md).
