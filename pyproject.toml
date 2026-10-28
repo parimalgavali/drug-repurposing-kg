@@ -17,6 +17,11 @@ data = [
 graph = [
     "neo4j>=5.26,<6",
 ]
+ml = [
+    "pykeen>=1.11",
+    "scikit-learn>=1.5",
+    "torch>=2.4",
+]
 
 [dependency-groups]
 dev = ["pytest>=8.3", "ruff>=0.8"]
@@ -34,3 +39,11 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]

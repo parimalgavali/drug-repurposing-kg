@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: data kg kg-import kg-schema kg-fixture lint test
+.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -30,3 +30,8 @@ lint:
 
 test:
 	uv run pytest -q
+
+# Splits + all task-3 models on both splits (KGE: 1 seed, ~10 min per model per split on CPU).
+ml-baselines:
+	uv run --extra ml python -m ml.run --models popularity,shared_neighbour,similar_disease --split all
+	uv run --extra ml python -m ml.run --models rotate,complex --split all --seeds 0
