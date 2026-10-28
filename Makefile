@@ -4,7 +4,7 @@ NEO4J_ADMIN ?= neo4j-admin
 IMPORT_PREFIX ?=
 PREFIX_ARG = $(if $(IMPORT_PREFIX),--prefix $(IMPORT_PREFIX),)
 
-.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn lint test
+.PHONY: data kg kg-import kg-schema kg-fixture ml-baselines ml-gnn validate lint test
 
 data:
 	uv run python scripts/fetch_data.py all
@@ -41,3 +41,7 @@ ml-gnn:
 	uv run --extra ml python -m ml.text_features
 	uv run --extra ml python -m ml.run --models gnn,gnn_notext --split all
 	uv run --extra ml --extra graph python -m ml.write_predictions --model gnn_notext --split random
+
+# Task 5: ClinicalTrials.gov check of held-out-disease predictions (rate-limited, cached).
+validate:
+	uv run --extra ml --extra graph python -m validation.run

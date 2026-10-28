@@ -1,0 +1,9 @@
+{"totalCount":7,"studies":[
+{"protocolSection":{"identificationModule":{"nctId":"NCT01052948"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT00129181"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{"phases":["NA"]}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT01270711"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT00605683"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{"phases":["PHASE3"]}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT00242008"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{"phases":["PHASE3"]}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT00153972"},"statusModule":{"overallStatus":"COMPLETED"},"designModule":{"phases":["PHASE4"]}}},
+{"protocolSection":{"identificationModule":{"nctId":"NCT00174239"},"statusModule":{"overallStatus":"TERMINATED"},"designModule":{"phases":["PHASE4"]}}}
+]}
