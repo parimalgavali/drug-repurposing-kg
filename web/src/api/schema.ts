@@ -178,6 +178,8 @@ export interface components {
             ct_studies?: number | null;
             /** Ct Max Phase */
             ct_max_phase?: number | null;
+            /** Model Version */
+            model_version?: string | null;
         };
         /** Candidates */
         Candidates: {

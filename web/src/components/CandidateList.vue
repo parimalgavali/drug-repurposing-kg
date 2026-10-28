@@ -34,6 +34,16 @@ function badge(c: Candidate): Badge | null {
   };
 }
 
+function rankedBy(version: string | null | undefined): string | null {
+  if (!version) return null;
+  if (version.startsWith("similar_disease")) return t("bySimilar");
+  if (version.startsWith("gnn")) return t("byGnn");
+  if (version.includes("popularity")) return t("byPopularity");
+  return version;
+}
+
+const rankedNote = computed(() => rankedBy(props.data?.candidates[0]?.model_version));
+
 const badges = computed(() => new Map((props.data?.candidates ?? []).map((c) => [c.drug_id, badge(c)])));
 </script>
 
@@ -44,6 +54,9 @@ const badges = computed(() => new Map((props.data?.candidates ?? []).map((c) => 
     <p v-else-if="!data" class="muted">{{ t("searchFirst") }}</p>
     <template v-else>
       <p v-if="!data.candidates.length" class="muted">{{ t("noPredictions") }}</p>
+      <p v-else-if="rankedNote" class="muted ranked-by" data-testid="ranked-by" :title="data.candidates[0].model_version ?? ''">
+        {{ t("rankedBy") }} {{ rankedNote }}
+      </p>
       <ol class="candidates">
         <li
           v-for="c in data.candidates"

@@ -218,3 +218,30 @@ This was a time-boxed attempt to close the disease-split gap: GNN MRR 0.15 vs `s
 - **Disease-level hiding costs accuracy when diseases already have drugs.** On `random`, MRR is 0.428 ± 0.013 for `gnn_dmask` and 0.365 ± 0.018 for `gnn_pool`, against 0.479 for `gnn` and 0.512 for `gnn_notext`. Training only on fully hidden diseases means the model never practises using a disease's own known drugs, and pooling pulls a known disease toward its neighbours.
 - **Not TxGNN.** This borrows TxGNN's idea of disease-similarity pooling and zero-shot training, but not its pretraining, its metric-learning module or its exact similarity. Published TxGNN numbers remain not comparable (see above).
 - **Serving is unchanged.** The UI keeps serving `gnn_notext-random-seed0`.
+
+## Serving diseases with no known drugs
+
+The app used to serve `gnn_notext-random-seed0` for all 17,080 diseases. 15,717 of them have no known indication, which is the unseen-disease case, and there `gnn_notext` is the weakest GNN (disease-split MRR 0.083). `ml/routing.py` (`ml/results/routing.json`) evaluates the candidate models on the held-out-disease splits, separately for test diseases **with** gene/phenotype links (the only signal `similar_disease` uses) and **without** them. The pick per subgroup uses mean **validation** MRR on `disease_strict`.
+
+| Subgroup (`disease_strict`, 3 seeds) | Model | Validation MRR | Test MRR | Test Hits@50 |
+| --- | --- | ---: | ---: | ---: |
+| with genes (~233 test diseases) | **similar_disease** (picked) | 0.194 | 0.249 ± 0.018 | 0.473 |
+| | gnn_dmask | 0.134 | 0.160 ± 0.029 | 0.459 |
+| | gnn | 0.125 | 0.098 ± 0.030 | 0.397 |
+| | popularity | 0.045 | 0.111 ± 0.042 | 0.248 |
+| without genes (~63 test diseases) | **gnn** (picked) | 0.157 | 0.102 ± 0.010 | 0.468 |
+| | gnn_dmask | 0.145 | 0.144 ± 0.041 | 0.524 |
+| | similar_disease (= popularity here) | 0.042 | 0.093 ± 0.017 | 0.387 |
+
+On the `disease` split, the model served before (`gnn_notext`) scores test MRR 0.085 (with genes) and 0.075 (without), against 0.463 for `similar_disease` and 0.132 for `gnn`.
+
+**What the app serves now** (`ml/write_predictions.py --unseen-model auto`, the default):
+- 1,363 diseases with known drugs keep `gnn_notext-random-seed0`.
+- 7,495 diseases without known drugs but with gene/phenotype links get `similar_disease-all`, i.e. `similar_disease` trained on every known indication.
+- 8,222 diseases with neither get `gnn-random-seed0`, the text GNN; their disease definition is often the only signal.
+- Each relationship's `model_version` records its model. The API returns it, and the UI shows a "Ranked by …" note.
+
+**Caveats**
+- **Test favours `gnn_dmask` for diseases without genes** (0.144 vs 0.102), but validation picked `gnn`. I kept the validation pick rather than choose on test.
+- **The without-genes subgroup is small** (about 63 test diseases per seed).
+- **`similar_disease` scores are counts, not GNN logits.** The UI's score bars are relative within one disease, so this doesn't matter there, but scores aren't comparable across diseases served by different models.
