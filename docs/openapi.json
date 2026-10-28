@@ -492,6 +492,17 @@
               }
             ],
             "title": "Ct Max Phase"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
           }
         },
         "type": "object",

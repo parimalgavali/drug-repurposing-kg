@@ -147,6 +147,7 @@ def test_candidates_and_404(kg):
         assert body["disease"]["name"] == "asthma"
         assert body["candidates"][0]["drug_id"] == 14287
         assert body["candidates"][0]["drug_de"] == "Ibuprofen (de)"
+        assert "model_version" in body["candidates"][0]
         assert c.get("/api/diseases/424242/candidates").status_code == 404
         assert c.get("/api/diseases/14287/candidates").status_code == 404  # a drug, not a disease
 

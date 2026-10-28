@@ -24,12 +24,21 @@ from graphrag.answer import MAX_ROWS, stream_answer
 from graphrag.linker import link
 from graphrag.pipeline import Plan, plan
 from graphrag.router import Label
-from graphrag.templates import KNOWN, REPURPOSE
+from graphrag.templates import KNOWN
 from kg.client import KGClient, connect
 from llm import Provider, get_provider
 from semweb.export import export as export_rdf
 from semweb.store import RdfStore, SparqlError
 from validation.ctgov import CTGov, search_url
+
+CANDIDATES = """
+MATCH (d:Drug)-[p:PREDICTED_INDICATION]->(s:Disease {id: $disease})
+RETURN d.id AS drug_id, d.name AS drug, p.rank AS rank, round(p.score, 3) AS score,
+       p.ct_studies AS ct_studies, p.ct_max_phase AS ct_max_phase,
+       p.model_version AS model_version
+ORDER BY p.rank
+LIMIT $k
+"""
 
 log = logging.getLogger(__name__)
 NODE = (
@@ -66,6 +75,7 @@ class Candidate(BaseModel):
     score: float
     ct_studies: int | None = None
     ct_max_phase: float | None = None
+    model_version: str | None = None
 
 
 class KnownDrug(BaseModel):
@@ -211,7 +221,7 @@ def candidates(
 ) -> Candidates:
     disease = node_or_404(kg, "Disease", disease_id)
     params = {"disease": disease_id, "k": limit}
-    preds, known = kg.read(REPURPOSE, params), kg.read(KNOWN, params)
+    preds, known = kg.read(CANDIDATES, params), kg.read(KNOWN, params)
     de = german_names(kg, [r["drug_id"] for r in preds + known])
     preds = [{**r, "drug_de": de.get(r["drug_id"])} for r in preds]
     for r in preds:  # counts stored by `make validate` win; else what /trials already looked up
