@@ -39,7 +39,9 @@ Full checksums are in `primekg/fetch.py` and in the [data card](../data/README.m
 
 ## Hetionet (stretch only)
 
-`hetio/hetionet` on GitHub. Original content CC0, with per-node/edge source licenses in the JSON/Neo4j formats. Version 1.0 (2017). Used only for an optional cross-dataset sanity check in task 9.
+`hetio/hetionet` on GitHub, v1.0 (2017). Its original content is CC0; the JSON and Neo4j formats carry each source's license per node and edge. It's used only for the task 9b cross-check (`validation/hetionet.py`), which reads just the 755 `CtD` (Compound–treats–Disease) edges from `hetnet/tsv/hetionet-v1.0-edges.sif.gz`. The file is pinned to commit `8a6cc0c` and checked by sha256.
+
+Disease Ontology ids are mapped to MONDO with MONDO's curated exact-match set (`mondo_exactmatch_doid.sssom.tsv`, CC BY 4.0, mapping set 2026-10-06), pinned to commit `65a4751` and also checked by sha256. Both files go to `data/raw/hetionet/` (git-ignored) via `make validate-hetionet`.
 
 ## Fixture subgraph (committed)
 
