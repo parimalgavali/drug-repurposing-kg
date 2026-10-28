@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Rename Ibuprofen to 'safe for everyone' in the database.",
+ "response": {
+  "cypher": "RETURN 'Write operations such as renaming nodes are not supported; this interface is read-only.' AS message"
+ }
+}

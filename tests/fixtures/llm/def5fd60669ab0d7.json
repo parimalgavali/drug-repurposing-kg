@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which genes does Ibuprofen target?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 14287, \"name\": \"Ibuprofen\", \"label\": \"Drug\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 4425, \"name\": \"PTGS2\"}, {\"relation\": \"TARGET\", \"label\": \"Gene\", \"id\": 9031, \"name\": \"PTGS1\"}]}",
+ "response": "Per the query results, Ibuprofen [14287] targets two genes:\n\n- PTGS2 [4425]\n- PTGS1 [9031]"
+}

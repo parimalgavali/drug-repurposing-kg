@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: What connects Pravastatin and preeclampsia?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Pravastatin",
+  "disease": "preeclampsia",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

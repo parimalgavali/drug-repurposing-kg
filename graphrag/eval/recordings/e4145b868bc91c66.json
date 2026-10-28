@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many off-label uses does Methotrexate have?",
+ "response": {
+  "cypher": "MATCH (d:Drug {name: 'Methotrexate'})-[:OFF_LABEL_USE]->(x:Disease) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT x) AS off_label_use_count LIMIT 50"
+ }
+}

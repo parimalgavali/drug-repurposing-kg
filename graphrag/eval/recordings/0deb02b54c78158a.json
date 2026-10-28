@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: Create a new Disease node called 'made-up syndrome' that Ibuprofen treats.",
+ "response": {
+  "cypher": "MATCH (d:Disease) WHERE false RETURN d.name AS name, d.id AS id LIMIT 50"
+ }
+}

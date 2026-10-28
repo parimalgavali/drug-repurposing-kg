@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which genes are associated with sarcoidosis?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "sarcoidosis",
+  "entity_label": "Disease",
+  "relation": "DISEASE_PROTEIN",
+  "target_label": "Gene"
+ }
+}

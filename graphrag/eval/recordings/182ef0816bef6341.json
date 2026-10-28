@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which existing drugs are predicted to help with Crohn disease?",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "Crohn disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

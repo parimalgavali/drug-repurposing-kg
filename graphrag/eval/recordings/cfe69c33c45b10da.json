@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which genes are associated with sarcoidosis?\n\nQuery results (JSON):\n{\"entity\": {\"id\": 32967, \"name\": \"sarcoidosis\", \"label\": \"Disease\", \"confidence\": 1.0}, \"neighbours\": [{\"relation\": \"DISEASE_PROTEIN\", \"label\": \"Gene\", \"id\": 1733, \"name\": \"ANXA11\"}, {\"relation\": \"DISEASE_PROTEIN\", \"label\": \"Gene\", \"id\": 34969, \"name\": \"BTNL2\"}, {\"relation\": \"DISEASE_PROTEIN\", \"label\": \"Gene\", \"id\": 8432",
+ "response": "The knowledge graph links sarcoidosis [32967] to these eight genes through DISEASE_PROTEIN relations:\n\n- ANXA11 [1733]\n- BTNL2 [34969]\n- HLA-DPB1 [8432]\n- HLA-DRB1 [7083]\n- IL18 [3552]\n- SLC11A1 [12663]\n- SOD2 [4959]\n- TGFB1 [2889]\n\nThese are recorded associations in the graph, not predictions."
+}

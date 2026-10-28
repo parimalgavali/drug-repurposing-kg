@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n(none)\n\nQuestion: How many genes are associated with Parkinson disease?",
+ "response": {
+  "cypher": "MATCH (d:Disease)-[:DISEASE_PROTEIN]-(g:Gene) WHERE toLower(d.name) = 'parkinson disease' RETURN d.id AS disease_id, d.name AS disease_name, count(DISTINCT g) AS gene_count LIMIT 50"
+ }
+}

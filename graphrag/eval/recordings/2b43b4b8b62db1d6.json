@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which drugs are indicated for asthma?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "asthma",
+  "entity_label": "Disease",
+  "relation": "INDICATION",
+  "target_label": "Drug"
+ }
+}

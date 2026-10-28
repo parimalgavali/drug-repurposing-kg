@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: What evidence connects Methotrexate to Crohn disease?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Methotrexate",
+  "disease": "Crohn disease",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

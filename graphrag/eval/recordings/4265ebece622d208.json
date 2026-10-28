@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: What are the off-label uses of Methotrexate?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "Methotrexate",
+  "entity_label": "Drug",
+  "relation": "OFF_LABEL_USE",
+  "target_label": "Disease"
+ }
+}

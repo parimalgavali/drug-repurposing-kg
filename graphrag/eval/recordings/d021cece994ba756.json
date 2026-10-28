@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which predicted drug candidates for Crohn disease already have registered clinical trials?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Drug)-[r:PREDICTED_INDICATION]->(dis:Disease {id: 37784}) WHERE r.ct_studies IS NOT NULL AND r.ct_studies > 0 RETURN d.name AS drug_name, d.id AS drug_id, r.score AS score, r.rank AS rank, r.ct_studies AS ct_studies, r.ct_max_phase AS ct_max_phase ORDER B",
+ "response": "Six model-predicted drug candidates for Crohn disease [37784] have registered clinical trials. These are predicted links (model hypotheses), listed by prediction rank:\n\n| Rank | Drug | Score | Trials | Max phase |\n|---|---|---|---|---|\n| 2 | Methotrexate [14194] | 2.11 | 24 | 4 |\n| 3 | Etanercept [17583] | 2.10 | 1 | not reported |\n| 4 | Ustekinumab [18230] | 1.72 | 93 | 4 |\n| 5 | Golimumab [17601] | 1.50 | 9 | 4 |\n| 7 | Chloroquine [14206] | 1.03 | 1 | 2 |\n| 9 | Sulfasalazine [15982] | 0.64 | 2 | not reported |\n\nUstekinumab has the most registered studies (93), followed by Methotrexate (24). Etanercept and Sulfasalazine have registered studies, but the results give no maximum phase for them."
+}

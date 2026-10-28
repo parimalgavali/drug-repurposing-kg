@@ -1,0 +1,8 @@
+{
+ "kind": "structured",
+ "schema": "Cypher",
+ "prompt": "Linked entities:\n- 'Crohn disease' → Crohn disease (Disease, id 37784)\n\nQuestion: Which predicted drug candidates for Crohn disease already have registered clinical trials?",
+ "response": {
+  "cypher": "MATCH (d:Drug)-[r:PREDICTED_INDICATION]->(dis:Disease {id: 37784}) WHERE r.ct_studies IS NOT NULL AND r.ct_studies > 0 RETURN d.name AS drug_name, d.id AS drug_id, r.score AS score, r.rank AS rank, r.ct_studies AS ct_studies, r.ct_max_phase AS ct_max_phase ORDER BY r.rank ASC LIMIT 50"
+ }
+}

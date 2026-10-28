@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Explain how Prednisone might treat sarcoidosis.",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Prednisone",
+  "disease": "sarcoidosis",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

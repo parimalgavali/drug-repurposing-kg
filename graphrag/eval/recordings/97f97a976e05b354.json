@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Which enzymes metabolise Ibuprofen?",
+ "response": {
+  "intent": "neighbours",
+  "drug": null,
+  "disease": null,
+  "entity": "Ibuprofen",
+  "entity_label": "Drug",
+  "relation": "ENZYME",
+  "target_label": "Gene"
+ }
+}

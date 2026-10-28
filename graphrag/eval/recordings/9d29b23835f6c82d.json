@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: How could Ibuprofen relate to rheumatoid arthritis?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Ibuprofen",
+  "disease": "rheumatoid arthritis",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

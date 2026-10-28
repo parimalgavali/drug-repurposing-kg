@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: How many genes does Ibuprofen target?\n\nQuery results (JSON):\n{\"cypher\": \"MATCH (d:Drug {name: 'Ibuprofen'})-[:TARGET]->(g:Gene) RETURN d.name AS drug_name, d.id AS drug_id, count(DISTINCT g) AS target_gene_count LIMIT 50\", \"rows\": [{\"n\": 2}], \"error\": null}",
+ "response": "According to the query results, Ibuprofen targets **2 genes**. The result row is just `{\"n\": 2}`, so it doesn't include Ibuprofen's node id or the names or ids of the two genes. I can't cite node ids or say which genes they are from these results."
+}

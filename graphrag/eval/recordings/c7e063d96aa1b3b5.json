@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Suggest drugs that might be repurposed to treat rheumatoid arthritis.",
+ "response": {
+  "intent": "repurpose",
+  "drug": null,
+  "disease": "rheumatoid arthritis",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}

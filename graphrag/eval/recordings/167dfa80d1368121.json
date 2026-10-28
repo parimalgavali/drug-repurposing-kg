@@ -1,0 +1,14 @@
+{
+ "kind": "structured",
+ "schema": "Route",
+ "prompt": "Question: Why might Levofloxacin work for bronchitis?",
+ "response": {
+  "intent": "explain_pair",
+  "drug": "Levofloxacin",
+  "disease": "bronchitis",
+  "entity": null,
+  "entity_label": null,
+  "relation": null,
+  "target_label": null
+ }
+}
