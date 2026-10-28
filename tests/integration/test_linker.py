@@ -13,6 +13,7 @@ from graphrag.linker import link  # noqa: E402
 from graphrag.templates import neighbours  # noqa: E402
 from kg.client import KGClient, connect  # noqa: E402
 from kg.load import load_frames, node_count  # noqa: E402
+from kg.schema import apply_schema  # noqa: E402
 from primekg.fixture import read_fixture  # noqa: E402
 
 
@@ -21,6 +22,7 @@ def kg():
     driver = connect()
     if node_count(driver) == 0:
         load_frames(driver, *read_fixture())
+    apply_schema(driver)  # the linker needs the entityNames full-text index
     client = KGClient(driver)
     yield client
     client.close()
