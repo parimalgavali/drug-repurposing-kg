@@ -1,0 +1,499 @@
+node_index,node_id,node_type,label,node_name,node_source
+61,801,gene/protein,Gene,CALM1,NCBI
+74,151,gene/protein,Gene,ADRA2B,NCBI
+125,1956,gene/protein,Gene,EGFR,NCBI
+139,5111,gene/protein,Gene,PCNA,NCBI
+194,5579,gene/protein,Gene,PRKCB,NCBI
+227,3554,gene/protein,Gene,IL1R1,NCBI
+326,3725,gene/protein,Gene,JUN,NCBI
+373,4843,gene/protein,Gene,NOS2,NCBI
+375,2099,gene/protein,Gene,ESR1,NCBI
+379,2580,gene/protein,Gene,GAK,NCBI
+388,640,gene/protein,Gene,BLK,NCBI
+447,2740,gene/protein,Gene,GLP1R,NCBI
+452,1312,gene/protein,Gene,COMT,NCBI
+455,1131,gene/protein,Gene,CHRM3,NCBI
+509,2908,gene/protein,Gene,NR3C1,NCBI
+519,3313,gene/protein,Gene,HSPA9,NCBI
+594,1786,gene/protein,Gene,DNMT1,NCBI
+611,351,gene/protein,Gene,APP,NCBI
+642,2706,gene/protein,Gene,GJB2,NCBI
+676,2185,gene/protein,Gene,PTK2B,NCBI
+706,5916,gene/protein,Gene,RARG,NCBI
+740,5914,gene/protein,Gene,RARA,NCBI
+772,5970,gene/protein,Gene,RELA,NCBI
+862,3516,gene/protein,Gene,RBPJ,NCBI
+864,3358,gene/protein,Gene,HTR2C,NCBI
+989,5468,gene/protein,Gene,PPARG,NCBI
+1004,3553,gene/protein,Gene,IL1B,NCBI
+1064,5966,gene/protein,Gene,REL,NCBI
+1107,10363,gene/protein,Gene,HMG20A,NCBI
+1122,5465,gene/protein,Gene,PPARA,NCBI
+1151,4790,gene/protein,Gene,NFKB1,NCBI
+1162,4090,gene/protein,Gene,SMAD5,NCBI
+1311,6531,gene/protein,Gene,SLC6A3,NCBI
+1390,4795,gene/protein,Gene,NFKBIL1,NCBI
+1410,3716,gene/protein,Gene,JAK1,NCBI
+1494,154,gene/protein,Gene,ADRB2,NCBI
+1531,6908,gene/protein,Gene,TBP,NCBI
+1567,3569,gene/protein,Gene,IL6,NCBI
+1592,3117,gene/protein,Gene,HLA-DQA1,NCBI
+1618,3717,gene/protein,Gene,JAK2,NCBI
+1650,4128,gene/protein,Gene,MAOA,NCBI
+1659,148,gene/protein,Gene,ADRA1A,NCBI
+1691,471,gene/protein,Gene,ATIC,NCBI
+1782,4288,gene/protein,Gene,MKI67,NCBI
+1810,3360,gene/protein,Gene,HTR4,NCBI
+1922,1132,gene/protein,Gene,CHRM4,NCBI
+1926,6256,gene/protein,Gene,RXRA,NCBI
+1940,146,gene/protein,Gene,ADRA1D,NCBI
+2017,7421,gene/protein,Gene,VDR,NCBI
+2197,55905,gene/protein,Gene,RNF114,NCBI
+2296,9529,gene/protein,Gene,BAG5,NCBI
+2319,301,gene/protein,Gene,ANXA1,NCBI
+2329,7124,gene/protein,Gene,TNF,NCBI
+2401,1813,gene/protein,Gene,DRD2,NCBI
+2429,596,gene/protein,Gene,BCL2,NCBI
+2453,5351,gene/protein,Gene,PLOD1,NCBI
+2472,150,gene/protein,Gene,ADRA2A,NCBI
+2591,6532,gene/protein,Gene,SLC6A4,NCBI
+2625,3237,gene/protein,Gene,HOXD11,NCBI
+2837,10628,gene/protein,Gene,TXNIP,NCBI
+2889,7040,gene/protein,Gene,TGFB1,NCBI
+2918,759,gene/protein,Gene,CA1,NCBI
+2934,6278,gene/protein,Gene,S100A7,NCBI
+2978,3576,gene/protein,Gene,CXCL8,NCBI
+2984,11315,gene/protein,Gene,PARK7,NCBI
+3199,1812,gene/protein,Gene,DRD1,NCBI
+3209,8856,gene/protein,Gene,NR1I2,NCBI
+3417,3356,gene/protein,Gene,HTR2A,NCBI
+3433,761,gene/protein,Gene,CA3,NCBI
+3451,3596,gene/protein,Gene,IL13,NCBI
+3466,3359,gene/protein,Gene,HTR3A,NCBI
+3471,5167,gene/protein,Gene,ENPP1,NCBI
+3490,54892,gene/protein,Gene,NCAPG2,NCBI
+3509,7298,gene/protein,Gene,TYMS,NCBI
+3568,6257,gene/protein,Gene,RXRB,NCBI
+3688,29119,gene/protein,Gene,CTNNA3,NCBI
+3841,1728,gene/protein,Gene,NQO1,NCBI
+3980,1621,gene/protein,Gene,DBH,NCBI
+4162,5771,gene/protein,Gene,PTPN2,NCBI
+4213,2562,gene/protein,Gene,GABRB3,NCBI
+4299,84648,gene/protein,Gene,LCE3D,NCBI
+4304,26525,gene/protein,Gene,IL36RN,NCBI
+4425,5743,gene/protein,Gene,PTGS2,NCBI
+4468,1129,gene/protein,Gene,CHRM2,NCBI
+4485,6311,gene/protein,Gene,ATXN2,NCBI
+4494,9173,gene/protein,Gene,IL1RL1,NCBI
+4536,3643,gene/protein,Gene,INSR,NCBI
+4550,3481,gene/protein,Gene,IGF2,NCBI
+4585,5915,gene/protein,Gene,RARB,NCBI
+4608,6570,gene/protein,Gene,SLC18A1,NCBI
+4732,5066,gene/protein,Gene,PAM,NCBI
+4738,3567,gene/protein,Gene,IL5,NCBI
+4827,3105,gene/protein,Gene,HLA-A,NCBI
+4840,353144,gene/protein,Gene,LCE3C,NCBI
+4941,3557,gene/protein,Gene,IL1RN,NCBI
+4966,8875,gene/protein,Gene,VNN2,NCBI
+4969,135,gene/protein,Gene,ADORA2A,NCBI
+5098,958,gene/protein,Gene,CD40,NCBI
+5137,5328,gene/protein,Gene,PLAU,NCBI
+5299,2006,gene/protein,Gene,ELN,NCBI
+5508,6517,gene/protein,Gene,SLC2A4,NCBI
+5604,3565,gene/protein,Gene,IL4,NCBI
+5752,152,gene/protein,Gene,ADRA2C,NCBI
+5996,353143,gene/protein,Gene,LCE3B,NCBI
+6036,54620,gene/protein,Gene,FBXL19,NCBI
+6048,10586,gene/protein,Gene,MAB21L2,NCBI
+6090,1133,gene/protein,Gene,CHRM5,NCBI
+6108,1803,gene/protein,Gene,DPP4,NCBI
+6132,2742,gene/protein,Gene,GLRA2,NCBI
+6155,3135,gene/protein,Gene,HLA-G,NCBI
+6192,6258,gene/protein,Gene,RXRG,NCBI
+6220,217,gene/protein,Gene,ALDH2,NCBI
+6309,147,gene/protein,Gene,ADRA1B,NCBI
+6329,627,gene/protein,Gene,BDNF,NCBI
+6408,7039,gene/protein,Gene,TGFA,NCBI
+6414,90865,gene/protein,Gene,IL33,NCBI
+6428,7297,gene/protein,Gene,TYK2,NCBI
+6655,3718,gene/protein,Gene,JAK3,NCBI
+6695,6783,gene/protein,Gene,SULT1E1,NCBI
+6751,7019,gene/protein,Gene,TFAM,NCBI
+6874,4319,gene/protein,Gene,MMP10,NCBI
+6977,2811,gene/protein,Gene,GP1BA,NCBI
+7040,2641,gene/protein,Gene,GCG,NCBI
+7134,1719,gene/protein,Gene,DHFR,NCBI
+7161,1906,gene/protein,Gene,EDN1,NCBI
+7188,153,gene/protein,Gene,ADRB1,NCBI
+7277,1280,gene/protein,Gene,COL2A1,NCBI
+7287,7351,gene/protein,Gene,UCP2,NCBI
+7546,10280,gene/protein,Gene,SIGMAR1,NCBI
+7573,51561,gene/protein,Gene,IL23A,NCBI
+7744,3758,gene/protein,Gene,KCNJ1,NCBI
+7865,4082,gene/protein,Gene,MARCKS,NCBI
+8069,4321,gene/protein,Gene,MMP12,NCBI
+8086,5788,gene/protein,Gene,PTPRC,NCBI
+8192,4129,gene/protein,Gene,MAOB,NCBI
+8313,762,gene/protein,Gene,CA4,NCBI
+8336,190,gene/protein,Gene,NR0B1,NCBI
+8354,3269,gene/protein,Gene,HRH1,NCBI
+8432,3115,gene/protein,Gene,HLA-DPB1,NCBI
+8676,3491,gene/protein,Gene,CCN1,NCBI
+8783,108,gene/protein,Gene,ADCY2,NCBI
+8832,1814,gene/protein,Gene,DRD3,NCBI
+8999,1815,gene/protein,Gene,DRD4,NCBI
+9031,5742,gene/protein,Gene,PTGS1,NCBI
+9049,51530,gene/protein,Gene,ZC3HC1,NCBI
+9133,3371,gene/protein,Gene,TNC,NCBI
+9234,3570,gene/protein,Gene,IL6R,NCBI
+9237,54832,gene/protein,Gene,VPS13C,NCBI
+9254,26053,gene/protein,Gene,AUTS2,NCBI
+9354,122953,gene/protein,Gene,JDP2,NCBI
+9376,9052,gene/protein,Gene,GPRC5A,NCBI
+9412,55239,gene/protein,Gene,OGFOD1,NCBI
+9500,2560,gene/protein,Gene,GABRB1,NCBI
+9679,3350,gene/protein,Gene,HTR1A,NCBI
+9703,6524,gene/protein,Gene,SLC5A2,NCBI
+9720,2741,gene/protein,Gene,GLRA1,NCBI
+9855,760,gene/protein,Gene,CA2,NCBI
+9866,10800,gene/protein,Gene,CYSLTR1,NCBI
+9889,1644,gene/protein,Gene,DDC,NCBI
+9905,5053,gene/protein,Gene,PAH,NCBI
+10106,1128,gene/protein,Gene,CHRM1,NCBI
+10121,654,gene/protein,Gene,BMP6,NCBI
+10174,125893,gene/protein,Gene,ZNF816,NCBI
+10258,6037,gene/protein,Gene,RNASE3,NCBI
+10312,3283,gene/protein,Gene,HSD3B1,NCBI
+10319,1816,gene/protein,Gene,DRD5,NCBI
+10559,3176,gene/protein,Gene,HNMT,NCBI
+10613,4099,gene/protein,Gene,MAG,NCBI
+10675,30009,gene/protein,Gene,TBX21,NCBI
+11143,134,gene/protein,Gene,ADORA1,NCBI
+11219,1767,gene/protein,Gene,DNAH5,NCBI
+11419,7076,gene/protein,Gene,TIMP1,NCBI
+11717,155,gene/protein,Gene,ADRB3,NCBI
+11846,4982,gene/protein,Gene,TNFRSF11B,NCBI
+12120,5444,gene/protein,Gene,PON1,NCBI
+12126,55214,gene/protein,Gene,P3H2,NCBI
+12320,5506,gene/protein,Gene,PPP1R3A,NCBI
+12489,6530,gene/protein,Gene,SLC6A2,NCBI
+12586,126,gene/protein,Gene,ADH1C,NCBI
+12881,26191,gene/protein,Gene,PTPN22,NCBI
+12992,10239,gene/protein,Gene,AP3S2,NCBI
+13122,3291,gene/protein,Gene,HSD11B2,NCBI
+13257,6833,gene/protein,Gene,ABCC8,NCBI
+13355,105,gene/protein,Gene,ADARB2,NCBI
+13718,26047,gene/protein,Gene,CNTNAP2,NCBI
+13723,282617,gene/protein,Gene,IFNL3,NCBI
+13740,10125,gene/protein,Gene,RASGRP1,NCBI
+14019,DB00443,drug,Drug,Betamethasone,DrugBank
+14023,DB00620,drug,Drug,Triamcinolone,DrugBank
+14024,DB00635,drug,Drug,Prednisone,DrugBank
+14028,DB00741,drug,Drug,Hydrocortisone,DrugBank
+14042,DB14539,drug,Drug,Hydrocortisone acetate,DrugBank
+14061,DB00586,drug,Drug,Diclofenac,DrugBank
+14062,DB00861,drug,Drug,Diflunisal,DrugBank
+14112,DB00926,drug,Drug,Etretinate,DrugBank
+14128,DB00126,drug,Drug,Ascorbic acid,DrugBank
+14139,DB00245,drug,Drug,Benzatropine,DrugBank
+14142,DB00264,drug,Drug,Metoprolol,DrugBank
+14194,DB00563,drug,Drug,Methotrexate,DrugBank
+14198,DB00575,drug,Drug,Clonidine,DrugBank
+14219,DB00712,drug,Drug,Flurbiprofen,DrugBank
+14222,DB00731,drug,Drug,Nateglinide,DrugBank
+14249,DB00852,drug,Drug,Pseudoephedrine,DrugBank
+14269,DB00959,drug,Drug,Methylprednisolone,DrugBank
+14287,DB01050,drug,Drug,Ibuprofen,DrugBank
+14304,DB01124,drug,Drug,Tolbutamide,DrugBank
+14320,DB01234,drug,Drug,Dexamethasone,DrugBank
+14385,DB06655,drug,Drug,Liraglutide,DrugBank
+14452,DB11757,drug,Drug,Istradefylline,DrugBank
+14520,DB11100,drug,Drug,Allantoin,DrugBank
+14546,DB01233,drug,Drug,Metoclopramide,DrugBank
+14585,DB11118,drug,Drug,Ammonia,DrugBank
+14600,DB00533,drug,Drug,Rofecoxib,DrugBank
+14775,DB02300,drug,Drug,Calcipotriol,DrugBank
+14806,DB00494,drug,Drug,Entacapone,DrugBank
+14807,DB00668,drug,Drug,Epinephrine,DrugBank
+14831,DB06262,drug,Drug,Droxidopa,DrugBank
+14957,DB00574,drug,Drug,Fenfluramine,DrugBank
+15003,DB01380,drug,Drug,Cortisone acetate,DrugBank
+15013,DB06335,drug,Drug,Saxagliptin,DrugBank
+15127,DB00850,drug,Drug,Perphenazine,DrugBank
+15138,DB01037,drug,Drug,Selegiline,DrugBank
+15166,DB01409,drug,Drug,Tiotropium,DrugBank
+15193,DB05271,drug,Drug,Rotigotine,DrugBank
+15198,DB06203,drug,Drug,Alogliptin,DrugBank
+15201,DB06292,drug,Drug,Dapagliflozin,DrugBank
+15500,DB01260,drug,Drug,Desonide,DrugBank
+15511,DB01411,drug,Drug,Pranlukast,DrugBank
+15598,DB08882,drug,Drug,Linagliptin,DrugBank
+15666,DB11817,drug,Drug,Baricitinib,DrugBank
+15774,DB00465,drug,Drug,Ketorolac,DrugBank
+15783,DB01176,drug,Drug,Cyclizine,DrugBank
+15794,DB06736,drug,Drug,Aceclofenac,DrugBank
+15809,DB00799,drug,Drug,Tazarotene,DrugBank
+15812,DB11632,drug,Drug,Opicapone,DrugBank
+16056,DB00387,drug,Drug,Procyclidine,DrugBank
+16068,DB01019,drug,Drug,Bethanechol,DrugBank
+16193,DB00431,drug,Drug,Lindane,DrugBank
+16352,DB00368,drug,Drug,Norepinephrine,DrugBank
+16795,DB01144,drug,Drug,Diclofenamide,DrugBank
+16842,DB00413,drug,Drug,Pramipexole,DrugBank
+17270,DB05316,drug,Drug,Pimavanserin,DrugBank
+17398,DB00026,drug,Drug,Anakinra,DrugBank
+17414,DB12478,drug,Drug,Piribedil,DrugBank
+17568,DB12248,drug,Drug,Tulobuterol,DrugBank
+17949,DB09043,drug,Drug,Albiglutide,DrugBank
+17950,DB09045,drug,Drug,Dulaglutide,DrugBank
+19551,DB03754,drug,Drug,Tromethamine,DrugBank
+20153,DB00340,drug,Drug,Metixene,DrugBank
+20300,DB12710,drug,Drug,Perazine,DrugBank
+20451,DB04812,drug,Drug,Benoxaprofen,DrugBank
+20452,DB12233,drug,Drug,Iguratimod,DrugBank
+20453,DB13481,drug,Drug,Tenidap,DrugBank
+20458,DB00885,drug,Drug,Pemirolast,DrugBank
+20459,DB12846,drug,Drug,Reproterol,DrugBank
+20514,DB11824,drug,Drug,Tofogliflozin,DrugBank
+20516,DB15323,drug,Drug,Trelagliptin,DrugBank
+20518,DB11950,drug,Drug,Teneligliptin,DrugBank
+22036,493856,gene/protein,Gene,CISD2,NCBI
+22078,338442,gene/protein,Gene,HCAR2,NCBI
+22094,653361,gene/protein,Gene,NCF1,NCBI
+22442,726,effect/phenotype,Phenotype,Dementia,HPO
+22483,855,effect/phenotype,Phenotype,Insulin resistance,HPO
+22536,2795,effect/phenotype,Phenotype,Abnormal respiratory system physiology,HPO
+22759,6,effect/phenotype,Phenotype,Autosomal dominant inheritance,HPO
+23175,100326,effect/phenotype,Phenotype,Immunologic hypersensitivity,HPO
+23483,3394,effect/phenotype,Phenotype,Muscle spasm,HPO
+23736,1824,effect/phenotype,Phenotype,Weight loss,HPO
+23956,2633,effect/phenotype,Phenotype,Vasculitis,HPO
+24045,1370,effect/phenotype,Phenotype,Rheumatoid arthritis,HPO
+24491,5978,effect/phenotype,Phenotype,Type II diabetes mellitus,HPO
+25620,12378,effect/phenotype,Phenotype,Fatigue,HPO
+27366,7126_8468_24512_13192,disease,Disease,"spondyloarthropathy, susceptibility to",MONDO_grouped
+27648,8733,disease,Disease,familial glucocorticoid deficiency,MONDO
+28158,9960_12845_33643_11471_12831_12875_12941_13153_8617_54849_5265_12832_12610_12840_11087_11521_11661_11699_11700_11701_12040_12829_12837_12838_12841_12852_12886_12887_12940_12973_13012,disease,Disease,inflammatory bowel disease,MONDO_grouped
+28208,5148,disease,Disease,type 2 diabetes mellitus,MONDO
+28313,5090_13498_8414_10897_33312_10943_11552_14092_12054_11960_11280_11294_11295_11298_11307_11498_12879_13089_13506,disease,Disease,schizophrenia,MONDO_grouped
+28374,7186,disease,Disease,gastroesophageal reflux disease,MONDO
+28547,11764_11658_13625_8199_14604_11613_14233_11562_8200_14796_17279_5180_6966_828_10796_10360_11737_13167,disease,Disease,Parkinson disease,MONDO_grouped
+28651,19182,disease,Disease,monogenic obesity,MONDO
+28801,14231,disease,Disease,juvenile onset Parkinson disease 19A,MONDO
+28974,10709,disease,Disease,early-onset parkinsonism-intellectual disability syndrome,MONDO
+29078,8383,disease,Disease,rheumatoid arthritis,MONDO
+29273,8143_7704_11923_12893_12894_12568,disease,Disease,osteoarthritis susceptibility,MONDO_grouped
+29448,9412,disease,Disease,scurvy,MONDO
+30093,9830,disease,Disease,parkinsonian-pyramidal syndrome,MONDO
+30447,11508,disease,Disease,"lymphoma, non-Hodgkin, familial",MONDO
+30483,11776,disease,Disease,CINCA syndrome,MONDO
+30800,32920,disease,Disease,juvenile arthritis due to defect in LACC1,MONDO
+31408,10482,disease,Disease,X-linked parkinsonism-spasticity syndrome,MONDO
+32531,18876_6430,disease,Disease,mantle cell lymphoma,MONDO_grouped
+32759,17636,disease,Disease,hemiparkinsonism-hemiatrophy syndrome,MONDO
+33241,18466,disease,Disease,hereditary late onset Parkinson disease,MONDO
+33452,18031,disease,Disease,granulomatous slack skin disease,MONDO
+33575,5015,disease,Disease,diabetes mellitus (disease),MONDO
+33577,5044,disease,Disease,hypertensive disorder,MONDO
+33593,11122,disease,Disease,obesity disorder,MONDO
+33605,5468,disease,Disease,hypotensive disorder,MONDO
+33609,5178_6629_5416_6630_6631_6632,disease,Disease,osteoarthritis,MONDO_grouped
+33675,4979,disease,Disease,asthma,MONDO
+33703,11438,disease,Disease,acne (disease),MONDO
+33851,387129,gene/protein,Gene,NPSR1,NCBI
+33913,3352,gene/protein,Gene,HTR1D,NCBI
+33941,100126334,gene/protein,Gene,MIR885,NCBI
+33958,407007,gene/protein,Gene,MIR222,NCBI
+34267,406911,gene/protein,Gene,MIR125B1,NCBI
+34312,100126313,gene/protein,Gene,MIR744,NCBI
+34317,100302149,gene/protein,Gene,MIR1249,NCBI
+34374,7226,gene/protein,Gene,TRPM2,NCBI
+34746,6701,gene/protein,Gene,SPRR2B,NCBI
+34749,113835,gene/protein,Gene,ZNF257,NCBI
+34760,442893,gene/protein,Gene,MIR151A,NCBI
+34762,494326,gene/protein,Gene,MIR377,NCBI
+34764,693213,gene/protein,Gene,MIR628,NCBI
+34767,100302201,gene/protein,Gene,MIR1228,NCBI
+34797,6315,gene/protein,Gene,ATXN8OS,NCBI
+34813,84752,gene/protein,Gene,B3GNT9,NCBI
+34985,8876,gene/protein,Gene,VNN1,NCBI
+35510,15898,disease,Disease,adrenogenital syndrome,MONDO
+35547,1040,disease,Disease,nasopharyngitis,MONDO
+35651,4095,disease,Disease,B-cell neoplasm,MONDO
+35750,2081,disease,Disease,musculoskeletal system disease,MONDO
+35897,4849,disease,Disease,pulmonary emphysema,MONDO
+36026,5338,disease,Disease,open-angle glaucoma,MONDO
+36091,5642,disease,Disease,atopic conjunctivitis,MONDO
+36194,4379,disease,Disease,female breast carcinoma,MONDO
+36209,6816,disease,Disease,arthropathy,MONDO
+36265,5095_43377,disease,Disease,spondyloarthropathy,MONDO_grouped
+36272,2471,disease,Disease,bursitis,MONDO
+36398,1868_1744_1742_1864,disease,Disease,angle-closure glaucoma,MONDO_grouped
+36924,2406,disease,Disease,dermatitis,MONDO
+37706,21095,disease,Disease,parkinsonian disorder,MONDO
+37722,5301,disease,Disease,multiple sclerosis,MONDO
+37770,5480,disease,Disease,contact dermatitis,MONDO
+37830,3781_5607_18597,disease,Disease,bronchitis,MONDO_grouped
+37888,11786_5324_24332,disease,Disease,allergic rhinitis,MONDO_grouped
+38018,45011,disease,Disease,keratinization disease,MONDO
+38024,5083,disease,Disease,psoriasis,MONDO
+38031,6563,disease,Disease,inverted follicular keratosis,MONDO
+38481,16168,disease,Disease,cryopyrin-associated periodic syndrome,MONDO
+38708,607,disease,Disease,primary cutaneous T-cell non-Hodgkin lymphoma,MONDO
+39365,21146,disease,Disease,headache disorder,MONDO
+39493,4822,disease,Disease,bronchiectasis,MONDO
+39728,6592,disease,Disease,parapsoriasis,MONDO
+39773,4784,disease,Disease,allergic asthma,MONDO
+57792,766,gene/protein,Gene,CA7,NCBI
+62363,R-HSA-112314,pathway,Pathway,Neurotransmitter receptors and postsynaptic signal transmission,REACTOME
+62404,R-HSA-1474228,pathway,Pathway,Degradation of the extracellular matrix,REACTOME
+62417,R-HSA-156584,pathway,Pathway,Cytosolic sulfonation of small molecules,REACTOME
+62459,R-HSA-1650814,pathway,Pathway,Collagen biosynthesis and modifying enzymes,REACTOME
+62467,R-HSA-9020702,pathway,Pathway,Interleukin-1 signaling,REACTOME
+62504,R-HSA-212436,pathway,Pathway,Generic Transcription Pathway,REACTOME
+62538,R-HSA-190861,pathway,Pathway,Gap junction assembly,REACTOME
+62564,R-HSA-199220,pathway,Pathway,Vitamin B5 (pantothenate) metabolism,REACTOME
+62607,R-HSA-74751,pathway,Pathway,Insulin receptor signalling cascade,REACTOME
+62657,R-HSA-375276,pathway,Pathway,Peptide ligand-binding receptors,REACTOME
+62666,R-HSA-380615,pathway,Pathway,Serotonin clearance from the synaptic cleft,REACTOME
+62697,R-HSA-416476,pathway,Pathway,G alpha (q) signalling events,REACTOME
+62702,R-HSA-418594,pathway,Pathway,G alpha (i) signalling events,REACTOME
+62759,R-HSA-5362517,pathway,Pathway,Signaling by Retinoic Acid,REACTOME
+62807,R-HSA-5673001,pathway,Pathway,RAF/MAP kinase cascade,REACTOME
+62925,R-HSA-877300,pathway,Pathway,Interferon gamma signaling,REACTOME
+62931,R-HSA-8856828,pathway,Pathway,Clathrin-mediated endocytosis,REACTOME
+62989,R-HSA-9025094,pathway,Pathway,Biosynthesis of DPAn-3 SPMs,REACTOME
+62998,R-HSA-913709,pathway,Pathway,O-linked glycosylation of mucins,REACTOME
+63073,R-HSA-977443,pathway,Pathway,GABA receptor activation,REACTOME
+83758,6579,disease,Disease,melanoacanthoma,MONDO
+83781,4765,disease,Disease,intrinsic asthma,MONDO
+83785,15808,disease,Disease,folliculotropic mycosis fungoides,MONDO
+83787,6898,disease,Disease,periarthritis,MONDO
+83791,6004,disease,Disease,vasomotor rhinitis,MONDO
+83796,4638,disease,Disease,lymphosarcoma,MONDO
+83823,6716,disease,Disease,coronary thrombosis,MONDO
+83835,24343,disease,Disease,pityriasis simplex,MONDO
+83836,1966_1817,disease,Disease,closed-angle glaucoma,MONDO_grouped
+83878,6896,disease,Disease,peptic esophagitis,MONDO
+83912,2309_2308,disease,Disease,papillary conjunctivitis,MONDO_grouped
+83913,2313,disease,Disease,vernal conjunctivitis,MONDO
+84019,11918,disease,Disease,anxiety,MONDO
+84024,5654_5655,disease,Disease,ascaridiasis,MONDO_grouped
+84067,1794,disease,Disease,Pthirus pubis infestation,MONDO
+84069,3471,disease,Disease,Pediculus humanus capitis infestation,MONDO
+84075,6661,disease,Disease,ascorbic acid deficiency,MONDO
+84204,41086,disease,Disease,mixed anxiety and depressive disorder,MONDO
+84409,2018,effect/phenotype,Phenotype,Nausea,HPO
+84679,658,effect/phenotype,Phenotype,Eyelid apraxia,HPO
+84704,741,effect/phenotype,Phenotype,Apathy,HPO
+85184,2548,effect/phenotype,Phenotype,Parkinsonism with favorable response to dopaminergic medication,HPO
+85299,2923,effect/phenotype,Phenotype,Rheumatoid factor positive,HPO
+85550,3565,effect/phenotype,Phenotype,Elevated erythrocyte sedimentation rate,HPO
+85559,3584,effect/phenotype,Phenotype,Late onset,HPO
+86388,5764,effect/phenotype,Phenotype,Polyarticular arthritis,HPO
+86562,6252,effect/phenotype,Phenotype,Interphalangeal joint erosions,HPO
+89234,12276,effect/phenotype,Phenotype,Digital flexor tenosynovitis,HPO
+91382,31819,effect/phenotype,Phenotype,Increased waist to hip ratio,HPO
+94383,12042,effect/phenotype,Phenotype,Aspirin-induced asthma,HPO
+94448,12652,effect/phenotype,Phenotype,Exercise-induced asthma,HPO
+94449,12653,effect/phenotype,Phenotype,Status asthmaticus,HPO
+127649,R-HSA-1169091,pathway,Pathway,Activation of NF-kappaB in B cells,REACTOME
+127650,R-HSA-1169092,pathway,Pathway,Activation of RAS in B cells,REACTOME
+127663,R-HSA-1250196,pathway,Pathway,SHC1 events in ERBB2 signaling,REACTOME
+127688,R-HSA-381340,pathway,Pathway,Transcriptional regulation of white adipocyte differentiation,REACTOME
+127702,R-HSA-1296067,pathway,Pathway,Potassium transport channels,REACTOME
+127713,R-HSA-141333,pathway,Pathway,Biogenic amines are oxidatively deaminated to aldehydes by MAOA and MAOB,REACTOME
+127722,R-HSA-1475029,pathway,Pathway,Reversible hydration of carbon dioxide,REACTOME
+127728,R-HSA-1442490,pathway,Pathway,Collagen degradation,REACTOME
+127735,R-HSA-1237044,pathway,Pathway,Erythrocytes take up carbon dioxide and release oxygen,REACTOME
+127736,R-HSA-1247673,pathway,Pathway,Erythrocytes take up oxygen and release carbon dioxide,REACTOME
+127782,R-HSA-391160,pathway,Pathway,Signal regulatory protein family interactions,REACTOME
+127791,R-HSA-2129379,pathway,Pathway,Molecules associated with elastic fibres,REACTOME
+127796,R-HSA-499943,pathway,Pathway,Interconversion of nucleotide di- and triphosphates,REACTOME
+127797,R-HSA-2151201,pathway,Pathway,Transcriptional activation of mitochondrial biogenesis,REACTOME
+127852,R-HSA-8948216,pathway,Pathway,Collagen chain trimerization,REACTOME
+127858,R-HSA-445989,pathway,Pathway,TAK1 activates NFkB by phosphorylation and activation of IKKs complex,REACTOME
+127861,R-HSA-167826,pathway,Pathway,The fatty acid cycling model,REACTOME
+127886,R-HSA-6798695,pathway,Pathway,Neutrophil degranulation,REACTOME
+127921,R-HSA-933542,pathway,Pathway,TRAF6 mediated NF-kB activation,REACTOME
+127995,R-HSA-1912408,pathway,Pathway,Pre-NOTCH Transcription and Translation,REACTOME
+128025,R-HSA-5668599,pathway,Pathway,RHO GTPases Activate NADPH Oxidases,REACTOME
+128029,R-HSA-193993,pathway,Pathway,Mineralocorticoid biosynthesis,REACTOME
+128030,R-HSA-194002,pathway,Pathway,Glucocorticoid biosynthesis,REACTOME
+128038,R-HSA-196843,pathway,Pathway,Vitamin B2 (riboflavin) metabolism,REACTOME
+128049,R-HSA-6811558,pathway,Pathway,"PI5P, PP2A and IER3 Regulate PI3K/AKT Signaling",REACTOME
+128073,R-HSA-202430,pathway,Pathway,Translocation of ZAP-70 to Immunological synapse,REACTOME
+128088,R-HSA-209905,pathway,Pathway,Catecholamine biosynthesis,REACTOME
+128089,R-HSA-209931,pathway,Pathway,Serotonin and melatonin biosynthesis,REACTOME
+128106,R-HSA-71384,pathway,Pathway,Ethanol oxidation,REACTOME
+128116,R-HSA-383280,pathway,Pathway,Nuclear Receptor transcription pathway,REACTOME
+128120,R-HSA-2142688,pathway,Pathway,Synthesis of 5-eicosatetraenoic acids,REACTOME
+128126,R-HSA-2162123,pathway,Pathway,Synthesis of Prostaglandins (PG) and Thromboxanes (TX),REACTOME
+128160,R-HSA-2408508,pathway,Pathway,"Metabolism of ingested SeMet, Sec, MeSec into H2Se",REACTOME
+128179,R-HSA-2644606,pathway,Pathway,Constitutive Signaling by NOTCH1 PEST Domain Mutants,REACTOME
+128182,R-HSA-3295583,pathway,Pathway,TRP channels,REACTOME
+128204,R-HSA-4090294,pathway,Pathway,SUMOylation of intracellular receptors,REACTOME
+128247,R-HSA-3371453,pathway,Pathway,Regulation of HSF1-mediated heat shock response,REACTOME
+128250,R-HSA-350562,pathway,Pathway,Regulation of ornithine decarboxylase (ODC),REACTOME
+128290,R-HSA-416700,pathway,Pathway,Other semaphorin interactions,REACTOME
+128304,R-HSA-390648,pathway,Pathway,Muscarinic acetylcholine receptors,REACTOME
+128305,R-HSA-390650,pathway,Pathway,Histamine receptors,REACTOME
+128306,R-HSA-390651,pathway,Pathway,Dopamine receptors,REACTOME
+128307,R-HSA-390666,pathway,Pathway,Serotonin receptors,REACTOME
+128308,R-HSA-390696,pathway,Pathway,Adrenoceptors,REACTOME
+128334,R-HSA-379398,pathway,Pathway,Enzymatic degradation of Dopamine by monoamine oxidase,REACTOME
+128341,R-HSA-380994,pathway,Pathway,ATF4 activates genes in response to endoplasmic reticulum  stress,REACTOME
+128349,R-HSA-416482,pathway,Pathway,G alpha (12/13) signalling events,REACTOME
+128350,R-HSA-418555,pathway,Pathway,G alpha (s) signalling events,REACTOME
+128351,R-HSA-418597,pathway,Pathway,G alpha (z) signalling events,REACTOME
+128378,R-HSA-381426,pathway,Pathway,Regulation of Insulin-like Growth Factor (IGF) transport and uptake by Insulin-like Growth Factor Binding Proteins (IGFBPs),REACTOME
+128386,R-HSA-445355,pathway,Pathway,Smooth Muscle Contraction,REACTOME
+128396,R-HSA-1368108,pathway,Pathway,"BMAL1:CLOCK,NPAS2 activates circadian gene expression",REACTOME
+128399,R-HSA-381771,pathway,Pathway,"Synthesis, secretion, and inactivation of Glucagon-like Peptide-1 (GLP-1)",REACTOME
+128407,R-HSA-417973,pathway,Pathway,Adenosine P1 receptors,REACTOME
+128416,R-HSA-399997,pathway,Pathway,Acetylcholine regulates insulin secretion,REACTOME
+128417,R-HSA-400042,pathway,Pathway,"Adrenaline,noradrenaline inhibits insulin secretion",REACTOME
+128423,R-HSA-442660,pathway,Pathway,Na+/Cl- dependent neurotransmitter transporters,REACTOME
+128438,R-HSA-189200,pathway,Pathway,Cellular hexose transport,REACTOME
+128472,R-HSA-9008059,pathway,Pathway,Interleukin-37 signaling,REACTOME
+128474,R-HSA-9014826,pathway,Pathway,Interleukin-36 pathway,REACTOME
+128478,R-HSA-9020933,pathway,Pathway,Interleukin-23 signaling,REACTOME
+128482,R-HSA-6783783,pathway,Pathway,Interleukin-10 signaling,REACTOME
+128483,R-HSA-6785807,pathway,Pathway,Interleukin-4 and Interleukin-13 signaling,REACTOME
+128484,R-HSA-8854691,pathway,Pathway,Interleukin-20 family signaling,REACTOME
+128499,R-HSA-9020558,pathway,Pathway,Interleukin-2 signaling,REACTOME
+128574,R-HSA-5579012,pathway,Pathway,Defective MAOA causes BRUNS,REACTOME
+128634,R-HSA-5683177,pathway,Pathway,Defective ABCC8 can cause hypo- and hyper-glycemias,REACTOME
+128692,R-HSA-5619109,pathway,Pathway,Defective SLC6A2 causes orthostatic intolerance (OI),REACTOME
+128759,R-HSA-5669034,pathway,Pathway,TNFs bind their physiological receptors,REACTOME
+128761,R-HSA-5676594,pathway,Pathway,TNF receptor superfamily (TNFSF) members mediating non-canonical NF-kB pathway,REACTOME
+128799,R-HSA-8951664,pathway,Pathway,Neddylation,REACTOME
+128801,R-HSA-8957275,pathway,Pathway,Post-translational protein phosphorylation,REACTOME
+128814,R-HSA-1059683,pathway,Pathway,Interleukin-6 signaling,REACTOME
+128816,R-HSA-6804114,pathway,Pathway,TP53 Regulates Transcription of Genes Involved in G2 Cell Cycle Arrest,REACTOME
+128840,R-HSA-6809371,pathway,Pathway,Formation of the cornified envelope,REACTOME
+128861,R-HSA-2299718,pathway,Pathway,Condensation of Prophase Chromosomes,REACTOME
+128877,R-HSA-69205,pathway,Pathway,G1/S-Specific Transcription,REACTOME
+128981,R-HSA-5626978,pathway,Pathway,TNFR1-mediated ceramide production,REACTOME
+128992,R-HSA-73776,pathway,Pathway,RNA Polymerase II Promoter Escape,REACTOME
+129056,R-HSA-8936459,pathway,Pathway,RUNX1 regulates genes involved in megakaryocyte differentiation and platelet function,REACTOME
+129059,R-HSA-8939243,pathway,Pathway,RUNX1 interacts with co-factors whose precise effect on RUNX1 targets is not known,REACTOME
+129060,R-HSA-8939245,pathway,Pathway,RUNX1 regulates transcription of genes involved in BCR signaling,REACTOME
+129079,R-HSA-73817,pathway,Pathway,Purine ribonucleoside monophosphate biosynthesis,REACTOME
+129082,R-HSA-196791,pathway,Pathway,Vitamin D (calciferol) metabolism,REACTOME
+129086,R-HSA-8964208,pathway,Pathway,Phenylalanine metabolism,REACTOME
+129106,R-HSA-70221,pathway,Pathway,Glycogen breakdown (glycogenolysis),REACTOME
+129109,R-HSA-9022702,pathway,Pathway,MECP2 regulates transcription of neuronal ligands,REACTOME
+129125,R-HSA-9027277,pathway,Pathway,Erythropoietin activates Phospholipase C gamma (PLCG),REACTOME
+129129,R-HSA-201451,pathway,Pathway,Signaling by BMP,REACTOME
+129133,R-HSA-9634638,pathway,Pathway,Estrogen-dependent nuclear events downstream of ESR-membrane signaling,REACTOME
+129215,R-HSA-9615017,pathway,Pathway,"FOXO-mediated transcription of oxidative stress, metabolic and neuronal genes",REACTOME
+129216,R-HSA-9617629,pathway,Pathway,Regulation of FOXO transcriptional activity by acetylation,REACTOME
+129229,R-HSA-9636249,pathway,Pathway,Inhibition of nitric oxide production,REACTOME
+129238,R-HSA-9710421,pathway,Pathway,Defective pyroptosis,REACTOME
+129257,R-HSA-9660821,pathway,Pathway,ADORA2B mediated anti-inflammatory cytokines production,REACTOME
+129259,R-HSA-9664323,pathway,Pathway,FCGR3A-mediated IL10 synthesis,REACTOME
+129262,R-HSA-9646399,pathway,Pathway,Aggrephagy,REACTOME
+129303,R-HSA-9619665,pathway,Pathway,EGR2 and SOX10-mediated initiation of Schwann cell myelination,REACTOME
+129310,R-HSA-9679191,pathway,Pathway,Potential therapeutics for SARS,REACTOME
+129365,R-HSA-983168,pathway,Pathway,Antigen processing: Ubiquitination & Proteasome degradation,REACTOME

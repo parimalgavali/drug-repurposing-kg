@@ -15,10 +15,10 @@ Nothing large is committed. `scripts/fetch_data.py` downloads everything below i
 | --- | --- | --- | --- | --- |
 | `kg.csv` | 6180620 | 981,751,236 B | `0a5a010f…1cfb5c69` | edges (both directions) with node names/types |
 | `nodes.tab` | 6180617 | 8,893,757 B | `18ebcf24…31961af8` | 129,375 nodes |
-| `drug_features.tab` | 6180619 | 10,030,011 B | (task 1) | DrugBank description, mechanism, ATC, … |
-| `disease_features.tab` | 6180618 | 113,534,270 B | (task 1) | MONDO/UMLS/Orphanet definitions, Mayo text |
+| `drug_features.tab` | 6180619 | 10,030,011 B | `d9db67a3…dabdc30c6` | DrugBank description, mechanism, ATC, … |
+| `disease_features.tab` | 6180618 | 113,534,270 B | `bdd18b39…dd27124cb` | MONDO/UMLS/Orphanet definitions, Mayo text |
 
-Full checksums live in `scripts/fetch_data.py` (task 1).
+Full checksums are in `primekg/fetch.py` and in the [data card](../data/README.md).
 
 **Node types:** gene/protein 27,671 · biological_process 28,642 · disease 17,080 · effect/phenotype 15,311 · anatomy 14,035 · molecular_function 11,169 · drug 7,957 · cellular_component 4,176 · pathway 2,516 · exposure 818.
 
@@ -43,4 +43,4 @@ Full checksums live in `scripts/fetch_data.py` (task 1).
 
 ## Fixture subgraph (committed)
 
-`data/fixtures/primekg_mini/` (task 1): a deterministic ~2k-edge sample around a handful of diseases (e.g. asthma, psoriasis, Parkinson disease). It has the same columns as `kg.csv` and `nodes.tab` and is used by every test and by CI.
+`data/fixtures/primekg_mini/` (task 1): a deterministic 2,328-edge / 498-node sample around five diseases (asthma, psoriasis, Parkinson disease, type 2 diabetes mellitus, rheumatoid arthritis). It uses the processed-table columns (see the data card) and is used by every test and by CI.
