@@ -1,0 +1,634 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "RepurposeKG API",
+    "description": "Research demo, not medical advice.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "summary": "Search",
+        "operationId": "search_api_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "title": "Q"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "Drug",
+                    "Disease",
+                    "Gene",
+                    "Phenotype",
+                    "Exposure",
+                    "Pathway",
+                    "BiologicalProcess",
+                    "MolecularFunction",
+                    "CellularComponent",
+                    "Anatomy"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 25,
+              "minimum": 1,
+              "default": 10,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchHit"
+                  },
+                  "title": "Response Search Api Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/diseases/{disease_id}/candidates": {
+      "get": {
+        "summary": "Candidates",
+        "operationId": "candidates_api_diseases__disease_id__candidates_get",
+        "parameters": [
+          {
+            "name": "disease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Disease Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Candidates"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pairs/{drug_id}/{disease_id}/explain": {
+      "get": {
+        "summary": "Explain Pair",
+        "operationId": "explain_pair_api_pairs__drug_id___disease_id__explain_get",
+        "parameters": [
+          {
+            "name": "drug_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Drug Id"
+            }
+          },
+          {
+            "name": "disease_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Disease Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Explanation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ask": {
+      "post": {
+        "summary": "Ask",
+        "operationId": "ask_api_ask_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "SSE event stream",
+            "content": {
+              "text/event-stream": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AskRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Question"
+          }
+        },
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "AskRequest"
+      },
+      "Candidate": {
+        "properties": {
+          "drug_id": {
+            "type": "integer",
+            "title": "Drug Id"
+          },
+          "drug": {
+            "type": "string",
+            "title": "Drug"
+          },
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "ct_studies": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ct Studies"
+          },
+          "ct_max_phase": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ct Max Phase"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drug_id",
+          "drug",
+          "rank",
+          "score"
+        ],
+        "title": "Candidate"
+      },
+      "Candidates": {
+        "properties": {
+          "disease": {
+            "$ref": "#/components/schemas/Node"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "known": {
+            "items": {
+              "$ref": "#/components/schemas/KnownDrug"
+            },
+            "type": "array",
+            "title": "Known"
+          }
+        },
+        "type": "object",
+        "required": [
+          "disease",
+          "candidates",
+          "known"
+        ],
+        "title": "Candidates"
+      },
+      "CyElement": {
+        "properties": {
+          "data": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "CyElement"
+      },
+      "Cytoscape": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/CyElement"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/CyElement"
+            },
+            "type": "array",
+            "title": "Edges"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges"
+        ],
+        "title": "Cytoscape"
+      },
+      "EvidencePath": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/PathNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "rels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Rels"
+          },
+          "pdp": {
+            "type": "number",
+            "title": "Pdp"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nodes",
+          "rels",
+          "pdp",
+          "text"
+        ],
+        "title": "EvidencePath"
+      },
+      "Explanation": {
+        "properties": {
+          "drug": {
+            "$ref": "#/components/schemas/Node"
+          },
+          "disease": {
+            "$ref": "#/components/schemas/Node"
+          },
+          "paths_found": {
+            "type": "integer",
+            "title": "Paths Found"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated"
+          },
+          "metapaths": {
+            "items": {
+              "$ref": "#/components/schemas/Metapath"
+            },
+            "type": "array",
+            "title": "Metapaths"
+          },
+          "cytoscape": {
+            "$ref": "#/components/schemas/Cytoscape"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drug",
+          "disease",
+          "paths_found",
+          "truncated",
+          "metapaths",
+          "cytoscape"
+        ],
+        "title": "Explanation"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "KnownDrug": {
+        "properties": {
+          "drug_id": {
+            "type": "integer",
+            "title": "Drug Id"
+          },
+          "drug": {
+            "type": "string",
+            "title": "Drug"
+          },
+          "relation": {
+            "type": "string",
+            "title": "Relation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drug_id",
+          "drug",
+          "relation"
+        ],
+        "title": "KnownDrug"
+      },
+      "Metapath": {
+        "properties": {
+          "metapath": {
+            "type": "string",
+            "title": "Metapath"
+          },
+          "dwpc": {
+            "type": "number",
+            "title": "Dwpc"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "paths": {
+            "items": {
+              "$ref": "#/components/schemas/EvidencePath"
+            },
+            "type": "array",
+            "title": "Paths"
+          }
+        },
+        "type": "object",
+        "required": [
+          "metapath",
+          "dwpc",
+          "count",
+          "paths"
+        ],
+        "title": "Metapath"
+      },
+      "Node": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "label"
+        ],
+        "title": "Node"
+      },
+      "PathNode": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "label"
+        ],
+        "title": "PathNode"
+      },
+      "SearchHit": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "label",
+          "confidence"
+        ],
+        "title": "SearchHit"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

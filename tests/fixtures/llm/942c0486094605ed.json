@@ -1,0 +1,6 @@
+{
+ "kind": "complete",
+ "schema": "",
+ "prompt": "Question: Which drugs could be repurposed for asthma?\n\nQuery results (JSON):\n{\"disease\": {\"id\": 33675, \"name\": \"asthma\", \"label\": \"Disease\", \"confidence\": 1.0}, \"predictions\": [{\"drug_id\": 14287, \"drug\": \"Ibuprofen\", \"rank\": 1, \"score\": 0.8, \"ct_studies\": 3, \"ct_max_phase\": 2.0}], \"known\": []}",
+ "response": "The results contain one predicted repurposing candidate for asthma [33675]: **Ibuprofen [14287]**. This is a model hypothesis, not an established indication.\n\n- Rank: 1, score 0.8\n- Clinical trial support: 3 studies, with a maximum phase of 2.0\n\nThe \"known\" indications list is empty, so the results show no established drugs for asthma to compare against. No other candidates were returned."
+}
