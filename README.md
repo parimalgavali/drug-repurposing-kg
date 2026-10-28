@@ -4,7 +4,9 @@
 
 > Research demo, **not medical advice**. Uses PrimeKG, which includes DrugBank-derived content licensed CC BY-NC 4.0, so this project is **non-commercial**.
 
-![Demo: search asthma, open a candidate's evidence graph, ask a question](docs/img/demo.gif)
+![Demo: search asthma, open a candidate (trial badge + evidence graph), ask a question, switch to German and search "Skorbut"](docs/img/demo.gif)
+
+Re-record with `scripts/record_demo.sh` (full graph + live Claude on :8001).
 
 ## Run it
 
@@ -35,12 +37,14 @@ flowchart LR
   D --> M[ml/: baselines, KGE, hetero GNN]
   M -- PREDICTED_INDICATION --> N
   C[ClinicalTrials.gov] --> V[validation/] -- ct_studies --> N
+  W2[Wikidata] -- name_de --> N
   N --> E[explain/: DWPC paths]
   N --> G[graphrag/: link → route → template / guarded text2cypher]
   L[Claude / Ollama / recorded] --> G
   E --> A[api/: FastAPI + SSE]
   G --> A
   A --> W[web/: Vue 3 + Cytoscape.js]
+  A -. on-demand trial lookup, cached .-> C
 ```
 
 ## Results
@@ -58,15 +62,18 @@ Ranking the held-out true drug for a disease (filtered MRR, 3 seeds; full table 
 
 Top-20 new candidates for 30 unseen diseases, checked against ClinicalTrials.gov: 15.3% of GNN pairs have ≥ 1 registered study vs 14.8% similar-disease, 13.2% popularity and 0.5% random. Real signal, but the GNN does not beat the simple baseline on unseen diseases.
 
+Hetionet cross-check (treatments Hetionet records but PrimeKG lacks, top 20): similar-disease finds 73, the served GNN 57, popularity 33, random 1. Blending the GNN with the similar-disease baseline ties the baseline on unseen diseases (MRR 0.374 vs 0.384) and adds ~3 points of Hits@50, so the gap stays open ([model card](ml/model_card.md#gnn--similar-disease-blend-unseen-diseases)).
+
 GraphRAG: 40/40 hand-written questions answered correctly (an easy benchmark, see [graphrag/eval](graphrag/eval/README.md)); write attempts never reach the database (guard + read-only transactions).
 
 ## What this project shows
 
 - Built a biomedical knowledge graph (129k nodes, 4M edges) in Neo4j from PrimeKG with verified counts and checksums, and a read-only query client.
 - Trained and honestly evaluated drug-repurposing models (baselines, PyKEEN KGE, heterogeneous PyTorch Geometric GNN) on leakage-aware splits; wrote 854k predictions back to the graph.
-- Explained predictions with degree-weighted metapaths and cross-checked them against ClinicalTrials.gov with confidence intervals.
+- Explained predictions with degree-weighted metapaths, measured how faithful those paths are to the GNN with GNNExplainer, and cross-checked predictions against ClinicalTrials.gov and Hetionet with confidence intervals.
 - Built GraphRAG with entity linking, intent routing, parameterised Cypher templates and guarded text-to-Cypher, with recorded-LLM tests so CI runs offline.
-- Shipped a FastAPI + SSE backend and a Vue 3 / Cytoscape.js UI with a Playwright smoke test in CI and a one-command Docker demo.
+- Shipped a FastAPI + SSE backend and a Vue 3 / Cytoscape.js UI with a Playwright smoke test in CI and a one-command Docker demo. Clicking a candidate looks up its ClinicalTrials.gov studies on demand (cached) and shows a linked trial badge.
+- Localised to German: Wikidata German names for 2,788 drugs and 3,066 diseases, a DE/EN toggle, German answers with citations, and search by German name ("Skorbut" → scurvy) through a second full-text index.
 - Exported disease subgraphs to RDF with standard ontology IRIs (MONDO, HPO, DrugBank, NCBI Gene), validated them with SHACL and served read-only SPARQL from Oxigraph, with Cypher and SPARQL compared side by side.
 
 ## Docs
@@ -78,7 +85,7 @@ GraphRAG: 40/40 hand-written questions answered correctly (an easy benchmark, se
 - [Graph](docs/GRAPH.md): Neo4j labels/relationship counts, build steps, example queries
 - [API](docs/API.md): endpoints, `/ask` event stream, curl walkthrough
 - [Frontend](web/README.md): dev server, generated API types, tests
-- German UI and answers: a DE/EN toggle, with Wikidata German names for drugs and diseases ([DATA](docs/DATA.md), [API](docs/API.md))
+- German UI, answers and search: a DE/EN toggle, with Wikidata German names for drugs and diseases ([DATA](docs/DATA.md), [API](docs/API.md))
 - [Semantic web](docs/SEMANTIC_WEB.md): RDF export, IRIs, SHACL shapes, `/api/sparql`, Cypher vs SPARQL
 - [Roadmap](docs/ROADMAP.md) and [task specs](docs/specs/)
 
