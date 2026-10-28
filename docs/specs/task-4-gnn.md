@@ -13,3 +13,5 @@
 **Done when:** the GNN trains in < 2 h on the dev VM (8 CPU cores), the model card has the full comparison table, and predictions are queryable in Neo4j.
 
 **Risks:** the GNN does not beat RotatE or shared-neighbour. That is reported honestly. Then the best model by validation MRR is the one served, whatever it is.
+
+**Outcome:** a 2-layer relation-aware GraphSAGE (`HeteroConv`) with a DistMult decoder and frozen MiniLM text features, trained full-batch on CPU (~5–8 min per run). It beats every baseline on the random split (MRR 0.48 vs 0.37 for `similar_disease`). On the disease split it beats popularity, RotatE and shared-neighbour, but not `similar_disease` (0.15 vs 0.38). Text features roughly double disease-split MRR, but on the random split the no-text variant is slightly better (0.51 vs 0.48). HGT was not tried. Training is full-batch instead of `LinkNeighborLoader` because the pruned graph fits in memory. `gnn_notext` on the random split has the best validation MRR (0.44), so it is the model written to Neo4j. Details are in `ml/model_card.md`.

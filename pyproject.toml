@@ -18,9 +18,13 @@ graph = [
     "neo4j>=5.26,<6",
 ]
 ml = [
+    "pyg-lib>=0.9",
     "pykeen>=1.11",
+    "pyyaml>=6",
     "scikit-learn>=1.5",
-    "torch>=2.4",
+    "sentence-transformers>=3",
+    "torch>=2.14,<2.15",
+    "torch-geometric>=2.6",
 ]
 
 [dependency-groups]
@@ -28,6 +32,8 @@ dev = ["pytest>=8.3", "ruff>=0.8"]
 
 [tool.uv]
 package = false
+# pyg-lib (fast neighbour sampling) is built per torch minor version; keep in sync with torch.
+find-links = ["https://data.pyg.org/whl/torch-2.14.0+cpu.html"]
 
 [tool.ruff]
 line-length = 100

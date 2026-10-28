@@ -1,0 +1,13 @@
+# Heterogeneous GNN (ml/gnn.py). Full-batch on CPU; see ml/model_card.md.
+hidden: 128
+layers: 2
+dropout: 0.2
+lr: 0.001
+weight_decay: 0.0
+epochs: 400
+eval_every: 10
+patience: 3            # evaluations without validation-MRR improvement before stopping
+negatives: 4           # corrupted drugs per supervision pair
+supervision_ratio: 0.3 # share of training indications hidden from message passing each epoch
+text: true             # frozen MiniLM description embeddings for drugs/diseases
+disease_id_embedding: false # false: diseases = text + neighbourhood only (inductive)
