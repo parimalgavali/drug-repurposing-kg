@@ -13,4 +13,5 @@ class Settings(BaseSettings):
     neo4j_password: str = ""
     neo4j_database: str = "neo4j"
     llm_provider: str = "recorded"
+    rdf_path: str = "data/rdf/export.ttl"
     cors_origins: list[str] = ["http://localhost:5173"]

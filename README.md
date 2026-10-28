@@ -66,6 +66,7 @@ GraphRAG: 40/40 hand-written questions answered correctly (an easy benchmark, se
 - Explained predictions with degree-weighted metapaths and cross-checked them against ClinicalTrials.gov with confidence intervals.
 - Built GraphRAG with entity linking, intent routing, parameterised Cypher templates and guarded text-to-Cypher, with recorded-LLM tests so CI runs offline.
 - Shipped a FastAPI + SSE backend and a Vue 3 / Cytoscape.js UI with a Playwright smoke test in CI and a one-command Docker demo.
+- Exported disease subgraphs to RDF with standard ontology IRIs (MONDO, HPO, DrugBank, NCBI Gene), validated them with SHACL and served read-only SPARQL from Oxigraph, with Cypher and SPARQL compared side by side.
 
 ## Docs
 
@@ -76,6 +77,7 @@ GraphRAG: 40/40 hand-written questions answered correctly (an easy benchmark, se
 - [Graph](docs/GRAPH.md): Neo4j labels/relationship counts, build steps, example queries
 - [API](docs/API.md): endpoints, `/ask` event stream, curl walkthrough
 - [Frontend](web/README.md): dev server, generated API types, tests
+- [Semantic web](docs/SEMANTIC_WEB.md): RDF export, IRIs, SHACL shapes, `/api/sparql`, Cypher vs SPARQL
 - [Roadmap](docs/ROADMAP.md) and [task specs](docs/specs/)
 
 ## Stack

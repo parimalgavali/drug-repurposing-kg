@@ -3,7 +3,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.13.5 /uv /usr/local/bin/uv
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy PATH="/app/.venv/bin:$PATH" PYTHONPATH=/app
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --no-install-project --extra data --extra graph --extra llm --extra api
+RUN uv sync --frozen --no-dev --no-install-project --extra data --extra graph --extra llm --extra api --extra rdf
 COPY api ./api
 COPY explain ./explain
 COPY graphrag ./graphrag
@@ -12,6 +12,7 @@ COPY llm ./llm
 COPY ml ./ml
 COPY primekg ./primekg
 COPY scripts ./scripts
+COPY semweb ./semweb
 COPY data/fixtures ./data/fixtures
 EXPOSE 8000
 USER nobody

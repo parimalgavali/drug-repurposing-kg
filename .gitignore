@@ -12,3 +12,4 @@ data/processed/
 artifacts/
 !data/fixtures/
 data/import/
+data/rdf/

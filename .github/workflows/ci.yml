@@ -13,7 +13,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api
+      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api --extra rdf
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run pytest
@@ -39,7 +39,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv sync --extra data --extra graph --extra llm --extra api
+      - run: uv sync --extra data --extra graph --extra llm --extra api --extra rdf
       - run: uv run pytest -v tests/integration
 
   e2e:
@@ -70,7 +70,7 @@ jobs:
           node-version: "24"
           cache: npm
           cache-dependency-path: web/package-lock.json
-      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api
+      - run: uv sync --extra data --extra graph --extra ml --extra llm --extra api --extra rdf
       - run: PYTHONPATH=. uv run python scripts/demo_fixture.py
       - run: uv run uvicorn api.main:app --port 8000 > api.log 2>&1 &
       - working-directory: web

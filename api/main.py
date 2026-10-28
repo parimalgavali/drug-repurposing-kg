@@ -9,11 +9,12 @@ import json
 import logging
 from collections.abc import Iterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 
 from api.settings import Settings
@@ -25,6 +26,8 @@ from graphrag.router import Label
 from graphrag.templates import KNOWN, REPURPOSE
 from kg.client import KGClient, connect
 from llm import Provider, get_provider
+from semweb.export import export as export_rdf
+from semweb.store import RdfStore, SparqlError
 
 log = logging.getLogger(__name__)
 NODE = "MATCH (n:{label} {{id: $id}}) RETURN n.id AS id, n.name AS name, labels(n)[0] AS label"
@@ -247,8 +250,50 @@ def ask(body: AskRequest, kg: KG, provider: LLM) -> StreamingResponse:
     )
 
 
+class SparqlQuery(BaseModel):
+    query: str = Field(min_length=1, max_length=5000)
+
+
+def get_rdf(request: Request) -> RdfStore | None:
+    return getattr(request.app.state, "rdf", None)
+
+
+RDF = Annotated[RdfStore | None, Depends(get_rdf)]
+
+
+def run_sparql(store: RdfStore | None, query: str) -> dict:
+    if store is None:
+        raise HTTPException(503, "no RDF export loaded; run `make rdf`")
+    try:
+        return store.query(query)
+    except SparqlError as e:
+        raise HTTPException(400, str(e)) from e
+
+
+@router.get("/sparql")
+def sparql_get(store: RDF, query: Annotated[str, Query(min_length=1, max_length=5000)]) -> dict:
+    """Read-only SPARQL (SELECT/ASK) over the exported RDF subgraph."""
+    return run_sparql(store, query)
+
+
+@router.post("/sparql")
+def sparql_post(store: RDF, body: SparqlQuery) -> dict:
+    return run_sparql(store, body.query)
+
+
+@router.get("/diseases/{disease_id}/rdf", response_class=Response)
+def disease_rdf(kg: KG, disease_id: int, k: Annotated[int, Query(ge=1, le=50)] = 20) -> Response:
+    """Turtle export of the disease-centred subgraph (see docs/SEMANTIC_WEB.md)."""
+    node_or_404(kg, "Disease", disease_id)
+    turtle = export_rdf(kg, disease_id, k).serialize(format="turtle")
+    return Response(turtle, media_type="text/turtle")
+
+
 def create_app(
-    kg: KGClient | None = None, provider: Provider | None = None, settings: Settings | None = None
+    kg: KGClient | None = None,
+    provider: Provider | None = None,
+    settings: Settings | None = None,
+    rdf: RdfStore | None = None,
 ) -> FastAPI:
     settings = settings or Settings()
 
@@ -259,6 +304,8 @@ def create_app(
             settings.neo4j_database,
         )
         app.state.provider = provider
+        rdf_path = Path(settings.rdf_path)
+        app.state.rdf = rdf or (RdfStore.from_path(rdf_path) if rdf_path.exists() else None)
         if provider is None:
             try:
                 app.state.provider = get_provider(settings.llm_provider)
