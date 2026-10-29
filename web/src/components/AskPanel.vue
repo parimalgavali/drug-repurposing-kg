@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { type AskEvents, type Cytoscape, type Entity, ask } from "../api/client";
+import { type AskEvents, type Cytoscape, type Entity, STATIC, ask } from "../api/client";
 import { lang, t } from "../i18n";
 
 const emit = defineEmits<{ subgraph: [g: Cytoscape]; focus: [id: string] }>();
@@ -64,6 +64,7 @@ async function submit(q = question.value) {
       {{ t("try") }}
       <button v-for="ex in EXAMPLES" :key="ex" type="button" class="link" @click="submit(ex)">{{ ex }}</button>
     </p>
+    <p v-if="STATIC" class="muted">{{ t("askStaticNote") }}</p>
     <p v-if="entities.length" class="muted">
       {{ t("linked") }}
       <span v-for="e in entities" :key="e.slot">{{ e.name ?? e.mention }}<small v-if="e.id"> [{{ e.id }}]</small> </span>

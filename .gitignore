@@ -13,3 +13,5 @@ artifacts/
 !data/fixtures/
 data/import/
 data/rdf/
+site-data/
+site-data.tar.gz

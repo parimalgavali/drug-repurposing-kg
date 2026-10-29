@@ -8,6 +8,8 @@
 
 Re-record with `scripts/record_demo.sh` (full graph + live Claude on :8001).
 
+**Try it online:** https://parimalgavali.github.io/drug-repurposing-kg/ is a static snapshot of the full-graph app on GitHub Pages, with saved answers to the example questions. Run it locally (below) for live questions and evidence graphs for any pair.
+
 ## Run it
 
 **Demo in one command** (bundled 498-node fixture graph, no download; Q&A needs `ANTHROPIC_API_KEY`):

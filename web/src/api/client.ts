@@ -1,6 +1,10 @@
 import type { components } from "./schema";
 import type { Lang } from "../i18n";
 import { type SseEvent, SseParser } from "./sse";
+import * as snapshot from "./static";
+
+/** GitHub Pages build: read the exported snapshot instead of the API. */
+export const STATIC = import.meta.env.VITE_STATIC === "1";
 
 type Schemas = components["schemas"];
 export type SearchHit = Schemas["SearchHit"];
@@ -38,16 +42,17 @@ async function get<T>(path: string): Promise<T> {
 }
 
 export const search = (q: string, type = "Disease", limit = 8) =>
-  get<SearchHit[]>(`/api/search?${new URLSearchParams({ q, type, limit: String(limit) })}`);
+  STATIC ? snapshot.search(q, limit) : get<SearchHit[]>(`/api/search?${new URLSearchParams({ q, type, limit: String(limit) })}`);
 
 export const candidates = (disease: number, limit = 20) =>
-  get<Candidates>(`/api/diseases/${disease}/candidates?limit=${limit}`);
+  STATIC ? snapshot.candidates(disease) : get<Candidates>(`/api/diseases/${disease}/candidates?limit=${limit}`);
 
 export const explain = (drug: number, disease: number) =>
-  get<Explanation>(`/api/pairs/${drug}/${disease}/explain`);
+  STATIC ? snapshot.explain(drug, disease) : get<Explanation>(`/api/pairs/${drug}/${disease}/explain`);
 
-export const trials = (drug: number, disease: number) =>
-  get<Trials>(`/api/pairs/${drug}/${disease}/trials`);
+/** Names are only needed by the static build, which asks ClinicalTrials.gov directly. */
+export const trials = (drug: number, disease: number, names?: { drug: string; disease: string }) =>
+  STATIC && names ? snapshot.trials(names.drug, names.disease) : get<Trials>(`/api/pairs/${drug}/${disease}/trials`);
 
 export async function ask(
   question: string,
@@ -55,6 +60,7 @@ export async function ask(
   onEvent: (e: SseEvent) => void,
   signal?: AbortSignal,
 ): Promise<void> {
+  if (STATIC) return snapshot.ask(question, lang, onEvent);
   const r = await fetch("/api/ask", {
     method: "POST",
     headers: { "content-type": "application/json" },
