@@ -70,14 +70,20 @@ def main() -> None:
     parser.add_argument("--untreated", type=int, default=100, help="no-drug diseases explained")
     parser.add_argument("--top", type=int, default=10, help="candidates explained per disease")
     parser.add_argument("--workers", type=int, default=6)
+    parser.add_argument("--answers-only", action="store_true", help="only re-record answers")
     args = parser.parse_args()
+    client = httpx.Client(base_url=args.api, timeout=120)
+    if not args.answers_only:
+        export_graph(args, client)
+    export_answers(args, client)
+
+
+def export_graph(args: argparse.Namespace, client: httpx.Client) -> None:
 
     kg = KGClient()
     diseases = kg.read(DISEASES)
     write(args.out / "search.json", [[d["id"], d["name"], d["name_de"]] for d in diseases])
     print(f"search index: {len(diseases)} diseases")
-
-    client = httpx.Client(base_url=args.api, timeout=120)
 
     def get(path: str) -> dict:
         r = client.get(path)
@@ -121,7 +127,11 @@ def main() -> None:
     for drug, disease in pairs:
         explained.setdefault(disease, []).append(drug)
     write(args.out / "explained.json", explained)
+    write(args.out / "meta.json", {"generated": date.today().isoformat(), "pairs": len(pairs)})
     print(f"evidence graphs: {len(pairs)} pairs over {len(chosen)} diseases")
+
+
+def export_answers(args: argparse.Namespace, client: httpx.Client) -> None:
 
     answers = {}
     for lang in ("en", "de"):
@@ -129,10 +139,12 @@ def main() -> None:
             r = client.post("/api/ask", json={"question": question, "lang": lang})
             r.raise_for_status()
             name = f"{i}-{lang}.json"
-            write(args.out / "answers" / name, sse_events(r.text))
+            events = sse_events(r.text)
+            if any(e["event"] == "error" for e in events):
+                raise RuntimeError(f"{question!r} ({lang}) failed: {events}")
+            write(args.out / "answers" / name, events)
             answers.setdefault(lang, {})[question] = name
     write(args.out / "answers" / "index.json", answers)
-    write(args.out / "meta.json", {"generated": date.today().isoformat(), "pairs": len(pairs)})
     print("saved answers:", sum(len(v) for v in answers.values()))
 
 
