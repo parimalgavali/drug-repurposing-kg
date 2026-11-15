@@ -26,6 +26,8 @@ REJECT = [
     "MATCH (a:Drug)-[r:TARGET {w: [1]} *1..5]-(b) RETURN b.name",
     "MATCH (d:Drug) OPTIONAL MATCH ((a)-[:PROTEIN_PROTEIN]-(b))+ RETURN count(*)",
     "MATCH ((a)--(b)){1,3} UNWIND [1] AS x RETURN x",
+    "MATCH (a:Drug)-[`r)` *1..10]-(b) RETURN b.name",
+    "MATCH (a)-[`x'`]-(b) MATCH (c)-[*1..9]-(d) RETURN `y'`",
     "MATCH (d:Drug) RETURN d.name AS n UNION MATCH (g:Gene) RETURN g.name AS n",
     "MATCH (d:Drug) RETURN d.name AS n union all MATCH (a)--(b)--(c) RETURN a.name AS n LIMIT 5",
     "",
@@ -52,6 +54,7 @@ def test_star_outside_paths_is_fine():
         "MATCH (d:Drug) RETURN [x IN range(1, 3) | x * d.id] AS xs",
         "MATCH (d:Drug) RETURN count(d) * (2) AS a, count(d) + (2) AS b, (d.id - 1) * 2 AS c",
         "MATCH (d:Drug) WHERE d.name = 'Union [*1..10]' RETURN *",
+        "MATCH (d:`Drug`)-[:`TARGET`]-(g) WHERE d.url = 'http://x' RETURN d.name AS `a b`, d.id",
     ):
         assert guard(q).startswith(q)
 

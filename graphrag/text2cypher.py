@@ -15,8 +15,7 @@ from llm import Provider
 
 MAX_LIMIT = 50
 TIMEOUT = 5.0
-_STRINGS = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"")
-_COMMENTS = re.compile(r"//[^\n]*|/\*.*?\*/", re.S)
+_TOKENS = re.compile(r"//[^\n]*|/\*.*?\*/|'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"|`[^`]*`", re.S)
 _WRITE = re.compile(
     r"\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH|LOAD\s+CSV|USING\s+PERIODIC)\b"
     r"|\bCALL\s*\{|\bCALL\s+(?!db\.index\.fulltext\.queryNodes\b)[\w.]+",
@@ -53,8 +52,16 @@ class Cypher(BaseModel):
     cypher: str = Field(description="One read-only Cypher query")
 
 
+def _mask(m: re.Match) -> str:
+    t = m.group(0)
+    if t[0] == "`":  # keep plain `Label`; other quoted names can't hide syntax like `)`
+        return t if re.fullmatch(r"`\w+`", t) else "`_`"
+    return "''" if t[0] in "'\"" else " "
+
+
 def _strip(query: str) -> str:
-    return _STRINGS.sub("''", _COMMENTS.sub(" ", query))
+    """Blank out strings, comments and quoted names in one left-to-right pass."""
+    return _TOKENS.sub(_mask, query)
 
 
 def _unbounded(code: str) -> str | None:
