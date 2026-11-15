@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 
 import pytest
@@ -124,3 +125,41 @@ def test_sparql_endpoint(store):
         assert (
             client.post("/api/sparql", json={"query": "DELETE WHERE {?s ?p ?o}"}).status_code == 400
         )
+
+
+CROSS_JOIN = """SELECT * WHERE {
+  ?a ?b ?c . ?d ?e ?f . ?g ?h ?i . ?j ?k ?l . ?m ?n ?o . ?p ?q ?r
+  FILTER(CONCAT(STR(?c), STR(?i), STR(?r)) = "never") }"""
+
+
+def test_runaway_query_is_killed_within_time_limit(graph):
+    store = RdfStore(graph.serialize(format="turtle"), timeout=1.0, workers=1)
+    try:
+        assert store.query("ASK { ?s ?p ?o }") == {"boolean": True}  # worker warm
+        start = time.monotonic()
+        with pytest.raises(SparqlError, match="time limit"):
+            store.query(CROSS_JOIN)
+        assert time.monotonic() - start < 3
+        assert store.query("ASK { ?s ?p ?o }") == {"boolean": True}  # worker respawned
+    finally:
+        store.close()
+
+
+def test_sparql_endpoint_timeout_is_400(graph):
+    store = RdfStore(graph.serialize(format="turtle"), timeout=1.0, workers=1)
+    with TestClient(create_app(kg=object(), provider=None, rdf=store)) as client:
+        r = client.get("/api/sparql", params={"query": CROSS_JOIN})
+        assert r.status_code == 400 and "time limit" in r.json()["detail"]
+    store.close()
+
+
+def test_sparql_endpoint_busy_is_503(graph):
+    store = RdfStore(graph.serialize(format="turtle"), timeout=0.2, workers=1)
+    held = store._idle.get()  # simulate the only worker being busy
+    try:
+        with TestClient(create_app(kg=object(), provider=None, rdf=store)) as client:
+            r = client.get("/api/sparql", params={"query": "ASK { ?s ?p ?o }"})
+            assert r.status_code == 503 and r.headers["retry-after"]
+    finally:
+        store._idle.put(held)
+        store.close()

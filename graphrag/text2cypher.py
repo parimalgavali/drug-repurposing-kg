@@ -14,13 +14,14 @@ from llm import Provider
 
 MAX_LIMIT = 50
 TIMEOUT = 5.0
-_STRINGS = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"")
-_COMMENTS = re.compile(r"//[^\n]*|/\*.*?\*/", re.S)
 _WRITE = re.compile(
-    r"\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH|LOAD\s+CSV|USING\s+PERIODIC)\b"
-    r"|\bCALL\s*\{|\bCALL\s+(?!db\.index\.fulltext\.queryNodes\b)[\w.]+",
+    r"\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH|LOAD|USING\s+PERIODIC|APOC)\b"
+    r"|\bCALL\b(?!\s+db\.index\.fulltext\.queryNodes\s*\()",
     re.I,
 )
+_NAMESPACED_CALL = re.compile(r"(?<![\w.])(\w+(?:\s*\.\s*\w+)+)\s*\(")
+_FULLTEXT = "db.index.fulltext.queryNodes"
+_PLAIN_IDENT = re.compile(r"\w+")
 _NODE_LABELS = re.compile(r"\(\s*\w*\s*((?::\s*`?\w+`?\s*)+)")
 _REL_TYPES = re.compile(r"\[\s*\w*\s*:\s*(`?\w+`?(?:\s*\|\s*:?\s*`?\w+`?)*)")
 _LIMIT = re.compile(r"\bLIMIT\s+(\d+)\s*$", re.I)
@@ -48,7 +49,50 @@ class Cypher(BaseModel):
 
 
 def _strip(query: str) -> str:
-    return _STRINGS.sub("''", _COMMENTS.sub(" ", query))
+    """Blank out string literals and comments in one left-to-right pass.
+
+    Backtick identifiers are kept only if they are a plain word, so a quoted name cannot hide a
+    procedure (`apoc.load.json`) or open a fake string literal (`'`)."""
+    out: list[str] = []
+    i, n = 0, len(query)
+    while i < n:
+        c = query[i]
+        if c in "'\"":
+            j = i + 1
+            while j < n and query[j] != c:
+                j += 2 if query[j] == "\\" else 1
+            if j >= n:
+                raise CypherRejected("unterminated string literal")
+            out.append("''")
+            i = j + 1
+        elif c == "`":
+            j = i + 1
+            while True:
+                j = query.find("`", j)
+                if j < 0:
+                    raise CypherRejected("unterminated backtick identifier")
+                if query[j + 1 : j + 2] != "`":
+                    break
+                j += 2
+            name = query[i + 1 : j]
+            if not _PLAIN_IDENT.fullmatch(name):
+                raise CypherRejected(f"quoted identifier not allowed: `{name[:40]}`")
+            out.append(query[i : j + 1])
+            i = j + 1
+        elif query.startswith("//", i):
+            j = query.find("\n", i)
+            i = n if j < 0 else j
+            out.append(" ")
+        elif query.startswith("/*", i):
+            j = query.find("*/", i + 2)
+            if j < 0:
+                raise CypherRejected("unterminated comment")
+            out.append(" ")
+            i = j + 2
+        else:
+            out.append(c)
+            i += 1
+    return "".join(out)
 
 
 def guard(query: str) -> str:
@@ -61,6 +105,9 @@ def guard(query: str) -> str:
         raise CypherRejected("multiple statements")
     if m := _WRITE.search(code):
         raise CypherRejected(f"write or procedure clause not allowed: {m.group(0).strip()}")
+    for m in _NAMESPACED_CALL.finditer(code):
+        if re.sub(r"\s", "", m.group(1)) != _FULLTEXT:
+            raise CypherRejected(f"namespaced function or procedure not allowed: {m.group(1)}")
     labels = {
         label.strip(" `")
         for group in _NODE_LABELS.findall(code)

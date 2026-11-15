@@ -30,7 +30,7 @@ from graphrag.templates import KNOWN
 from kg.client import KGClient, connect
 from llm import Provider, get_provider
 from semweb.export import export as export_rdf
-from semweb.store import RdfStore, SparqlError
+from semweb.store import RdfStore, SparqlBusy, SparqlError
 from validation.ctgov import CTGov, search_url
 
 CANDIDATES = """
@@ -385,6 +385,8 @@ def run_sparql(store: RdfStore | None, query: str) -> dict:
         raise HTTPException(503, "no RDF export loaded; run `make rdf`")
     try:
         return store.query(query)
+    except SparqlBusy as e:
+        raise HTTPException(503, str(e), headers={"Retry-After": "5"}) from e
     except SparqlError as e:
         raise HTTPException(400, str(e)) from e
 
@@ -435,6 +437,8 @@ def create_app(
         yield
         if kg is None:
             app.state.kg.close()
+        if rdf is None and app.state.rdf is not None:
+            app.state.rdf.close()
 
     app = FastAPI(
         title="RepurposeKG API",
