@@ -74,7 +74,7 @@ class CTGov:
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": "RepurposeKG"})
         self.retries = retries
         self._last = 0.0
-        self._lock = threading.Lock()  # one request at a time keeps the rate limit
+        self._lock = threading.Lock()  # guards the cache and `_last`; never held while waiting
         self.requests = 0
         self.rejected = 0
         self.cache: dict[str, TrialSummary] = {}
@@ -91,15 +91,18 @@ class CTGov:
         with self._lock:
             if key in self.cache:
                 return self.cache[key]
-            params = {
-                "query.cond": condition,
-                "countTotal": "true",
-                "pageSize": "100",
-                "fields": "NCTId,OverallStatus,Phase",
-            }
-            if intervention:
-                params["query.intr"] = intervention
-            summary = summarise(condition, intervention, self._get(params))
+        params = {
+            "query.cond": condition,
+            "countTotal": "true",
+            "pageSize": "100",
+            "fields": "NCTId,OverallStatus,Phase",
+        }
+        if intervention:
+            params["query.intr"] = intervention
+        summary = summarise(condition, intervention, self._get(params))
+        with self._lock:
+            if key in self.cache:  # a parallel lookup of the same pair finished first
+                return self.cache[key]
             self.cache[key] = summary
             try:
                 self.cache_path.parent.mkdir(parents=True, exist_ok=True)
@@ -107,22 +110,35 @@ class CTGov:
                     f.write(json.dumps(asdict(summary)) + "\n")
             except OSError as e:  # e.g. a read-only container: keep the in-memory cache
                 log.warning("can't write CT.gov cache %s: %s", self.cache_path, e)
-            return summary
+        return summary
+
+    def _reserve(self) -> float:
+        """Books the next request slot (≥ `min_interval` after the last) and returns the wait."""
+        with self._lock:
+            now = time.monotonic()
+            slot = max(now, self._last + self.min_interval)
+            self._last = slot
+            self.requests += 1
+            return slot - now
+
+    def _back_off(self, seconds: float) -> None:
+        """Pushes every caller's next slot back after a 429/5xx."""
+        with self._lock:
+            self._last = max(self._last, time.monotonic() + seconds - self.min_interval)
 
     def _get(self, params: dict) -> dict:
         for attempt in range(self.retries):
-            wait = self._last + self.min_interval - time.monotonic()
+            wait = self._reserve()
             if wait > 0:
                 time.sleep(wait)
-            self._last = time.monotonic()
-            self.requests += 1
             response = self.client.get(API, params=params)
             if response.status_code == 429 or response.status_code >= 500:
-                time.sleep(2**attempt * 5)
+                self._back_off(2**attempt * 5)
                 continue
             if response.status_code == 400:
                 # CT.gov rejects some chemical names (brackets, commas); count them as no match.
-                self.rejected += 1
+                with self._lock:
+                    self.rejected += 1
                 return {"totalCount": 0, "studies": []}
             response.raise_for_status()
             return response.json()

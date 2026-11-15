@@ -15,4 +15,5 @@ class Settings(BaseSettings):
     llm_provider: str = "recorded"
     rdf_path: str = "data/rdf/export.ttl"
     ctgov_cache: str = "artifacts/ctgov_cache.jsonl"
+    ctgov_concurrency: int = 4  # uncached /trials lookups at once; more get 503
     cors_origins: list[str] = ["http://localhost:5173"]

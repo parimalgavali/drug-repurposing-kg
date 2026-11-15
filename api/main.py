@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import logging
+import threading
 from collections.abc import Iterator
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -248,15 +249,23 @@ def explain_pair(kg: KG, drug_id: int, disease_id: int) -> Explanation:
 
 
 @router.get("/pairs/{drug_id}/{disease_id}/trials")
-def pair_trials(kg: KG, ct: CT, drug_id: int, disease_id: int) -> Trials:
+def pair_trials(request: Request, kg: KG, ct: CT, drug_id: int, disease_id: int) -> Trials:
     drug = node_or_404(kg, "Drug", drug_id)
     disease = node_or_404(kg, "Disease", disease_id)
     cached = ct.cached(disease.name, drug.name) is not None
+    slots: threading.BoundedSemaphore = request.app.state.ctgov_slots
+    if not cached and not slots.acquire(blocking=False):  # never queue on CT.gov in the pool
+        raise HTTPException(
+            503, "Too many ClinicalTrials.gov lookups in progress", headers={"Retry-After": "5"}
+        )
     try:
         s = ct.lookup(disease.name, drug.name)
     except (httpx.HTTPError, RuntimeError) as e:
         log.warning("CT.gov lookup failed for %s / %s: %s", disease.name, drug.name, e)
         raise HTTPException(502, "ClinicalTrials.gov lookup failed") from e
+    finally:
+        if not cached:
+            slots.release()
     url = search_url(disease.name, drug.name)
     return Trials(
         studies=s.studies, max_phase=s.max_phase, statuses=s.statuses, url=url, cached=cached
@@ -402,6 +411,7 @@ def create_app(
         )
         app.state.provider = provider
         app.state.ctgov = ctgov or CTGov(cache=Path(settings.ctgov_cache), retries=2)
+        app.state.ctgov_slots = threading.BoundedSemaphore(settings.ctgov_concurrency)
         rdf_path = Path(settings.rdf_path)
         app.state.rdf = rdf or (RdfStore.from_path(rdf_path) if rdf_path.exists() else None)
         if provider is None:
