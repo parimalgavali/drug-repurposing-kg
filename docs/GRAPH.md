@@ -16,7 +16,7 @@ sudo systemctl start neo4j && make kg-schema           # constraints + indexes
 Docker instead of the Debian package: `docker compose run --rm neo4j neo4j-admin ...` via `make kg-import NEO4J_ADMIN="docker compose run --rm neo4j neo4j-admin" IMPORT_PREFIX=/import`, then `docker compose up -d neo4j && make kg-schema`.
 Without the full download: start an empty database and `make kg-fixture` loads the 498-node test graph.
 
-Debian package install (used on the dev VM because Docker Hub rate-limits anonymous pulls): add `deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 5` (the `latest` component is the 2026.x calendar line), `apt-get install neo4j=1:5.26.32`, set heap/pagecache to 4g in `/etc/neo4j/neo4j.conf`, copy `labs/apoc-*-core.jar` to `plugins/`, `neo4j-admin dbms set-initial-password` before first start.
+Debian package install (used on the dev VM because Docker Hub rate-limits anonymous pulls): add `deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 5` (the `latest` component is the 2026.x calendar line), `apt-get install neo4j=1:5.26.32`, set heap/pagecache to 4g in `/etc/neo4j/neo4j.conf`, `neo4j-admin dbms set-initial-password` before first start.
 
 ## Labels
 

@@ -31,6 +31,18 @@ REJECT = [
     "MATCH (d:Drug) RETURN d.name AS n UNION MATCH (g:Gene) RETURN g.name AS n",
     "MATCH (d:Drug) RETURN d.name AS n union all MATCH (a)--(b)--(c) RETURN a.name AS n LIMIT 5",
     "",
+    "MATCH (n:Drug) WITH n LIMIT 1 CALL `apoc.load.json`('http://x') YIELD value RETURN value",
+    "CALL `apoc.load.json`('http://x')",
+    "WITH 1 AS `'` LOAD CSV FROM 'http://x' AS l RETURN l AS `'`",
+    "RETURN apoc.x.y()",
+    "RETURN `apoc`.x.y()",
+    "RETURN apoc . load . json('http://x')",
+    "CALL db.index.fulltext.queryNodes('a', 'b') YIELD node CALL apoc.load.json('http://x')",
+    "RETURN '/*' AS a CALL apoc.load.json('http://x') YIELD value RETURN '*/'",
+    "MATCH (d:Drug) WHERE d.name = 'unterminated RETURN d",
+    "MATCH (d:Drug) /* CALL apoc.load.json('http://x') RETURN d",
+    "MATCH (d:Drug) RETURN d.name AS `name with space`",
+    "MATCH (d:Drug) RETURN d.name AS `a``b`",
 ]
 
 
@@ -54,7 +66,7 @@ def test_star_outside_paths_is_fine():
         "MATCH (d:Drug) RETURN [x IN range(1, 3) | x * d.id] AS xs",
         "MATCH (d:Drug) RETURN count(d) * (2) AS a, count(d) + (2) AS b, (d.id - 1) * 2 AS c",
         "MATCH (d:Drug) WHERE d.name = 'Union [*1..10]' RETURN *",
-        "MATCH (d:`Drug`)-[:`TARGET`]-(g) WHERE d.url = 'http://x' RETURN d.name AS `a b`, d.id",
+        "MATCH (d:`Drug`)-[:`TARGET`]-(g) WHERE d.url = 'http://x' RETURN d.name AS `name`, d.id",
     ):
         assert guard(q).startswith(q)
 
@@ -64,4 +76,5 @@ def test_keywords_inside_strings_and_fulltext_are_fine():
     assert guard(q).startswith(q)
     ft = "CALL db.index.fulltext.queryNodes('entityNames', 'asthma') YIELD node RETURN node.name"
     assert guard(ft).startswith(ft)
+    assert guard("MATCH (d:`Drug`) RETURN d.name AS `name` // CALL apoc").startswith("MATCH")
     assert guard("```cypher\nMATCH (g:Gene) RETURN g.name\n```").startswith("MATCH (g:Gene)")

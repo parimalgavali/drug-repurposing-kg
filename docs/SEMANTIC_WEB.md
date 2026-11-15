@@ -62,7 +62,14 @@ shapes reject a broken graph.
   - Oxigraph's query API can't run updates in any case.
 - **Limits:**
   - at most 500 rows come back (`truncated: true` beyond that);
-  - the store holds only the exported subgraph, so queries stay small.
+  - each query runs in a worker process with its own copy of the store and is killed after
+    `SPARQL_TIMEOUT_S` (default 5 s) → 400 "query exceeded the … time limit". Oxigraph has no
+    timeout of its own, and the row cap doesn't stop cross joins, `*` paths or ORDER BY from
+    being evaluated in full;
+  - each worker is capped at `SPARQL_WORKER_MEMORY_MB` (default 2048) of address space; a worker
+    that dies is respawned on the next query;
+  - at most `SPARQL_WORKERS` (default 2) queries run at once; when all are busy for the whole
+    time limit the endpoint returns 503 with `Retry-After`.
 - **No file:** if no export file exists, the endpoint returns 503.
 
 ## Cypher vs SPARQL
