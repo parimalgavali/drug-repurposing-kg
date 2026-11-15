@@ -17,3 +17,7 @@ class Settings(BaseSettings):
     ctgov_cache: str = "artifacts/ctgov_cache.jsonl"
     ctgov_concurrency: int = 4  # uncached /trials lookups at once; more get 503
     cors_origins: list[str] = ["http://localhost:5173"]
+    # /ask calls a paid LLM: per-client-IP and total limits (0 disables), optional shared key.
+    ask_per_minute: int = 10
+    ask_per_day: int = 500
+    ask_api_key: str = ""
