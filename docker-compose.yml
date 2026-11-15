@@ -21,14 +21,20 @@ services:
 
   api:
     build: .
+    # Host-local only: the internet reaches /api through the web proxy, which rate-limits /api/ask.
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     environment:
       NEO4J_URI: bolt://neo4j:7687
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: ${NEO4J_PASSWORD:-repurposekg-dev}
       LLM_PROVIDER: ${LLM_PROVIDER:-anthropic}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ASK_PER_MINUTE: ${ASK_PER_MINUTE:-10}
+      ASK_PER_DAY: ${ASK_PER_DAY:-500}
+      ASK_API_KEY: ${ASK_API_KEY:-}
+      # Trust X-Forwarded-For (set by web/nginx.conf) so per-IP limits see the real client.
+      FORWARDED_ALLOW_IPS: "*"
     volumes:
       - ctgov-cache:/cache
     depends_on:

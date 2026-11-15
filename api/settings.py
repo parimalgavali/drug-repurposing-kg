@@ -16,3 +16,7 @@ class Settings(BaseSettings):
     rdf_path: str = "data/rdf/export.ttl"
     ctgov_cache: str = "artifacts/ctgov_cache.jsonl"
     cors_origins: list[str] = ["http://localhost:5173"]
+    # /ask calls a paid LLM: per-client-IP and total limits (0 disables), optional shared key.
+    ask_per_minute: int = 10
+    ask_per_day: int = 500
+    ask_api_key: str = ""
