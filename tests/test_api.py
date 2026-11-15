@@ -6,6 +6,8 @@ Re-record with RECORD_LLM=1 (needs ANTHROPIC_API_KEY).
 import json
 import os
 import tempfile
+import threading
+import time
 from pathlib import Path
 
 import httpx
@@ -23,7 +25,7 @@ from api.settings import Settings  # noqa: E402
 from graphrag.answer import DISCLAIMER, DISCLAIMER_DE  # noqa: E402
 from graphrag.router import Route  # noqa: E402
 from llm import AnthropicProvider, RecordedProvider  # noqa: E402
-from validation.ctgov import CTGov  # noqa: E402
+from validation.ctgov import CTGov, _key, summarise  # noqa: E402
 
 
 class APIScriptedKG(ScriptedKG):
@@ -174,6 +176,42 @@ def test_trials_502_when_ctgov_is_down_and_the_rest_still_works(kg, tmp_path):
         r = c.get("/api/pairs/14287/33675/trials")
         assert r.status_code == 502 and "ClinicalTrials.gov" in r.json()["detail"]
         assert c.get("/api/diseases/33675/candidates").status_code == 200
+
+
+def test_slow_ctgov_lookups_dont_block_cached_trials_or_health(kg, tmp_path):
+    gate, calls = threading.Event(), []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(dict(request.url.params))
+        gate.wait(10)
+        return httpx.Response(200, json=CABERGOLINE)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0.2, client=client, retries=1)
+    ct.cache[_key("Parkinson disease", "Ibuprofen")] = summarise("", "", CABERGOLINE)
+    settings = Settings(neo4j_password="", ctgov_concurrency=2)
+    app = create_app(kg=kg, provider=RecordedProvider(FIXTURES), settings=settings, ctgov=ct)
+    with TestClient(app) as c:
+        slow = [f"/api/pairs/14287/{d}/trials" for d in (33675, 90002)]
+        results: list = []
+        threads = [threading.Thread(target=lambda u=u: results.append(c.get(u))) for u in slow]
+        for t in threads:
+            t.start()
+        deadline = time.monotonic() + 5
+        while ct.requests < 2 and time.monotonic() < deadline:
+            time.sleep(0.01)
+        started = time.monotonic()
+        full = c.get("/api/pairs/14287/33675/trials")
+        assert full.status_code == 503 and full.headers["Retry-After"] == "5"
+        assert c.get("/api/pairs/14287/90001/trials").json()["cached"] is True
+        assert c.get("/api/health").status_code == 200
+        assert time.monotonic() - started < 0.5
+        gate.set()
+        for t in threads:
+            t.join(10)
+        assert [r.status_code for r in results] == [200, 200]
+        assert c.get("/api/pairs/14287/90002/trials").json()["cached"] is True
+    assert len(calls) == 2
 
 
 def test_candidates_take_trial_counts_from_the_lookup_cache(kg, tmp_path):

@@ -1,4 +1,6 @@
 import json
+import threading
+import time
 from pathlib import Path
 
 import httpx
@@ -66,3 +68,52 @@ def test_unwritable_cache_keeps_the_in_memory_result(tmp_path):
     ct = CTGov(cache=blocker / "ct.jsonl", min_interval=0, client=_client(calls))
     assert ct.lookup("Parkinson disease", "Cabergoline").studies == 7
     assert ct.lookup("Parkinson disease", "Cabergoline").studies == 7 and len(calls) == 1
+
+
+def test_lookups_wait_for_the_rate_limit_outside_the_lock(tmp_path):
+    gate, calls = threading.Event(), []
+    inner = _client(calls)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        gate.wait(5)
+        return inner.get(str(request.url))
+
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0.2, client=_client([]))
+    ct.lookup("Parkinson disease", "Sotagliflozin")
+    ct.client = httpx.Client(transport=httpx.MockTransport(handler))
+    slow = [
+        threading.Thread(target=ct.lookup, args=("Parkinson disease", "Cabergoline"))
+        for _ in range(3)
+    ]
+    for t in slow:
+        t.start()
+    time.sleep(0.1)
+    started = time.monotonic()
+    assert ct.lookup("parkinson disease", "sotagliflozin").studies == 0
+    assert time.monotonic() - started < 0.05  # cached hits don't queue behind HTTP or sleeps
+    gate.set()
+    for t in slow:
+        t.join(5)
+    assert len(calls) == 3 and ct.requests == 4
+    assert len((tmp_path / "ct.jsonl").read_text().splitlines()) == 2  # one line per pair
+
+
+def test_backoff_delays_the_next_slot_for_everyone(tmp_path):
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0, client=_client([]))
+    ct._wait_turn()
+    ct._back_off(0.3)
+    started = time.monotonic()
+    ct._wait_turn()
+    assert time.monotonic() - started >= 0.3 and ct.requests == 2
+
+
+def test_a_waiting_caller_rechecks_a_backoff_set_while_it_slept(tmp_path):
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0.2, client=_client([]))
+    ct._wait_turn()
+    started = time.monotonic()
+    waiter = threading.Thread(target=ct._wait_turn)
+    waiter.start()
+    time.sleep(0.05)
+    ct._back_off(0.5)
+    waiter.join(5)
+    assert time.monotonic() - started >= 0.5
