@@ -25,13 +25,11 @@ _WRITE = re.compile(
 _NODE_LABELS = re.compile(r"\(\s*\w*\s*((?::\s*`?\w+`?\s*)+)")
 _REL_TYPES = re.compile(r"\[\s*\w*\s*:\s*(`?\w+`?(?:\s*\|\s*:?\s*`?\w+`?)*)")
 _LIMIT = re.compile(r"\bLIMIT\s+(\d+)\s*$", re.I)
-_UNBOUNDED = re.compile(
-    r"\bUNION\b"
-    r"|\[[^\[\]]*\*[^\[\]]*\]\s*-"  # variable-length relationship: -[*1..10]- or -[:X*]->
-    r"|[\]>-]\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])\s*(?=[(<-])"  # quantified rel: -[:X]->{1,3}
-    r"|\)\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])\s*(?=[(<,-]|$|\b(?:WHERE|RETURN|WITH|MATCH)\b)",
-    re.I,
-)
+_UNION = re.compile(r"\bUNION\b", re.I)
+_QUANTIFIER = r"\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])"
+_QUANTIFIED_REL = re.compile(r"[\]-]\s*-\s*>?" + _QUANTIFIER)  # -[:X]->{1,3}, -->+
+_ARROW = re.compile(r"-\s*\[|\]\s*-|-\s*-|-\s*>|<\s*-")
+
 
 SYSTEM = f"""You translate questions about a biomedical knowledge graph (PrimeKG in Neo4j) into
 one read-only Cypher query.
@@ -59,6 +57,24 @@ def _strip(query: str) -> str:
     return _STRINGS.sub("''", _COMMENTS.sub(" ", query))
 
 
+def _unbounded(code: str) -> str | None:
+    """The UNION, variable-length relationship or quantified path in `code`, if any."""
+    if m := _UNION.search(code) or _QUANTIFIED_REL.search(code):
+        return m.group(0)
+    stack: list[int] = []
+    for i, ch in enumerate(code):
+        if ch in "([":
+            stack.append(i)
+        elif ch in ")]" and stack:
+            start = stack.pop()
+            inner = code[start + 1 : i]
+            if ch == "]" and code[:start].rstrip().endswith("-") and "*" in inner:
+                return code[start : i + 1]  # -[*1..10]-, -[:X*]->
+            if ch == ")" and re.match(_QUANTIFIER, code[i + 1 :]) and _ARROW.search(inner):
+                return code[start : i + 1]  # ((a)-->(b)){1,3}, ((a)-->(b))+
+    return None
+
+
 def guard(query: str) -> str:
     """Return the query (with a LIMIT) if it is allowed, else raise CypherRejected."""
     query = query.strip().strip("`").removeprefix("cypher").strip().rstrip(";").strip()
@@ -69,8 +85,8 @@ def guard(query: str) -> str:
         raise CypherRejected("multiple statements")
     if m := _WRITE.search(code):
         raise CypherRejected(f"write or procedure clause not allowed: {m.group(0).strip()}")
-    if m := _UNBOUNDED.search(code):
-        raise CypherRejected(f"UNION or variable-length path not allowed: {m.group(0).strip()}")
+    if bad := _unbounded(code):
+        raise CypherRejected(f"UNION or variable-length path not allowed: {bad.strip()}")
     labels = {
         label.strip(" `")
         for group in _NODE_LABELS.findall(code)
