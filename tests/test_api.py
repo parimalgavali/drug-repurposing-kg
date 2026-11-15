@@ -187,7 +187,7 @@ def test_slow_ctgov_lookups_dont_block_cached_trials_or_health(kg, tmp_path):
         return httpx.Response(200, json=CABERGOLINE)
 
     client = httpx.Client(transport=httpx.MockTransport(handler))
-    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=1.0, client=client, retries=1)
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0.2, client=client, retries=1)
     ct.cache[_key("Parkinson disease", "Ibuprofen")] = summarise("", "", CABERGOLINE)
     settings = Settings(neo4j_password="", ctgov_concurrency=2)
     app = create_app(kg=kg, provider=RecordedProvider(FIXTURES), settings=settings, ctgov=ct)

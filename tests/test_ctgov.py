@@ -100,5 +100,20 @@ def test_lookups_wait_for_the_rate_limit_outside_the_lock(tmp_path):
 
 def test_backoff_delays_the_next_slot_for_everyone(tmp_path):
     ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0, client=_client([]))
+    ct._wait_turn()
     ct._back_off(0.3)
-    assert 0.2 < ct._reserve() <= 0.3
+    started = time.monotonic()
+    ct._wait_turn()
+    assert time.monotonic() - started >= 0.3 and ct.requests == 2
+
+
+def test_a_waiting_caller_rechecks_a_backoff_set_while_it_slept(tmp_path):
+    ct = CTGov(cache=tmp_path / "ct.jsonl", min_interval=0.2, client=_client([]))
+    ct._wait_turn()
+    started = time.monotonic()
+    waiter = threading.Thread(target=ct._wait_turn)
+    waiter.start()
+    time.sleep(0.05)
+    ct._back_off(0.5)
+    waiter.join(5)
+    assert time.monotonic() - started >= 0.5

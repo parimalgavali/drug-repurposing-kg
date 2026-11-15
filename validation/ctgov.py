@@ -74,7 +74,8 @@ class CTGov:
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": "RepurposeKG"})
         self.retries = retries
         self._last = 0.0
-        self._lock = threading.Lock()  # guards the cache and `_last`; never held while waiting
+        self._paused_until = 0.0
+        self._lock = threading.Lock()  # guards the cache and pacing; never held while waiting
         self.requests = 0
         self.rejected = 0
         self.cache: dict[str, TrialSummary] = {}
@@ -112,25 +113,29 @@ class CTGov:
                 log.warning("can't write CT.gov cache %s: %s", self.cache_path, e)
         return summary
 
-    def _reserve(self) -> float:
-        """Books the next request slot (≥ `min_interval` after the last) and returns the wait."""
-        with self._lock:
-            now = time.monotonic()
-            slot = max(now, self._last + self.min_interval)
-            self._last = slot
-            self.requests += 1
-            return slot - now
+    def _wait_turn(self) -> None:
+        """Waits until `min_interval` after the last request and past any backoff, then books it.
+
+        Sleeps without the lock and rechecks, so a backoff set meanwhile also holds this caller.
+        """
+        while True:
+            with self._lock:
+                now = time.monotonic()
+                ready = max(self._last + self.min_interval, self._paused_until)
+                if now >= ready:
+                    self._last = now
+                    self.requests += 1
+                    return
+            time.sleep(ready - now)
 
     def _back_off(self, seconds: float) -> None:
-        """Pushes every caller's next slot back after a 429/5xx."""
+        """Holds every caller's next request after a 429/5xx."""
         with self._lock:
-            self._last = max(self._last, time.monotonic() + seconds - self.min_interval)
+            self._paused_until = max(self._paused_until, time.monotonic() + seconds)
 
     def _get(self, params: dict) -> dict:
         for attempt in range(self.retries):
-            wait = self._reserve()
-            if wait > 0:
-                time.sleep(wait)
+            self._wait_turn()
             response = self.client.get(API, params=params)
             if response.status_code == 429 or response.status_code >= 500:
                 self._back_off(2**attempt * 5)
