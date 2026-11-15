@@ -66,6 +66,6 @@ curl -N -X POST "$B/ask" -H 'content-type: application/json' \
 | Endpoint | Returns |
 | --- | --- |
 | `GET /api/diseases/{id}/rdf?k=20` | Turtle export of the disease-centred subgraph |
-| `GET /api/sparql?query=…`, `POST /api/sparql {"query": …}` | `{vars, rows, truncated}` for `SELECT`, `{boolean}` for `ASK`; 400 for anything else, 503 if no export is loaded |
+| `GET /api/sparql?query=…`, `POST /api/sparql {"query": …}` | `{vars, rows, truncated}` for `SELECT`, `{boolean}` for `ASK`; 400 for anything else or a query over the time limit, 503 if no export is loaded or all SPARQL workers are busy |
 
 `/api/sparql` serves `RDF_PATH` (default `data/rdf/export.ttl`, written by `make rdf`). See [SEMANTIC_WEB.md](SEMANTIC_WEB.md).

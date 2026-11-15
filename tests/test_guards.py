@@ -16,6 +16,18 @@ REJECT = [
     "MATCH (d:Drug)-[:TREATS]->(s:Disease) RETURN d.name",
     "MATCH (d:Drug) CALL { MATCH (n) DELETE n } RETURN d",
     "",
+    "MATCH (n:Drug) WITH n LIMIT 1 CALL `apoc.load.json`('http://x') YIELD value RETURN value",
+    "CALL `apoc.load.json`('http://x')",
+    "WITH 1 AS `'` LOAD CSV FROM 'http://x' AS l RETURN l AS `'`",
+    "RETURN apoc.x.y()",
+    "RETURN `apoc`.x.y()",
+    "RETURN apoc . load . json('http://x')",
+    "CALL db.index.fulltext.queryNodes('a', 'b') YIELD node CALL apoc.load.json('http://x')",
+    "RETURN '/*' AS a CALL apoc.load.json('http://x') YIELD value RETURN '*/'",
+    "MATCH (d:Drug) WHERE d.name = 'unterminated RETURN d",
+    "MATCH (d:Drug) /* CALL apoc.load.json('http://x') RETURN d",
+    "MATCH (d:Drug) RETURN d.name AS `name with space`",
+    "MATCH (d:Drug) RETURN d.name AS `a``b`",
 ]
 
 
@@ -37,4 +49,5 @@ def test_keywords_inside_strings_and_fulltext_are_fine():
     assert guard(q).startswith(q)
     ft = "CALL db.index.fulltext.queryNodes('entityNames', 'asthma') YIELD node RETURN node.name"
     assert guard(ft).startswith(ft)
+    assert guard("MATCH (d:`Drug`) RETURN d.name AS `name` // CALL apoc").startswith("MATCH")
     assert guard("```cypher\nMATCH (g:Gene) RETURN g.name\n```").startswith("MATCH (g:Gene)")
