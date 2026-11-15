@@ -1,5 +1,6 @@
-"""Text → Cypher with guards: schema-only labels/types, read-only clauses, LIMIT, EXPLAIN first,
-read-only transaction with a 5 s timeout, and one retry that shows the model its error."""
+"""Text → Cypher with guards: schema-only labels/types, read-only clauses, no UNION or
+variable-length paths, LIMIT, EXPLAIN first, read-only transaction with a 5 s timeout, and one
+retry that shows the model its error."""
 
 from __future__ import annotations
 
@@ -25,6 +26,11 @@ _PLAIN_IDENT = re.compile(r"\w+")
 _NODE_LABELS = re.compile(r"\(\s*\w*\s*((?::\s*`?\w+`?\s*)+)")
 _REL_TYPES = re.compile(r"\[\s*\w*\s*:\s*(`?\w+`?(?:\s*\|\s*:?\s*`?\w+`?)*)")
 _LIMIT = re.compile(r"\bLIMIT\s+(\d+)\s*$", re.I)
+_UNION = re.compile(r"\bUNION\b", re.I)
+_QUANTIFIER = r"\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])"
+_QUANTIFIED_REL = re.compile(r"[\]-]\s*-\s*>?" + _QUANTIFIER)  # -[:X]->{1,3}, -->+
+_ARROW = re.compile(r"-\s*\[|\]\s*-|-\s*-|-\s*>|<\s*-")
+
 
 SYSTEM = f"""You translate questions about a biomedical knowledge graph (PrimeKG in Neo4j) into
 one read-only Cypher query.
@@ -95,6 +101,24 @@ def _strip(query: str) -> str:
     return "".join(out)
 
 
+def _unbounded(code: str) -> str | None:
+    """The UNION, variable-length relationship or quantified path in `code`, if any."""
+    if m := _UNION.search(code) or _QUANTIFIED_REL.search(code):
+        return m.group(0)
+    stack: list[int] = []
+    for i, ch in enumerate(code):
+        if ch in "([":
+            stack.append(i)
+        elif ch in ")]" and stack:
+            start = stack.pop()
+            inner = code[start + 1 : i]
+            if ch == "]" and code[:start].rstrip().endswith("-") and "*" in inner:
+                return code[start : i + 1]  # -[*1..10]-, -[:X*]->
+            if ch == ")" and re.match(_QUANTIFIER, code[i + 1 :]) and _ARROW.search(inner):
+                return code[start : i + 1]  # ((a)-->(b)){1,3}, ((a)-->(b))+
+    return None
+
+
 def guard(query: str) -> str:
     """Return the query (with a LIMIT) if it is allowed, else raise CypherRejected."""
     query = query.strip().strip("`").removeprefix("cypher").strip().rstrip(";").strip()
@@ -108,6 +132,8 @@ def guard(query: str) -> str:
     for m in _NAMESPACED_CALL.finditer(code):
         if re.sub(r"\s", "", m.group(1)) != _FULLTEXT:
             raise CypherRejected(f"namespaced function or procedure not allowed: {m.group(1)}")
+    if bad := _unbounded(code):
+        raise CypherRejected(f"UNION or variable-length path not allowed: {bad.strip()}")
     labels = {
         label.strip(" `")
         for group in _NODE_LABELS.findall(code)

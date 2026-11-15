@@ -53,7 +53,8 @@ question
   → entity linker (full-text index + rapidfuzz re-rank, typed)
   → intent router (LLM, structured output): repurpose | explain_pair | neighbours | free_query
   → template Cypher (first three)   |   text-to-Cypher (free_query)
-                                       → guard: allowlist labels/rels, add LIMIT,
+                                       → guard: allowlist labels/rels, no UNION or
+                                         variable-length paths, add LIMIT,
                                          EXPLAIN, read-only tx, 5 s timeout, 1 retry
   → rows + paths → answer synthesis (LLM, cites node ids) → SSE: tokens, cypher, subgraph
 ```
