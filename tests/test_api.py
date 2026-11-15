@@ -114,12 +114,12 @@ def kg():
     return APIScriptedKG()
 
 
-def client(kg, provider=None, ctgov=None):
+def client(kg, provider=None, ctgov=None, **settings):
     if provider is None:
         inner = AnthropicProvider() if os.environ.get("RECORD_LLM") else None
         provider = RecordedProvider(FIXTURES, inner=inner)
     ctgov = ctgov or mock_ctgov(Path(tempfile.mkdtemp()) / "ct.jsonl", [])
-    settings = Settings(neo4j_password="")
+    settings = Settings(neo4j_password="", **settings)
     return TestClient(create_app(kg=kg, provider=provider, settings=settings, ctgov=ctgov))
 
 
@@ -245,6 +245,30 @@ def test_ask_validates_body(kg):
 
 def test_committed_openapi_is_current():
     assert OUT.read_text() == schema(), "run `make openapi`"
+
+
+def test_ask_rate_limited_per_client(kg):
+    q = {"question": "Which genes does Ibuprofen target?"}
+    with client(kg, ask_per_minute=3) as c:
+        assert [c.post("/api/ask", json=q).status_code for _ in range(3)] == [200] * 3
+        resp = c.post("/api/ask", json=q)
+        assert resp.status_code == 429
+        assert 1 <= int(resp.headers["retry-after"]) <= 60
+        assert c.get("/api/health").status_code == 200
+
+
+def test_ask_daily_cap(kg):
+    q = {"question": "Which genes does Ibuprofen target?"}
+    with client(kg, ask_per_minute=0, ask_per_day=2) as c:
+        assert [c.post("/api/ask", json=q).status_code for _ in range(3)] == [200, 200, 429]
+
+
+def test_ask_api_key(kg):
+    q = {"question": "Which genes does Ibuprofen target?"}
+    with client(kg, ask_api_key="s3cret") as c:
+        assert c.post("/api/ask", json=q).status_code == 401
+        assert c.post("/api/ask", json=q, headers={"X-API-Key": "nope"}).status_code == 401
+        assert c.post("/api/ask", json=q, headers={"X-API-Key": "s3cret"}).status_code == 200
 
 
 def test_ask_in_german_passes_names_and_german_disclaimer(kg):

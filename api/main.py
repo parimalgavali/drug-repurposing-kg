@@ -5,6 +5,7 @@ uv run --extra graph --extra llm --extra api uvicorn api.main:app --reload
 
 from __future__ import annotations
 
+import hmac
 import json
 import logging
 from collections.abc import Iterator
@@ -13,11 +14,12 @@ from pathlib import Path
 from typing import Annotated, Literal
 
 import httpx
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 
+from api.ratelimit import RateLimiter, retry_after
 from api.settings import Settings
 from explain.paths import explain
 from graphrag.answer import MAX_ROWS, stream_answer
@@ -333,10 +335,31 @@ def ask_events(
         )
 
 
+def guard_ask(
+    request: Request, x_api_key: Annotated[str | None, Header(include_in_schema=False)] = None
+) -> None:
+    """Each /ask makes several paid LLM calls: optional shared key, then per-IP and daily limits."""
+    state = request.app.state
+    key = state.settings.ask_api_key
+    if key and not hmac.compare_digest((x_api_key or "").encode(), key.encode()):
+        raise HTTPException(401, "missing or invalid X-API-Key")
+    client = request.client.host if request.client else ""
+    for limiter, scope in ((state.ask_per_ip, client), (state.ask_daily, "")):
+        if wait := limiter.hit(scope):
+            raise HTTPException(
+                429, "too many questions, try again later", {"Retry-After": retry_after(wait)}
+            )
+
+
 @router.post(
     "/ask",
     response_class=StreamingResponse,
-    responses={200: {"content": {"text/event-stream": {}}, "description": "SSE event stream"}},
+    responses={
+        200: {"content": {"text/event-stream": {}}, "description": "SSE event stream"},
+        401: {"description": "ASK_API_KEY is set and X-API-Key is missing or wrong"},
+        429: {"description": "per-IP or daily /ask limit reached; see Retry-After"},
+    },
+    dependencies=[Depends(guard_ask)],
 )
 def ask(body: AskRequest, kg: KG, provider: LLM) -> StreamingResponse:
     return StreamingResponse(
@@ -423,8 +446,14 @@ def create_app(
         description="Research demo, not medical advice.",
         lifespan=lifespan,
     )
+    app.state.settings = settings
+    app.state.ask_per_ip = RateLimiter(settings.ask_per_minute, 60)
+    app.state.ask_daily = RateLimiter(settings.ask_per_day, 24 * 3600)
     app.add_middleware(
-        CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=["GET", "POST"]
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_methods=["GET", "POST"],
+        allow_headers=["content-type", "x-api-key"],
     )
     app.include_router(router)
     return app

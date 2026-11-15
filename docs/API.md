@@ -10,6 +10,12 @@ make openapi                       # regenerate docs/openapi.json (a test fails 
 
 Settings come from the environment or `.env`: `NEO4J_URI`, `NEO4J_USER`, `NEO4J_PASSWORD`, `NEO4J_DATABASE`, `LLM_PROVIDER` (`anthropic` | `ollama` | `recorded`, default `recorded`), `CORS_ORIGINS`. If the LLM provider cannot start (for example, no `ANTHROPIC_API_KEY`), every endpoint except `/ask` still works.
 
+`/ask` makes up to four paid LLM calls per question, so it is limited:
+- `ASK_PER_MINUTE` (default 10) questions per client IP per minute and `ASK_PER_DAY` (default 500) questions per day in total; over a limit returns `429` with `Retry-After`. `0` turns a limit off. Counters live in the API process, so run one worker.
+- `ASK_API_KEY` (default empty = off): when set, `/ask` needs a matching `X-API-Key` header, otherwise `401`. The web UI does not send it, so set it only for script/API-only deployments.
+- In `docker-compose.yml` the API listens on `127.0.0.1:8000` only; the public entry is the web proxy (`web/nginx.conf`), which also allows 10 `/api/ask` per minute per IP and passes the real client IP in `X-Forwarded-For`.
+- Also set a monthly spend limit on the Anthropic account.
+
 ## Endpoints
 
 | Method | Path | Returns |

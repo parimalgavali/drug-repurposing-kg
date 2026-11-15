@@ -275,6 +275,12 @@
               "text/event-stream": {}
             }
           },
+          "401": {
+            "description": "ASK_API_KEY is set and X-API-Key is missing or wrong"
+          },
+          "429": {
+            "description": "per-IP or daily /ask limit reached; see Retry-After"
+          },
           "422": {
             "description": "Validation Error",
             "content": {

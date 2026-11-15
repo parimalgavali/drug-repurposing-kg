@@ -505,6 +505,13 @@ export interface operations {
                     "text/event-stream": unknown;
                 };
             };
+            /** @description ASK_API_KEY is set and X-API-Key is missing or wrong */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Validation Error */
             422: {
                 headers: {
@@ -513,6 +520,13 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+            /** @description per-IP or daily /ask limit reached; see Retry-After */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
