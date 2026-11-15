@@ -1,5 +1,6 @@
-"""Text → Cypher with guards: schema-only labels/types, read-only clauses, LIMIT, EXPLAIN first,
-read-only transaction with a 5 s timeout, and one retry that shows the model its error."""
+"""Text → Cypher with guards: schema-only labels/types, read-only clauses, no UNION or
+variable-length paths, LIMIT, EXPLAIN first, read-only transaction with a 5 s timeout, and one
+retry that shows the model its error."""
 
 from __future__ import annotations
 
@@ -24,6 +25,13 @@ _WRITE = re.compile(
 _NODE_LABELS = re.compile(r"\(\s*\w*\s*((?::\s*`?\w+`?\s*)+)")
 _REL_TYPES = re.compile(r"\[\s*\w*\s*:\s*(`?\w+`?(?:\s*\|\s*:?\s*`?\w+`?)*)")
 _LIMIT = re.compile(r"\bLIMIT\s+(\d+)\s*$", re.I)
+_UNBOUNDED = re.compile(
+    r"\bUNION\b"
+    r"|\[[^\[\]]*\*[^\[\]]*\]\s*-"  # variable-length relationship: -[*1..10]- or -[:X*]->
+    r"|[\]>-]\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])\s*(?=[(<-])"  # quantified rel: -[:X]->{1,3}
+    r"|\)\s*(?:\{\s*\d*\s*(?:,\s*\d*\s*)?\}|[+*])\s*(?=[(<,-]|$|\b(?:WHERE|RETURN|WITH|MATCH)\b)",
+    re.I,
+)
 
 SYSTEM = f"""You translate questions about a biomedical knowledge graph (PrimeKG in Neo4j) into
 one read-only Cypher query.
@@ -61,6 +69,8 @@ def guard(query: str) -> str:
         raise CypherRejected("multiple statements")
     if m := _WRITE.search(code):
         raise CypherRejected(f"write or procedure clause not allowed: {m.group(0).strip()}")
+    if m := _UNBOUNDED.search(code):
+        raise CypherRejected(f"UNION or variable-length path not allowed: {m.group(0).strip()}")
     labels = {
         label.strip(" `")
         for group in _NODE_LABELS.findall(code)

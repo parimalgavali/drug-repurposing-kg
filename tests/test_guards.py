@@ -15,6 +15,16 @@ REJECT = [
     "MATCH (d:Medication)-[:TREATS]->(s:Disease) RETURN d.name",
     "MATCH (d:Drug)-[:TREATS]->(s:Disease) RETURN d.name",
     "MATCH (d:Drug) CALL { MATCH (n) DELETE n } RETURN d",
+    "MATCH p=(a)-[*1..10]-(b) RETURN count(p)",
+    "MATCH (a:Drug)-[:TARGET*]->(b) RETURN b.name",
+    "MATCH (a:Drug)-[r:TARGET|ENZYME *2..]-(b) RETURN b.name",
+    "MATCH p = shortestPath((a:Drug)-[*]-(b:Disease)) RETURN p",
+    "MATCH (a:Drug)-[:TARGET]-{1,5}(b) RETURN b.name",
+    "MATCH (a:Drug)-->+(b) RETURN b.name",
+    "MATCH ((a)-[:PROTEIN_PROTEIN]-(b)){1,10} RETURN count(*)",
+    "MATCH ((a)-[:PROTEIN_PROTEIN]-(b))+ RETURN count(*)",
+    "MATCH (d:Drug) RETURN d.name AS n UNION MATCH (g:Gene) RETURN g.name AS n",
+    "MATCH (d:Drug) RETURN d.name AS n union all MATCH (a)--(b)--(c) RETURN a.name AS n LIMIT 5",
     "",
 ]
 
@@ -30,6 +40,16 @@ def test_allows_reads_and_adds_limit():
     assert q.endswith(f"LIMIT {MAX_LIMIT}")
     assert guard("MATCH (d:Drug) RETURN d.name LIMIT 500").endswith(f"LIMIT {MAX_LIMIT}")
     assert guard("MATCH (d:Drug) RETURN d.name LIMIT 5").endswith("LIMIT 5")
+
+
+def test_star_outside_paths_is_fine():
+    for q in (
+        "MATCH (d:Drug)-[:TARGET]-(g:Gene) RETURN d.name, count(*) AS n ORDER BY n DESC",
+        "MATCH (d:Drug)-[:TARGET]-(g:Gene) RETURN d.name, count(g) * 2 AS n",
+        "MATCH (d:Drug) RETURN [x IN range(1, 3) | x * d.id] AS xs",
+        "MATCH (d:Drug) WHERE d.name = 'Union [*1..10]' RETURN *",
+    ):
+        assert guard(q).startswith(q)
 
 
 def test_keywords_inside_strings_and_fulltext_are_fine():
